@@ -41,15 +41,32 @@ class Song extends React.Component {
 
 class Version extends React.Component {
   render() {
-    return <div className='version'> 
-      <Accordion sub={true} title={this.props.version.title}></Accordion>
-    </div> 
+    return <Accordion sub={true} title={this.props.version.title}>
+        <div className='version'>
+          <h3>{this.props.version.title}</h3>
+          <p>{this.props.version.created_at}</p>
+          <p>{this.props.version.recording}</p>
+          <p>{this.props.version.notes}</p>
+          <p>{this.props.version.lyrics}</p>
+        </div>
+      </Accordion>
   }
 }
 
-const song1 = <Song song={dummy_song} />
+class SongList extends React.Component {
+  constructor(props) {
+    super(props)
+    this.list_songs = props.songs.map((song) =>
+      <Song song={song}></Song>
+    );
+  }
+  render() {
+    return <div>{this.list_songs}<div>
+  }
+}
+
 
 ReactDOM.render(
-  song1,
+  songlist,
   document.getElementById('root')
 )

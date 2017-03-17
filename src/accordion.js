@@ -14,23 +14,13 @@ export class Accordion extends React.Component {
     console.log(this.state.revealed)
   }
   render() {
-    let accordion_class = null
-    if(!this.state.revealed) {
-      accordion_class = 'accordion__content accordion__content--hidden';
-    } else {
-      accordion_class = 'accordion__content';
-    }
-    let content = <div className={accordion_class}>
-      {this.props.children}
-    </div>
-    let button = <div className='accordion__button' onClick={this.reveal_content}></div>
-    if(this.props.sub) {
-      button = <div className='accordion__button accordion__button--sub' onClick={this.reveal_content}></div>
-    }
-
     return <div className='accordion'>
-      {button}<span>{this.props.title}</span>
-      {content}
+      <div className={this.props.sub ? 'accordion__button accordion__button--sub' : 'accordion__button'} onClick={this.reveal_content}>
+        <span>{this.props.title}</span>
+      </div>
+      <div className={this.state.revealed ? 'accordion__content' : 'accordion__content accordion__content--hidden'}>
+        {this.props.children}
+      </div>
     </div>
   }
 }
