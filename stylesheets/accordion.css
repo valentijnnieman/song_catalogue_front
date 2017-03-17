@@ -1,0 +1,24 @@
+.accordion {
+}
+.accordion__button {
+  border-top: 1px solid black;
+  display: block;
+  width: 100%;
+  height: 32px;
+  background-color: gray;
+}
+.accordion__button--sub {
+  background-color: lightgray;
+}
+.accordion__content {
+  background-color: lightslategray;
+  transition: 0.3s;
+  visibility: visible;
+  overflow: hidden;
+  opacity: 1;
+}
+.accordion__content--hidden{
+  visibility: hidden;
+  height: 0px;
+  opacity: 0;
+}
