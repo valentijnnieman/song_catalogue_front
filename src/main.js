@@ -63,7 +63,7 @@ class SongList extends React.Component {
       </div>
   }
 }
-
+// render list of songs
 const all_songs = [dummy_song, dummy_song, dummy_song, dummy_song, dummy_song, dummy_song]
 const songlist = <SongList songs={all_songs} />
 ReactDOM.render(
