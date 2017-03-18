@@ -54,18 +54,18 @@ class Version extends React.Component {
 }
 
 class SongList extends React.Component {
-  constructor(props) {
-    super(props)
-    this.list_songs = props.songs.map((song) =>
+  render() {
+    let list_songs = this.props.songs.map((song) =>
       <Song song={song}></Song>
     );
-  }
-  render() {
-    return <div>{this.list_songs}<div>
+    return <div>
+      {list_songs} 
+      </div>
   }
 }
 
-
+const all_songs = [dummy_song, dummy_song, dummy_song, dummy_song, dummy_song, dummy_song]
+const songlist = <SongList songs={all_songs} />
 ReactDOM.render(
   songlist,
   document.getElementById('root')
