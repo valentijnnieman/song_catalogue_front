@@ -2,36 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Accordion from './accordion.js';
 
-fetch('http://localhost:8080/song').then(function(response) {
-  return response.json()
-}).then(function(returnedValue) {
-  console.log(returnedValue)
-});
-
-const dummy_song = {
-  "title": "Dummy Dummy Dummy",
-  "versions": [
-    { 
-      "title": "dummy_recording_in_basement",
-      "created_at": "14 march, 2017",
-      "recording": "file.mp3",
-      "notes": "Recorded in my basement, the bass is a little low but sounds cool. Guitar sounds bad. Revise!",
-      "lyrics": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et posuere mi. Vestibulum tincidunt odio urna, eu vestibulum nisl fermentum ut. Etiam mollis dui et quam scelerisque dignissim. Proin tempor, ipsum et elementum tempus, diam tortor congue orci, quis laoreet leo augue sit amet orci. Suspendisse convallis vel neque in semper."
-    },
-    { 
-      "title": "dummy_live_2017",
-      "recording": "file.mp3",
-      "created_at": "14 march, 2017",
-      "notes": "This live recording is kick ass!",
-      "lyrics": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et posuere mi. Vestibulum tincidunt odio urna, eu vestibulum nisl fermentum ut. Etiam mollis dui et quam scelerisque dignissim. Proin tempor, ipsum et elementum tempus, diam tortor congue orci, quis laoreet leo augue sit amet orci. Suspendisse convallis vel neque in semper."
-    }
-  ]
-}
-
 class Song extends React.Component {
   render() {
-    let versions = this.props.song.versions.map((version) =>  {
-      return <Version version={version} />
+    let versions = this.props.song.versions.map((version, index) =>  {
+      return <Version key={index} version={version} />
     })
     return <Accordion title={this.props.song.title}>
       {versions}
@@ -43,11 +17,26 @@ class Version extends React.Component {
   render() {
     return <Accordion sub={true} title={this.props.version.title}>
         <div className='version'>
-          <h3>{this.props.version.title}</h3>
-          <p>{this.props.version.created_at}</p>
-          <p>{this.props.version.recording}</p>
-          <p>{this.props.version.notes}</p>
-          <p>{this.props.version.lyrics}</p>
+          <div className='version__section'>
+            <h6>title</h6>
+            <h3>{this.props.version.title}</h3>
+          </div>
+          <div className='version__section'>
+            <h6>added on</h6>
+            <h3>{this.props.version.created_at}</h3>
+          </div>
+          <div className='version__section'>
+            <h6>recording</h6>
+            <h3>{this.props.version.recording}</h3>
+          </div>
+          <div className='version__section'>
+            <h6>notes</h6>
+            <p>{this.props.version.notes}</p>
+          </div>
+          <div className='version__section'>
+            <h6>lyrics</h6>
+            <p>{this.props.version.lyrics}</p>
+          </div>
         </div>
       </Accordion>
   }
@@ -55,18 +44,64 @@ class Version extends React.Component {
 
 class SongList extends React.Component {
   render() {
-    let list_songs = this.props.songs.map((song) =>
-      <Song song={song}></Song>
+    let list_songs = this.props.songs.map((song, index) =>
+      <Song key={index} song={song}></Song>
     );
     return <div>
       {list_songs} 
       </div>
   }
 }
-// render list of songs
-const all_songs = [dummy_song, dummy_song, dummy_song, dummy_song, dummy_song, dummy_song]
-const songlist = <SongList songs={all_songs} />
+
+class Dashboard extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      songs: [],
+      token: ''
+    }
+  }
+  componentDidMount() {
+    let self = this
+
+    fetch('http://localhost:8080/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        username: 'admin',
+        password: 'admin',
+      })
+    }).then(function(response) {
+      return response.json()
+    }).then(function(returnedValue) {
+      self.setState({token: returnedValue.token})
+      self.showSongs()
+    });
+  }
+  showSongs() {
+    let self = this
+    fetch('http://localhost:8080/auth/user/1', {
+      headers: {
+        "Authorization": "Bearer " + self.state.token,
+        "Content-Type": "application/json"
+      }
+    }).then(function(response) {
+      return response.json()
+    }).then(function(returnedValue) {
+      self.setState({songs: returnedValue.user.songs})
+    });
+  }
+  render() {
+    return <div>
+        <SongList songs={this.state.songs} />
+      </div>
+  }
+}
+
+
 ReactDOM.render(
-  songlist,
+  <Dashboard />,
   document.getElementById('root')
 )

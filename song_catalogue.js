@@ -21782,29 +21782,6 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-fetch('http://localhost:8080/song').then(function (response) {
-  return response.json();
-}).then(function (returnedValue) {
-  console.log(returnedValue);
-});
-
-var dummy_song = {
-  "title": "Dummy Dummy Dummy",
-  "versions": [{
-    "title": "dummy_recording_in_basement",
-    "created_at": "14 march, 2017",
-    "recording": "file.mp3",
-    "notes": "Recorded in my basement, the bass is a little low but sounds cool. Guitar sounds bad. Revise!",
-    "lyrics": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et posuere mi. Vestibulum tincidunt odio urna, eu vestibulum nisl fermentum ut. Etiam mollis dui et quam scelerisque dignissim. Proin tempor, ipsum et elementum tempus, diam tortor congue orci, quis laoreet leo augue sit amet orci. Suspendisse convallis vel neque in semper."
-  }, {
-    "title": "dummy_live_2017",
-    "recording": "file.mp3",
-    "created_at": "14 march, 2017",
-    "notes": "This live recording is kick ass!",
-    "lyrics": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et posuere mi. Vestibulum tincidunt odio urna, eu vestibulum nisl fermentum ut. Etiam mollis dui et quam scelerisque dignissim. Proin tempor, ipsum et elementum tempus, diam tortor congue orci, quis laoreet leo augue sit amet orci. Suspendisse convallis vel neque in semper."
-  }]
-};
-
 var Song = function (_React$Component) {
   _inherits(Song, _React$Component);
 
@@ -21817,8 +21794,8 @@ var Song = function (_React$Component) {
   _createClass(Song, [{
     key: 'render',
     value: function render() {
-      var versions = this.props.song.versions.map(function (version) {
-        return _react2.default.createElement(Version, { version: version });
+      var versions = this.props.song.versions.map(function (version, index) {
+        return _react2.default.createElement(Version, { key: index, version: version });
       });
       return _react2.default.createElement(
         _accordion2.default,
@@ -21850,29 +21827,74 @@ var Version = function (_React$Component2) {
           'div',
           { className: 'version' },
           _react2.default.createElement(
-            'h3',
-            null,
-            this.props.version.title
+            'div',
+            { className: 'version__section' },
+            _react2.default.createElement(
+              'h6',
+              null,
+              'title'
+            ),
+            _react2.default.createElement(
+              'h3',
+              null,
+              this.props.version.title
+            )
           ),
           _react2.default.createElement(
-            'p',
-            null,
-            this.props.version.created_at
+            'div',
+            { className: 'version__section' },
+            _react2.default.createElement(
+              'h6',
+              null,
+              'added on'
+            ),
+            _react2.default.createElement(
+              'h3',
+              null,
+              this.props.version.created_at
+            )
           ),
           _react2.default.createElement(
-            'p',
-            null,
-            this.props.version.recording
+            'div',
+            { className: 'version__section' },
+            _react2.default.createElement(
+              'h6',
+              null,
+              'recording'
+            ),
+            _react2.default.createElement(
+              'h3',
+              null,
+              this.props.version.recording
+            )
           ),
           _react2.default.createElement(
-            'p',
-            null,
-            this.props.version.notes
+            'div',
+            { className: 'version__section' },
+            _react2.default.createElement(
+              'h6',
+              null,
+              'notes'
+            ),
+            _react2.default.createElement(
+              'p',
+              null,
+              this.props.version.notes
+            )
           ),
           _react2.default.createElement(
-            'p',
-            null,
-            this.props.version.lyrics
+            'div',
+            { className: 'version__section' },
+            _react2.default.createElement(
+              'h6',
+              null,
+              'lyrics'
+            ),
+            _react2.default.createElement(
+              'p',
+              null,
+              this.props.version.lyrics
+            )
           )
         )
       );
@@ -21894,8 +21916,8 @@ var SongList = function (_React$Component3) {
   _createClass(SongList, [{
     key: 'render',
     value: function render() {
-      var list_songs = this.props.songs.map(function (song) {
-        return _react2.default.createElement(Song, { song: song });
+      var list_songs = this.props.songs.map(function (song, index) {
+        return _react2.default.createElement(Song, { key: index, song: song });
       });
       return _react2.default.createElement(
         'div',
@@ -21908,9 +21930,72 @@ var SongList = function (_React$Component3) {
   return SongList;
 }(_react2.default.Component);
 
-var all_songs = [dummy_song, dummy_song, dummy_song, dummy_song, dummy_song, dummy_song];
-var songlist = _react2.default.createElement(SongList, { songs: all_songs });
-_reactDom2.default.render(songlist, document.getElementById('root'));
+var Dashboard = function (_React$Component4) {
+  _inherits(Dashboard, _React$Component4);
+
+  function Dashboard(props) {
+    _classCallCheck(this, Dashboard);
+
+    var _this4 = _possibleConstructorReturn(this, (Dashboard.__proto__ || Object.getPrototypeOf(Dashboard)).call(this, props));
+
+    _this4.state = {
+      songs: [],
+      token: ''
+    };
+    return _this4;
+  }
+
+  _createClass(Dashboard, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      var self = this;
+
+      fetch('http://localhost:8080/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          username: 'admin',
+          password: 'admin'
+        })
+      }).then(function (response) {
+        return response.json();
+      }).then(function (returnedValue) {
+        self.setState({ token: returnedValue.token });
+        self.showSongs();
+      });
+    }
+  }, {
+    key: 'showSongs',
+    value: function showSongs() {
+      var self = this;
+      fetch('http://localhost:8080/auth/user/1', {
+        headers: {
+          "Authorization": "Bearer " + self.state.token,
+          "Content-Type": "application/json"
+        }
+      }).then(function (response) {
+        return response.json();
+      }).then(function (returnedValue) {
+        self.setState({ songs: returnedValue.user.songs });
+      });
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        'div',
+        null,
+        _react2.default.createElement(SongList, { songs: this.state.songs })
+      );
+    }
+  }]);
+
+  return Dashboard;
+}(_react2.default.Component);
+
+_reactDom2.default.render(_react2.default.createElement(Dashboard, null), document.getElementById('root'));
 
 /***/ })
 /******/ ]);

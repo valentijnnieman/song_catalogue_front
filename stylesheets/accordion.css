@@ -1,14 +1,23 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400');
+body {
+  font-family: 'Roboto'
+}
 .accordion {
 }
 .accordion__button {
   border-top: 1px solid black;
   display: block;
-  width: 100%;
   height: 32px;
   background-color: gray;
+  padding: 8px;
+}
+.accordion__button span {
+  font-size: 20px;
+  color: white;
 }
 .accordion__button--sub {
   background-color: lightgray;
+  height: 24px;
 }
 .accordion__content {
   background-color: lightslategray;

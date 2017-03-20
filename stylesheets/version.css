@@ -1,0 +1,19 @@
+.version {
+  color: white;
+}
+.version__section {
+  padding: 8px;
+  border: 1px solid black;
+  margin: 16px;
+} 
+.version__section h6 {
+  margin: 4px 0px;
+  font-weight: 300;
+}
+.version__section h3{
+  margin: 8px 0px 32px 0px;
+  font-weight: 300;
+}
+.version__section p {
+  font-weight: 300;
+}
