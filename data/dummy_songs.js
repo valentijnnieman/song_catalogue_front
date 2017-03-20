@@ -1,4 +1,4 @@
-export default {
+export default = {
   "title": "Dummy Dummy Dummy",
   "versions": [
     { 

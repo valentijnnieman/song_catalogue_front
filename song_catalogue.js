@@ -21774,6 +21774,10 @@ var _accordion = __webpack_require__(80);
 
 var _accordion2 = _interopRequireDefault(_accordion);
 
+var _dummy_songs = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"./data/dummy_songs.js\""); e.code = 'MODULE_NOT_FOUND';; throw e; }()));
+
+var _dummy_songs2 = _interopRequireDefault(_dummy_songs);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -21950,36 +21954,12 @@ var Dashboard = function (_React$Component4) {
     value: function componentDidMount() {
       var self = this;
 
-      fetch('http://localhost:8080/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          username: 'admin',
-          password: 'admin'
-        })
-      }).then(function (response) {
-        return response.json();
-      }).then(function (returnedValue) {
-        self.setState({ token: returnedValue.token });
-        self.showSongs();
-      });
+      self.showSongs();
     }
   }, {
     key: 'showSongs',
     value: function showSongs() {
-      var self = this;
-      fetch('http://localhost:8080/auth/user/1', {
-        headers: {
-          "Authorization": "Bearer " + self.state.token,
-          "Content-Type": "application/json"
-        }
-      }).then(function (response) {
-        return response.json();
-      }).then(function (returnedValue) {
-        self.setState({ songs: returnedValue.user.songs });
-      });
+      this.setState({ songs: _dummy_songs2.default });
     }
   }, {
     key: 'render',

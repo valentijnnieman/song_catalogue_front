@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Accordion from './accordion.js';
+import dummyData from './data/dummy_songs.js'
 
 class Song extends React.Component {
   render() {
@@ -64,34 +65,10 @@ class Dashboard extends React.Component {
   componentDidMount() {
     let self = this
 
-    fetch('http://localhost:8080/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        username: 'admin',
-        password: 'admin',
-      })
-    }).then(function(response) {
-      return response.json()
-    }).then(function(returnedValue) {
-      self.setState({token: returnedValue.token})
-      self.showSongs()
-    });
+    self.showSongs()
   }
   showSongs() {
-    let self = this
-    fetch('http://localhost:8080/auth/user/1', {
-      headers: {
-        "Authorization": "Bearer " + self.state.token,
-        "Content-Type": "application/json"
-      }
-    }).then(function(response) {
-      return response.json()
-    }).then(function(returnedValue) {
-      self.setState({songs: returnedValue.user.songs})
-    });
+    this.setState({songs: dummyData})
   }
   render() {
     return <div>
