@@ -3,80 +3,56 @@ import ReactDOM from 'react-dom';
 import Accordion from './accordion.js';
 import dummyData from './data/dummy_songs.js'
 
-class Song extends React.Component {
-  render() {
-    let versions = this.props.song.versions.map((version, index) =>  {
-      return <Version key={index} version={version} />
-    })
-    return <Accordion title={this.props.song.title}>
-      {versions}
-    </Accordion>
-  }
-}
+const Song = ({song}) => {
+  let versions = song.versions.map((version, index) =>  {
+    return <Version key={index} version={version} />
+  })
+  return <Accordion title={song.title}>
+    {versions}
+  </Accordion>
+};
 
-class Version extends React.Component {
-  render() {
-    return <Accordion sub={true} title={this.props.version.title}>
-        <div className='version'>
-          <div className='version__section'>
-            <h6>title</h6>
-            <h3>{this.props.version.title}</h3>
-          </div>
-          <div className='version__section'>
-            <h6>added on</h6>
-            <h3>{this.props.version.created_at}</h3>
-          </div>
-          <div className='version__section'>
-            <h6>recording</h6>
-            <h3>{this.props.version.recording}</h3>
-          </div>
-          <div className='version__section'>
-            <h6>notes</h6>
-            <p>{this.props.version.notes}</p>
-          </div>
-          <div className='version__section'>
-            <h6>lyrics</h6>
-            <p>{this.props.version.lyrics}</p>
-          </div>
+const Version = ({version}) => {
+  return <Accordion sub={true} title={version.title}>
+      <div className='version'>
+        <div className='version__section'>
+          <h6>title</h6>
+          <h3>{version.title}</h3>
         </div>
-      </Accordion>
-  }
-}
-
-class SongList extends React.Component {
-  render() {
-    let list_songs = this.props.songs.map((song, index) =>
-      <Song key={index} song={song}></Song>
-    );
-    return <div>
-      {list_songs} 
+        <div className='version__section'>
+          <h6>added on</h6>
+          <h3>{version.created_at}</h3>
+        </div>
+        <div className='version__section'>
+          <h6>recording</h6>
+          <h3>{version.recording}</h3>
+        </div>
+        <div className='version__section'>
+          <h6>notes</h6>
+          <p>{version.notes}</p>
+        </div>
+        <div className='version__section'>
+          <h6>lyrics</h6>
+          <p>{version.lyrics}</p>
+        </div>
       </div>
-  }
-}
+    </Accordion>
+};
 
-class Dashboard extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      songs: [],
-      token: ''
-    }
-  }
-  componentDidMount() {
-    let self = this
+const SongList = ({songs}) => {
+  let list_songs = songs.map((song, index) =>
+    <Song key={index} song={song}></Song>
+  );
+  return <div>
+    {list_songs} 
+    </div>
+};
 
-    self.showSongs()
-  }
-  showSongs() {
-    this.setState({songs: dummyData})
-  }
-  render() {
-    return <div>
-        <SongList songs={this.state.songs} />
-      </div>
-  }
-}
-
+const Dashboard = () => {
+  return <div>
+      <SongList songs={dummyData} />
+    </div>
+};
 
 ReactDOM.render(
   <Dashboard />,

@@ -3,24 +3,28 @@ body {
   font-family: 'Roboto'
 }
 .accordion {
+  margin: 8px 0px;
 }
 .accordion__button {
-  border-top: 1px solid black;
+  border-radius: 4px;
   display: block;
   height: 32px;
-  background-color: gray;
+  background-color: #19a974;
   padding: 8px;
+  color: white;
+}
+.accordion__button:hover{
+  cursor: pointer;
 }
 .accordion__button span {
   font-size: 20px;
-  color: white;
 }
 .accordion__button--sub {
-  background-color: lightgray;
-  height: 24px;
+  border: 1px solid #19a974;
+  color: #19a974;
+  background-color: white;
 }
 .accordion__content {
-  background-color: lightslategray;
   transition: 0.3s;
   visibility: visible;
   overflow: hidden;
