@@ -1,31 +1,32 @@
 import React from 'react';
+import { connect } from 'react-redux'
+import {addSong} from './actions/songs.js'
 
-export class AddNewSong extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      title: "New song",
-      notes: "",
-      lyrics: ""
-    }
+let AddSong= ({ dispatch }) => {
+  let input
 
-    this.change_state = this.change_state.bind(this)
-    this.add_new_song= this.add_new_song.bind(this)
-  }
-  add_new_song(event) {
-    event.preventDefault()
-  }
-  change_state(event) {
-    this.setState({title: event.target.value})
-  }
-  render() {
-    return <form onSubmit={this.add_new_song}>
-        <input value={this.state.title} onChange={this.change_state}/>
-        <input name='notes' />
-        <input name='lyrics' />
-        <input type='submit' />
+  return (
+    <div>
+      <form onSubmit={e => {
+        e.preventDefault()
+        if (!input.value.trim()) {
+          return
+        }
+        console.log(input.value)
+        dispatch(addSong(input.value))
+        input.value = ''
+      }}>
+        <input className="new_song_input" ref={node => {
+          input = node
+        }} />
+        <button type="submit" className="new_song_input new_song_input--button">
+          +
+        </button>
       </form>
-  }
-};
+    </div>
+  )
+}
 
-export default AddNewSong 
+AddSong = connect()(AddSong)
+
+export default AddSong 

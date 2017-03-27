@@ -1,9 +1,5 @@
 import { createStore } from 'redux'
-import dummyData from './data/dummy_songs.js'
-
-const songs = (state = {songs: dummyData}, action) => {
-  return state
-}
+import songs from './reducers/songs.js'
 
 let store = createStore(songs)
 

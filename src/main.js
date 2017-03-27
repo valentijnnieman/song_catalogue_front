@@ -1,5 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux'
+import { connect } from 'react-redux'
 import Accordion from './accordion.js';
 import AddNewSong from './add_new_song.js';
 import store from './store.js';
@@ -41,7 +43,7 @@ const Version = ({version}) => {
 };
 
 const SongList = ({songs}) => {
-  let list_songs = songs.songs.map((song, index) =>
+  let list_songs = songs.map((song, index) =>
     <Song key={index} song={song}></Song>
   );
   return <div>
@@ -49,17 +51,26 @@ const SongList = ({songs}) => {
     </div>
 };
 
-const add_new_song = (event) => {
-  console.log(event)  
+const mapStateToProps = (state) => {
+  return {
+    songs: state
+  }
 }
+
+const AllSongsList = connect(
+  mapStateToProps
+)(SongList)
 
 const Dashboard = () => {
   return <div>
-      <SongList songs={store.getState()} />
+      <AllSongsList />
+      <AddNewSong />
     </div>
 };
 
 ReactDOM.render(
-  <Dashboard />,
+  <Provider store={store}>
+    <Dashboard />
+  </Provider>,
   document.getElementById('root')
 )

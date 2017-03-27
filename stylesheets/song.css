@@ -2,3 +2,18 @@
   display: inline-block;
   background-color: yellow;
 }
+.new_song_input{
+  background-color: white;
+  border: 1px solid #19a974;
+  border-radius: 4px;
+  color: #19a974;
+  width: 90%;
+  font-size: 20px;
+  padding: 9px;
+  float: left;
+  margin-top: 32px;
+}
+.new_song_input--button {
+  width: 5%;
+  float: right;
+}
