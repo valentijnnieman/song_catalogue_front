@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Accordion from './accordion.js';
-import dummyData from './data/dummy_songs.js'
+import AddNewSong from './add_new_song.js';
+import store from './store.js';
 
 const Song = ({song}) => {
   let versions = song.versions.map((version, index) =>  {
@@ -40,7 +41,7 @@ const Version = ({version}) => {
 };
 
 const SongList = ({songs}) => {
-  let list_songs = songs.map((song, index) =>
+  let list_songs = songs.songs.map((song, index) =>
     <Song key={index} song={song}></Song>
   );
   return <div>
@@ -48,9 +49,13 @@ const SongList = ({songs}) => {
     </div>
 };
 
+const add_new_song = (event) => {
+  console.log(event)  
+}
+
 const Dashboard = () => {
   return <div>
-      <SongList songs={dummyData} />
+      <SongList songs={store.getState()} />
     </div>
 };
 

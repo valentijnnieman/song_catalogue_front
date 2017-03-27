@@ -4,14 +4,12 @@ export class Accordion extends React.Component {
   constructor(props) {
     super(props)
     this.state = {revealed: false}
-
     this.reveal_content = this.reveal_content.bind(this)
   }
   reveal_content() {
     this.setState({
       revealed: !this.state.revealed
     });
-    console.log(this.state.revealed)
   }
   render() {
     return <div className='accordion'>
