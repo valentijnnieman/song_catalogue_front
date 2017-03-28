@@ -16,12 +16,12 @@ let AddSong= ({ dispatch }) => {
         dispatch(addSong(input.value))
         input.value = ''
       }}>
-        <input className="new_song_input" ref={node => {
-          input = node
-        }} />
         <button type="submit" className="new_song_input new_song_input--button">
           +
         </button>
+        <input className="new_song_input" ref={node => {
+          input = node
+        }} />
       </form>
     </div>
   )

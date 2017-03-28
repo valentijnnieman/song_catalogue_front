@@ -7,13 +7,31 @@
   border: 1px solid #19a974;
   border-radius: 4px;
   color: #19a974;
-  width: 90%;
   font-size: 20px;
+  width: 0px;
+  visibility: hidden;
   padding: 9px;
-  float: left;
+  float: right;
   margin-top: 32px;
+  transition: width 0.4s;
 }
 .new_song_input--button {
-  width: 5%;
-  float: right;
+  width: 4%;
+  visibility: visible;
+}
+.new_song_input:focus, .new_song_input:hover {
+  width: 40%;
+  visibility: visible;
+}
+.new_song_input--button:focus, .new_song_input--button:hover {
+  width: 4%;
+}
+.new_song_input--button:hover {
+  cursor: pointer;
+  background-color: #19a974;
+  color: white;
+}
+.new_song_input--button:hover +.new_song_input {
+  width: 40%;
+  visibility: visible;
 }

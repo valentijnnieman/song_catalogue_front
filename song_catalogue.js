@@ -6992,19 +6992,15 @@ module.exports = focusNode;
  *
  * The activeElement will be null only if the document or document body is not
  * yet defined.
- *
- * @param {?DOMDocument} doc Defaults to current document.
- * @return {?DOMElement}
  */
-function getActiveElement(doc) /*?DOMElement*/{
-  doc = doc || document;
-  if (typeof doc === 'undefined') {
+function getActiveElement() /*?DOMElement*/{
+  if (typeof document === 'undefined') {
     return null;
   }
   try {
-    return doc.activeElement || doc.body;
+    return document.activeElement || document.body;
   } catch (e) {
-    return doc.body;
+    return document.body;
   }
 }
 
@@ -10486,14 +10482,14 @@ var AddSong = function AddSong(_ref) {
           dispatch((0, _songs.addSong)(input.value));
           input.value = '';
         } },
-      _react2.default.createElement('input', { className: 'new_song_input', ref: function ref(node) {
-          input = node;
-        } }),
       _react2.default.createElement(
         'button',
         { type: 'submit', className: 'new_song_input new_song_input--button' },
         '+'
-      )
+      ),
+      _react2.default.createElement('input', { className: 'new_song_input', ref: function ref(node) {
+          input = node;
+        } })
     )
   );
 };
@@ -10550,7 +10546,14 @@ var addSong = exports.addSong = function addSong(title) {
   return {
     type: 'ADD_SONG',
     id: next_id++,
-    title: title
+    title: title,
+    versions: [{
+      "title": "Version #1 (new)",
+      "created_at": "14 march, 2017",
+      "recording": "file.mp3",
+      "notes": "Add notes here",
+      "lyrics": "Add lyrics here"
+    }]
   };
 };
 
@@ -10619,7 +10622,7 @@ var song = function song() {
       return {
         id: action.id,
         title: action.title,
-        versions: []
+        versions: action.versions
       };
   }
 };
@@ -11121,10 +11124,10 @@ module.exports = getMarkupWrap;
  */
 
 function getUnboundedScrollPosition(scrollable) {
-  if (scrollable.Window && scrollable instanceof scrollable.Window) {
+  if (scrollable === window) {
     return {
-      x: scrollable.pageXOffset || scrollable.document.documentElement.scrollLeft,
-      y: scrollable.pageYOffset || scrollable.document.documentElement.scrollTop
+      x: window.pageXOffset || document.documentElement.scrollLeft,
+      y: window.pageYOffset || document.documentElement.scrollTop
     };
   }
   return {
@@ -11240,9 +11243,7 @@ module.exports = hyphenateStyleName;
  * @return {boolean} Whether or not the object is a DOM node.
  */
 function isNode(object) {
-  var doc = object ? object.ownerDocument || object : document;
-  var defaultView = doc.defaultView || window;
-  return !!(object && (typeof defaultView.Node === 'function' ? object instanceof defaultView.Node : typeof object === 'object' && typeof object.nodeType === 'number' && typeof object.nodeName === 'string'));
+  return !!(object && (typeof Node === 'function' ? object instanceof Node : typeof object === 'object' && typeof object.nodeType === 'number' && typeof object.nodeName === 'string'));
 }
 
 module.exports = isNode;

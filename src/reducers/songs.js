@@ -7,7 +7,7 @@ const song = (state = {}, action) => {
       return {
         id: action.id,
         title: action.title,
-        versions: []
+        versions: action.versions
       }
   }
 }
