@@ -12,7 +12,6 @@ let AddSong= ({ dispatch }) => {
         if (!input.value.trim()) {
           return
         }
-        console.log(input.value)
         dispatch(addSong(input.value))
         input.value = ''
       }}>

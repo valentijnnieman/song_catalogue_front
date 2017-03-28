@@ -1,4 +1,6 @@
-let next_id = 0
+let next_id = 2
+// TO-DO: get correct id --^
+//
 export const addSong = (title) => {
   return {
     type: 'ADD_SONG',

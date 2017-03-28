@@ -3,7 +3,6 @@ import dummyData from '../data/dummy_songs.js'
 const song = (state = {}, action) => {
   switch(action.type) {
     case 'ADD_SONG':
-      console.log(action)
       return {
         id: action.id,
         title: action.title,
@@ -15,12 +14,24 @@ const song = (state = {}, action) => {
 const songs = (state = dummyData, action) => {
   switch(action.type) {
     case 'ADD_SONG':
-      console.log(action)
-      console.log(state)
       return [
         ...state,
         song(undefined, action)
       ]
+    case 'EDIT_VERSION':
+      return state.map((song) => {
+        if(action.song_id === song.id) {
+          return Object.assign({}, song, {
+            versions: song.versions.map((version) => {
+              if(action.version_id === version.id) {
+                return action.version
+              }
+              return version
+            })
+          })
+        }
+        return song
+        })
     default:
       return state
   }

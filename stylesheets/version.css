@@ -22,3 +22,21 @@
 .version__section p {
   font-weight: 300;
 }
+.version__input {
+  width: 100%;
+  border: none;
+  font-size: 20px;
+  color: #5e2ca5;
+}
+.version__input:focus{
+  outline: none;
+}
+.version__input--textarea{
+  font-size: 16px;
+  max-height: 64px;
+  transition: max-height 0.4s;
+}
+.version__input--textarea:hover, .version__input--textarea:focus {
+  max-height: 250px;
+  height: 100%;
+}

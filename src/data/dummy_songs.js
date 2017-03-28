@@ -1,5 +1,6 @@
 export default [
   {
+    "id": 0,
     "title": "Dummy Dummy Dummy",
     "versions": [
       { 
@@ -19,6 +20,7 @@ export default [
     ]
   },
   {
+    "id": 1,
     "title": "The Demo Song",
     "versions": [
       { 

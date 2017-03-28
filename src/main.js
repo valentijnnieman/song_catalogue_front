@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import Accordion from './accordion.js';
 import AddNewSong from './add_new_song.js';
 import store from './store.js';
+import {editVersion} from './actions/versions.js'
 
 const Song = ({song}) => {
   let versions = song.versions.map((version, index) =>  {
@@ -15,32 +16,41 @@ const Song = ({song}) => {
   </Accordion>
 };
 
-const Version = ({version}) => {
+let Version = ({dispatch, version}) => {
+  let title, created_at, recording, notes, lyrics
   return <Accordion sub={true} title={version.title}>
       <div className='version'>
-        <div className='version__section'>
-          <h6>title</h6>
-          <h3>{version.title}</h3>
-        </div>
-        <div className='version__section'>
-          <h6>added on</h6>
-          <h3>{version.created_at}</h3>
-        </div>
-        <div className='version__section'>
-          <h6>recording</h6>
-          <h3>{version.recording}</h3>
-        </div>
-        <div className='version__section'>
-          <h6>notes</h6>
-          <p>{version.notes}</p>
-        </div>
-        <div className='version__section'>
-          <h6>lyrics</h6>
-          <p>{version.lyrics}</p>
-        </div>
+        <form onSubmit={e => {
+          e.preventDefault()
+          dispatch(editVersion(version))
+        }}>
+          <div className='version__section'>
+            <h6>title</h6>
+            <input className='version__input' defaultValue={version.title} onChange={e => {version.title = e.target.value}} />
+          </div>
+          <div className='version__section'>
+            <h6>added on</h6>
+            <input className='version__input' defaultValue={version.created_at} />
+          </div>
+          <div className='version__section'>
+            <h6>recording</h6>
+            <input className='version__input' defaultValue={version.recording} />
+          </div>
+          <div className='version__section'>
+            <h6>notes</h6>
+            <textarea className='version__input version__input--textarea' defaultValue={version.notes}></textarea>
+          </div>
+          <div className='version__section'>
+            <h6>lyrics</h6>
+            <textarea className='version__input version__input--textarea' defaultValue={version.lyrics}></textarea>
+          </div>
+          <input type='submit' />
+        </form>
       </div>
     </Accordion>
 };
+
+Version = connect()(Version)
 
 const SongList = ({songs}) => {
   let list_songs = songs.map((song, index) =>
