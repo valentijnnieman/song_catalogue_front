@@ -19,9 +19,9 @@ const songs = (state = dummyData, action) => {
         song(undefined, action)
       ]
     case 'EDIT_VERSION':
-      return state.map((song) => {
+      state = state.map((song) => {
         if(action.song_id === song.id) {
-          return Object.assign({}, song, {
+          Object.assign(song, {
             versions: song.versions.map((version) => {
               if(action.version_id === version.id) {
                 return action.version
@@ -32,6 +32,7 @@ const songs = (state = dummyData, action) => {
         }
         return song
         })
+      return state
     default:
       return state
   }

@@ -22,27 +22,28 @@ let Version = ({dispatch, version}) => {
       <div className='version'>
         <form onSubmit={e => {
           e.preventDefault()
-          dispatch(editVersion(version))
+          let edited_version = Object.assign({}, version, {title: title, created_at: created_at, recording: recording, notes: notes, lyrics: lyrics})
+          dispatch(editVersion(edited_version))
         }}>
           <div className='version__section'>
             <h6>title</h6>
-            <input className='version__input' defaultValue={version.title} onChange={e => {version.title = e.target.value}} />
+            <input className='version__input' defaultValue={version.title} onChange={e => {title = e.target.value}} />
           </div>
           <div className='version__section'>
             <h6>added on</h6>
-            <input className='version__input' defaultValue={version.created_at} />
+            <input className='version__input' defaultValue={version.created_at} onChange={e => {created_at = e.target.value}} />
           </div>
           <div className='version__section'>
             <h6>recording</h6>
-            <input className='version__input' defaultValue={version.recording} />
+            <input className='version__input' defaultValue={version.recording} onChange={e => {recording = e.target.value}} />
           </div>
           <div className='version__section'>
             <h6>notes</h6>
-            <textarea className='version__input version__input--textarea' defaultValue={version.notes}></textarea>
+            <textarea className='version__input version__input--textarea' defaultValue={version.notes} onChange={e => {notes = e.target.value}}></textarea>
           </div>
           <div className='version__section'>
             <h6>lyrics</h6>
-            <textarea className='version__input version__input--textarea' defaultValue={version.lyrics}></textarea>
+            <textarea className='version__input version__input--textarea' defaultValue={version.lyrics} onChange={e => {lyrics = e.target.value}}></textarea>
           </div>
           <input type='submit' />
         </form>
@@ -62,6 +63,7 @@ const SongList = ({songs}) => {
 };
 
 const mapStateToProps = (state) => {
+  console.log("mapstatetoprops", state);
   return {
     songs: state
   }

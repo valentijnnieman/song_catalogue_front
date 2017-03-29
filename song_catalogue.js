@@ -6992,15 +6992,19 @@ module.exports = focusNode;
  *
  * The activeElement will be null only if the document or document body is not
  * yet defined.
+ *
+ * @param {?DOMDocument} doc Defaults to current document.
+ * @return {?DOMElement}
  */
-function getActiveElement() /*?DOMElement*/{
-  if (typeof document === 'undefined') {
+function getActiveElement(doc) /*?DOMElement*/{
+  doc = doc || document;
+  if (typeof doc === 'undefined') {
     return null;
   }
   try {
-    return document.activeElement || document.body;
+    return doc.activeElement || doc.body;
   } catch (e) {
-    return document.body;
+    return doc.body;
   }
 }
 
@@ -10453,11 +10457,10 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 var editVersion = exports.editVersion = function editVersion(version) {
-  console.log("version", version);
   return {
     type: 'EDIT_VERSION',
     song_id: 1,
-    version_id: 0,
+    version_id: version.id,
     version: version
   };
 };
@@ -10592,12 +10595,14 @@ exports.default = [{
   "id": 0,
   "title": "Dummy Dummy Dummy",
   "versions": [{
+    "id": 0,
     "title": "dummy_recording_in_basement",
     "created_at": "14 march, 2017",
     "recording": "file.mp3",
     "notes": "Recorded in my basement, the bass is a little low but sounds cool. Guitar sounds bad. Revise!",
     "lyrics": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et posuere mi. Vestibulum tincidunt odio urna, eu vestibulum nisl fermentum ut. Etiam mollis dui et quam scelerisque dignissim. Proin tempor, ipsum et elementum tempus, diam tortor congue orci, quis laoreet leo augue sit amet orci. Suspendisse convallis vel neque in semper."
   }, {
+    "id": 1,
     "title": "dummy_live_2017",
     "recording": "file.mp3",
     "created_at": "14 march, 2017",
@@ -10608,6 +10613,7 @@ exports.default = [{
   "id": 1,
   "title": "The Demo Song",
   "versions": [{
+    "id": 0,
     "title": "demo_1",
     "created_at": "14 march, 2017",
     "recording": "file.mp3",
@@ -10657,9 +10663,9 @@ var songs = function songs() {
     case 'ADD_SONG':
       return [].concat(_toConsumableArray(state), [song(undefined, action)]);
     case 'EDIT_VERSION':
-      return state.map(function (song) {
+      state = state.map(function (song) {
         if (action.song_id === song.id) {
-          return Object.assign({}, song, {
+          Object.assign(song, {
             versions: song.versions.map(function (version) {
               if (action.version_id === version.id) {
                 return action.version;
@@ -10670,6 +10676,7 @@ var songs = function songs() {
         }
         return song;
       });
+      return state;
     default:
       return state;
   }
@@ -11158,10 +11165,10 @@ module.exports = getMarkupWrap;
  */
 
 function getUnboundedScrollPosition(scrollable) {
-  if (scrollable === window) {
+  if (scrollable.Window && scrollable instanceof scrollable.Window) {
     return {
-      x: window.pageXOffset || document.documentElement.scrollLeft,
-      y: window.pageYOffset || document.documentElement.scrollTop
+      x: scrollable.pageXOffset || scrollable.document.documentElement.scrollLeft,
+      y: scrollable.pageYOffset || scrollable.document.documentElement.scrollTop
     };
   }
   return {
@@ -11277,7 +11284,9 @@ module.exports = hyphenateStyleName;
  * @return {boolean} Whether or not the object is a DOM node.
  */
 function isNode(object) {
-  return !!(object && (typeof Node === 'function' ? object instanceof Node : typeof object === 'object' && typeof object.nodeType === 'number' && typeof object.nodeName === 'string'));
+  var doc = object ? object.ownerDocument || object : document;
+  var defaultView = doc.defaultView || window;
+  return !!(object && (typeof defaultView.Node === 'function' ? object instanceof defaultView.Node : typeof object === 'object' && typeof object.nodeType === 'number' && typeof object.nodeName === 'string'));
 }
 
 module.exports = isNode;
@@ -24236,7 +24245,8 @@ var Version = function Version(_ref2) {
         'form',
         { onSubmit: function onSubmit(e) {
             e.preventDefault();
-            dispatch((0, _versions.editVersion)(version));
+            var edited_version = Object.assign({}, version, { title: title, created_at: created_at, recording: recording, notes: notes, lyrics: lyrics });
+            dispatch((0, _versions.editVersion)(edited_version));
           } },
         _react2.default.createElement(
           'div',
@@ -24247,7 +24257,7 @@ var Version = function Version(_ref2) {
             'title'
           ),
           _react2.default.createElement('input', { className: 'version__input', defaultValue: version.title, onChange: function onChange(e) {
-              version.title = e.target.value;
+              title = e.target.value;
             } })
         ),
         _react2.default.createElement(
@@ -24258,7 +24268,9 @@ var Version = function Version(_ref2) {
             null,
             'added on'
           ),
-          _react2.default.createElement('input', { className: 'version__input', defaultValue: version.created_at })
+          _react2.default.createElement('input', { className: 'version__input', defaultValue: version.created_at, onChange: function onChange(e) {
+              created_at = e.target.value;
+            } })
         ),
         _react2.default.createElement(
           'div',
@@ -24268,7 +24280,9 @@ var Version = function Version(_ref2) {
             null,
             'recording'
           ),
-          _react2.default.createElement('input', { className: 'version__input', defaultValue: version.recording })
+          _react2.default.createElement('input', { className: 'version__input', defaultValue: version.recording, onChange: function onChange(e) {
+              recording = e.target.value;
+            } })
         ),
         _react2.default.createElement(
           'div',
@@ -24278,7 +24292,9 @@ var Version = function Version(_ref2) {
             null,
             'notes'
           ),
-          _react2.default.createElement('textarea', { className: 'version__input version__input--textarea', defaultValue: version.notes })
+          _react2.default.createElement('textarea', { className: 'version__input version__input--textarea', defaultValue: version.notes, onChange: function onChange(e) {
+              notes = e.target.value;
+            } })
         ),
         _react2.default.createElement(
           'div',
@@ -24288,7 +24304,9 @@ var Version = function Version(_ref2) {
             null,
             'lyrics'
           ),
-          _react2.default.createElement('textarea', { className: 'version__input version__input--textarea', defaultValue: version.lyrics })
+          _react2.default.createElement('textarea', { className: 'version__input version__input--textarea', defaultValue: version.lyrics, onChange: function onChange(e) {
+              lyrics = e.target.value;
+            } })
         ),
         _react2.default.createElement('input', { type: 'submit' })
       )
@@ -24312,6 +24330,7 @@ var SongList = function SongList(_ref3) {
 };
 
 var mapStateToProps = function mapStateToProps(state) {
+  console.log("mapstatetoprops", state);
   return {
     songs: state
   };
