@@ -13,12 +13,12 @@
   visibility: hidden;
   padding: 9px;
   float: right;
-  margin-top: 32px;
   transition: width 0.4s;
 }
 .new_song_input--button {
   width: 44px;
   visibility: visible;
+  margin-right: 0px;
 }
 .new_song_input:focus, .new_song_input:hover {
   width: 40%;

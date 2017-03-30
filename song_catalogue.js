@@ -10583,7 +10583,7 @@ var Song = function Song(_ref) {
     versions,
     _react2.default.createElement(
       'button',
-      { className: 'version__submit', onClick: function onClick() {
+      { className: 'version__submit version__submit--big', onClick: function onClick() {
           return dispatch((0, _versions.addVersion)(song.id, song.versions.length));
         } },
       '+'

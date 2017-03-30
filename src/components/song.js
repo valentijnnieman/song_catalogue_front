@@ -10,7 +10,7 @@ let Song = ({dispatch, song}) => {
   })
   return <Accordion title={song.title}>
     {versions}
-    <button className='version__submit' onClick={() => dispatch(addVersion(song.id, song.versions.length))}>+</button>
+    <button className='version__submit version__submit--big' onClick={() => dispatch(addVersion(song.id, song.versions.length))}>+</button>
   </Accordion>
 };
 
