@@ -10663,7 +10663,7 @@ var songs = function songs() {
     case 'ADD_SONG':
       return [].concat(_toConsumableArray(state), [song(undefined, action)]);
     case 'EDIT_VERSION':
-      state = state.map(function (song) {
+      return Object.assign([], state, state.map(function (song) {
         if (action.song_id === song.id) {
           Object.assign(song, {
             versions: song.versions.map(function (version) {
@@ -10675,8 +10675,7 @@ var songs = function songs() {
           });
         }
         return song;
-      });
-      return state;
+      }));
     default:
       return state;
   }
@@ -24230,11 +24229,7 @@ var Version = function Version(_ref2) {
   var dispatch = _ref2.dispatch,
       version = _ref2.version;
 
-  var title = void 0,
-      created_at = void 0,
-      recording = void 0,
-      notes = void 0,
-      lyrics = void 0;
+  var edited_version = Object.assign({}, version);
   return _react2.default.createElement(
     _accordion2.default,
     { sub: true, title: version.title },
@@ -24245,8 +24240,7 @@ var Version = function Version(_ref2) {
         'form',
         { onSubmit: function onSubmit(e) {
             e.preventDefault();
-            var edited_version = Object.assign({}, version, { title: title, created_at: created_at, recording: recording, notes: notes, lyrics: lyrics });
-            dispatch((0, _versions.editVersion)(edited_version));
+            dispatch((0, _versions.editVersion)(Object.assign({}, version, edited_version)));
           } },
         _react2.default.createElement(
           'div',
@@ -24257,7 +24251,7 @@ var Version = function Version(_ref2) {
             'title'
           ),
           _react2.default.createElement('input', { className: 'version__input', defaultValue: version.title, onChange: function onChange(e) {
-              title = e.target.value;
+              edited_version.title = e.target.value;
             } })
         ),
         _react2.default.createElement(
@@ -24269,7 +24263,7 @@ var Version = function Version(_ref2) {
             'added on'
           ),
           _react2.default.createElement('input', { className: 'version__input', defaultValue: version.created_at, onChange: function onChange(e) {
-              created_at = e.target.value;
+              edited_version.created_at = e.target.value;
             } })
         ),
         _react2.default.createElement(
@@ -24281,7 +24275,7 @@ var Version = function Version(_ref2) {
             'recording'
           ),
           _react2.default.createElement('input', { className: 'version__input', defaultValue: version.recording, onChange: function onChange(e) {
-              recording = e.target.value;
+              edited_version.recording = e.target.value;
             } })
         ),
         _react2.default.createElement(
@@ -24293,7 +24287,7 @@ var Version = function Version(_ref2) {
             'notes'
           ),
           _react2.default.createElement('textarea', { className: 'version__input version__input--textarea', defaultValue: version.notes, onChange: function onChange(e) {
-              notes = e.target.value;
+              edited_version.notes = e.target.value;
             } })
         ),
         _react2.default.createElement(
@@ -24305,10 +24299,10 @@ var Version = function Version(_ref2) {
             'lyrics'
           ),
           _react2.default.createElement('textarea', { className: 'version__input version__input--textarea', defaultValue: version.lyrics, onChange: function onChange(e) {
-              lyrics = e.target.value;
+              edited_version.lyrics = e.target.value;
             } })
         ),
-        _react2.default.createElement('input', { type: 'submit' })
+        _react2.default.createElement('input', { type: 'submit', className: 'hidden' })
       )
     )
   );
