@@ -8,9 +8,8 @@ h1 {
 .new_song_input{
   background-color: #19a974;
   border: 1px solid #19a974;
-  border-radius: 4px;
+  border-radius: 4px 0px 0px 4px;
   color: white;
-  margin-right: 4px;
   font-size: 20px;
   width: 0px;
   visibility: hidden;
@@ -20,8 +19,8 @@ h1 {
 }
 .new_song_input--button {
   width: 44px;
+  border-radius: 0px 4px 4px 0px;
   visibility: visible;
-  margin-right: 0px;
 }
 .new_song_input:focus, .new_song_input:hover {
   width: 40%;

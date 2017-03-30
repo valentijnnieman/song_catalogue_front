@@ -10530,7 +10530,7 @@ var AddSong = function AddSong(_ref) {
         { type: 'submit', className: 'new_song_input new_song_input--button' },
         '+'
       ),
-      _react2.default.createElement('input', { className: 'new_song_input', ref: function ref(node) {
+      _react2.default.createElement('input', { className: 'new_song_input', defaultValue: 'Enter song title...', ref: function ref(node) {
           input = node;
         } })
     )

@@ -18,7 +18,7 @@ let AddSong= ({ dispatch }) => {
         <button type="submit" className="new_song_input new_song_input--button">
           +
         </button>
-        <input className="new_song_input" ref={node => {
+        <input className="new_song_input" defaultValue="Enter song title..." ref={node => {
           input = node
         }} />
       </form>
