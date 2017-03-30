@@ -1,3 +1,6 @@
+h1 {
+  text-align: center;
+}
 .song {
   display: inline-block;
   background-color: yellow;
