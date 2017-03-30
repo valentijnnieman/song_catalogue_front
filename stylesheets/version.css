@@ -11,14 +11,14 @@
   color: #5e2ca5;
   margin: 8px 0px 0px;
   min-height: 100px;
-  width: 48%;
+  width: 47.6%;
   float: left;
 } 
 .version__section:first-child{
   margin-right: 8px;
 }
 .version__section--full{
-  width: 98.4%;
+  width: 98%;
   margin: 8px 0px 0px;
 }
 .version__section h6 {

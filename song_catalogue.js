@@ -6854,13 +6854,13 @@ module.exports = getIteratorFn;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-var addVersion = exports.addVersion = function addVersion(song_id, version_id) {
+var addVersion = exports.addVersion = function addVersion(song_id, version_id, title) {
   return {
     type: 'ADD_VERSION',
     song_id: song_id,
     version: {
       "id": version_id,
-      "title": "Version #1 (new)",
+      "title": title,
       "created_at": "14 march, 2017",
       "recording": "file.mp3",
       "notes": "Add notes here",
@@ -10530,7 +10530,7 @@ var AddSong = function AddSong(_ref) {
         { type: 'submit', className: 'new_song_input new_song_input--button' },
         '+'
       ),
-      _react2.default.createElement('input', { className: 'new_song_input', defaultValue: 'Enter song title...', ref: function ref(node) {
+      _react2.default.createElement('input', { className: 'new_song_input', placeholder: 'Enter song title...', ref: function ref(node) {
           input = node;
         } })
     )
@@ -10574,6 +10574,7 @@ var Song = function Song(_ref) {
   var dispatch = _ref.dispatch,
       song = _ref.song;
 
+  var input = void 0;
   var versions = song.versions.map(function (version, index) {
     return _react2.default.createElement(_version2.default, { key: index, version: version, song_id: song.id });
   });
@@ -10582,11 +10583,22 @@ var Song = function Song(_ref) {
     { title: song.title },
     versions,
     _react2.default.createElement(
-      'button',
-      { className: 'version__submit version__submit--big', onClick: function onClick() {
-          return dispatch((0, _versions.addVersion)(song.id, song.versions.length));
+      'form',
+      { onSubmit: function onSubmit(e) {
+          e.preventDefault();
+          if (!input.value.trim()) {
+            return;
+          }
+          dispatch((0, _versions.addVersion)(song.id, song.versions.length, input.value));
         } },
-      '+'
+      _react2.default.createElement(
+        'button',
+        { type: 'submit', className: 'new_song_input new_song_input--button new_song_input--version' },
+        '+'
+      ),
+      _react2.default.createElement('input', { className: 'new_song_input new_song_input--version', placeholder: 'Enter version title...', ref: function ref(node) {
+          input = node;
+        } })
     )
   );
 };

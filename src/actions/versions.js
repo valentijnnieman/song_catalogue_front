@@ -1,10 +1,10 @@
-export const addVersion = (song_id, version_id) => {
+export const addVersion = (song_id, version_id, title) => {
   return { 
     type: 'ADD_VERSION',
     song_id: song_id,
     version: {
       "id": version_id,
-      "title": "Version #1 (new)",
+      "title": title,
       "created_at": "14 march, 2017",
       "recording": "file.mp3",
       "notes": "Add notes here",
