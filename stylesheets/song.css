@@ -3,10 +3,11 @@
   background-color: yellow;
 }
 .new_song_input{
-  background-color: white;
+  background-color: #19a974;
   border: 1px solid #19a974;
   border-radius: 4px;
-  color: #19a974;
+  color: white;
+  margin-right: 4px;
   font-size: 20px;
   width: 0px;
   visibility: hidden;
@@ -16,7 +17,7 @@
   transition: width 0.4s;
 }
 .new_song_input--button {
-  width: 4%;
+  width: 44px;
   visibility: visible;
 }
 .new_song_input:focus, .new_song_input:hover {

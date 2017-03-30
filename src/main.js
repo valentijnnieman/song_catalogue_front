@@ -9,20 +9,20 @@ import {editVersion} from './actions/versions.js'
 
 const Song = ({song}) => {
   let versions = song.versions.map((version, index) =>  {
-    return <Version key={index} version={version} />
+    return <Version key={index} version={version} song_id={song.id} />
   })
   return <Accordion title={song.title}>
     {versions}
   </Accordion>
 };
 
-let Version = ({dispatch, version}) => {
+let Version = ({dispatch, version, song_id}) => {
   let edited_version = Object.assign({}, version)
   return <Accordion sub={true} title={version.title}>
       <div className='version'>
         <form onSubmit={e => {
           e.preventDefault()
-          dispatch(editVersion(Object.assign({}, version, edited_version)))
+          dispatch(editVersion(Object.assign({}, version, edited_version), song_id))
         }}>
           <div className='version__section'>
             <h6>title</h6>
@@ -32,15 +32,15 @@ let Version = ({dispatch, version}) => {
             <h6>added on</h6>
             <input className='version__input' defaultValue={version.created_at} onChange={e => {edited_version.created_at = e.target.value}} />
           </div>
-          <div className='version__section'>
+          <div className='version__section version__section--full'>
             <h6>recording</h6>
             <input className='version__input' defaultValue={version.recording} onChange={e => {edited_version.recording = e.target.value}} />
           </div>
-          <div className='version__section'>
+          <div className='version__section version__section--full'>
             <h6>notes</h6>
             <textarea className='version__input version__input--textarea' defaultValue={version.notes} onChange={e => {edited_version.notes = e.target.value}}></textarea>
           </div>
-          <div className='version__section'>
+          <div className='version__section version__section--full'>
             <h6>lyrics</h6>
             <textarea className='version__input version__input--textarea' defaultValue={version.lyrics} onChange={e => {edited_version.lyrics = e.target.value}}></textarea>
           </div>

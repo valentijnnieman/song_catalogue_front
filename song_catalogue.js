@@ -10456,10 +10456,10 @@ exports.default = Accordion;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-var editVersion = exports.editVersion = function editVersion(version) {
+var editVersion = exports.editVersion = function editVersion(version, song_id) {
   return {
     type: 'EDIT_VERSION',
-    song_id: 1,
+    song_id: song_id,
     version_id: version.id,
     version: version
   };
@@ -24216,7 +24216,7 @@ var Song = function Song(_ref) {
   var song = _ref.song;
 
   var versions = song.versions.map(function (version, index) {
-    return _react2.default.createElement(Version, { key: index, version: version });
+    return _react2.default.createElement(Version, { key: index, version: version, song_id: song.id });
   });
   return _react2.default.createElement(
     _accordion2.default,
@@ -24227,7 +24227,8 @@ var Song = function Song(_ref) {
 
 var Version = function Version(_ref2) {
   var dispatch = _ref2.dispatch,
-      version = _ref2.version;
+      version = _ref2.version,
+      song_id = _ref2.song_id;
 
   var edited_version = Object.assign({}, version);
   return _react2.default.createElement(
@@ -24240,7 +24241,7 @@ var Version = function Version(_ref2) {
         'form',
         { onSubmit: function onSubmit(e) {
             e.preventDefault();
-            dispatch((0, _versions.editVersion)(Object.assign({}, version, edited_version)));
+            dispatch((0, _versions.editVersion)(Object.assign({}, version, edited_version), song_id));
           } },
         _react2.default.createElement(
           'div',
@@ -24268,7 +24269,7 @@ var Version = function Version(_ref2) {
         ),
         _react2.default.createElement(
           'div',
-          { className: 'version__section' },
+          { className: 'version__section version__section--full' },
           _react2.default.createElement(
             'h6',
             null,
@@ -24280,7 +24281,7 @@ var Version = function Version(_ref2) {
         ),
         _react2.default.createElement(
           'div',
-          { className: 'version__section' },
+          { className: 'version__section version__section--full' },
           _react2.default.createElement(
             'h6',
             null,
@@ -24292,7 +24293,7 @@ var Version = function Version(_ref2) {
         ),
         _react2.default.createElement(
           'div',
-          { className: 'version__section' },
+          { className: 'version__section version__section--full' },
           _react2.default.createElement(
             'h6',
             null,
