@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux'
-import {addSong} from './actions/songs.js'
+import {addSong} from '../actions/songs.js'
 
 let AddSong= ({ dispatch }) => {
   let input
@@ -28,4 +28,4 @@ let AddSong= ({ dispatch }) => {
 
 AddSong = connect()(AddSong)
 
-export default AddSong 
+export default AddSong

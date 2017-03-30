@@ -7,6 +7,7 @@ export const addSong = (title) => {
     id: next_id++,
     title,
     versions: [{ 
+      "id": 0,
       "title": "Version #1 (new)",
       "created_at": "14 march, 2017",
       "recording": "file.mp3",

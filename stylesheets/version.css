@@ -45,3 +45,18 @@
   font-size: 16px;
   height: 200px;
 }
+.version__submit {
+  border: 1px solid purple;
+  margin-top: 8px;
+  margin-left: 4px;
+  color: purple;
+  border-radius: 4px;
+  background-color: white;
+  float: right;
+  padding: 8px;
+}
+.version__submit:hover {
+  cursor: pointer;
+  background-color: purple;
+  color: white;
+}

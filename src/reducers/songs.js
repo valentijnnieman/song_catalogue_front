@@ -18,16 +18,44 @@ const songs = (state = dummyData, action) => {
         ...state,
         song(undefined, action)
       ]
+    case 'ADD_VERSION':
+      return Object.assign([], state, state.map((song) => {
+        if(action.song_id === song.id) {
+          console.log(action.song_id, song.id)
+          return Object.assign({}, song, {
+            versions: [
+              ...song.versions,
+              action.version
+            ]
+          })
+        }
+        return song
+        })
+      )
     case 'EDIT_VERSION':
       return Object.assign([], state, state.map((song) => {
         if(action.song_id === song.id) {
-          Object.assign(song, {
+          return Object.assign({}, song, {
             versions: song.versions.map((version) => {
-              if(action.version_id === version.id) {
+              if(action.version.id === version.id) {
                 return action.version
               }
               return version
             })
+          })
+        }
+        return song
+        })
+      )
+    case 'REMOVE_VERSION':
+      return Object.assign([], state, state.map((song) => {
+        if(action.song_id === song.id) {
+          console.log(action.song_id, song.id)
+          return Object.assign({}, song, {
+            versions: [
+              ...song.versions.slice(0, action.version_id),
+              ...song.versions.slice(action.version_id + 1) 
+            ]
           })
         }
         return song
