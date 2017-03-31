@@ -1,3 +1,5 @@
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+
 module.exports = {
   module: { 
     loaders: [
@@ -15,5 +17,8 @@ module.exports = {
   output: {
     filename: 'song_catalogue.js',
     path: './'
-  }
+  },
+  plugins: [
+    new UglifyJSPlugin()
+  ]
 }
