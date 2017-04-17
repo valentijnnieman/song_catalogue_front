@@ -16,7 +16,7 @@ module.exports = {
   entry: './src/main.js',
   output: {
     filename: 'song_catalogue.js',
-    path: './'
+    path: '/home/vaal/dev/js/song_catalogue/'
   },
   plugins: [
     new UglifyJSPlugin()
