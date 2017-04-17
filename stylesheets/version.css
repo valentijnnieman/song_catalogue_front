@@ -71,3 +71,13 @@
   background-color: white;
   color: #19a974;
 }
+/* ouch */
+.version__submit--song {
+  border: 1px solid #19a974;
+  color: #19a974;
+}
+.version__submit--song:hover {
+  background-color: #19a974;
+  color: white;
+}
+/* /ouch */

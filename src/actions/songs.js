@@ -16,3 +16,18 @@ export const addSong = (title) => {
     }]
   }
 }
+export const editSong = (song, song_id) => {
+  return {
+    type: 'EDIT_SONG',
+    song: song,
+    song_id: song_id
+  }
+}
+
+export const removeSong = (song_id) => {
+  console.log("removing song: ", song_id)
+  return {
+    type: 'REMOVE_SONG',
+    song_id: song_id
+  }
+}

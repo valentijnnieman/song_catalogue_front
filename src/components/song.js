@@ -2,6 +2,7 @@ import React from 'react';
 import Accordion from './accordion.js';
 import Version from './version.js';
 import {addVersion} from '../actions/versions.js'
+import {removeSong} from '../actions/songs.js'
 import { connect } from 'react-redux'
 
 let Song = ({dispatch, song}) => {
@@ -18,6 +19,7 @@ let Song = ({dispatch, song}) => {
       }
       dispatch(addVersion(song.id, song.versions.length, input.value))
     }}>
+    <button className='version__submit version__submit--song' onClick={() => dispatch(removeSong(song.id))}>Remove</button>
     <button type="submit" className="new_song_input new_song_input--button new_song_input--version">
       +
     </button>

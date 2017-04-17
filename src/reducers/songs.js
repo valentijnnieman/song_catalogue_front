@@ -20,51 +20,62 @@ const song = (state = {}, action) => {
 const songs = (state = default_state, action) => {
   switch(action.type) {
     case 'ADD_SONG':
-      return [
+      return {
         ...state,
-        song(undefined, action)
-      ]
+        songs: [ ...state.songs, song(undefined, action) ]
+      }
+    case 'EDIT_SONG':
+      return { 
+        ...state,
+        songs: state.songs.map((song) => {
+          if(action.song_id === song.id) {
+            return action.song
+          }
+          return song
+        })
+      }
+    case 'REMOVE_SONG':
+      return { ...state, songs: [ 
+          ...state.songs.slice(0, action.song_id),
+          ...state.songs.slice(action.song_id + 1)
+        ]
+      }
     case 'ADD_VERSION':
-      return Object.assign([], state.songs, state.songs.map((song) => {
+      return { ...state, songs: state.songs.map((song) => {
         if(action.song_id === song.id) {
-          return Object.assign({}, song, {
-            versions: [
+          return { ...song, versions: [
               ...song.versions,
               action.version
             ]
-          })
+          }
         }
         return song
         })
-      )
+      }
     case 'EDIT_VERSION':
-      return Object.assign([], state.songs, state.songs.map((song) => {
+      return { ...state, songs: state.songs.map((song) => {
         if(action.song_id === song.id) {
-          return Object.assign({}, song, {
-            versions: song.versions.map((version) => {
-              if(action.version.id === version.id) {
-                return action.version
-              }
+          return { ...song, versions: song.versions.map((version) => {
+              if(action.version.id === version.id) return action.version
               return version
             })
-          })
+          }
         }
         return song
         })
-      )
+      }
     case 'REMOVE_VERSION':
-      return Object.assign([], state.songs, state.songs.map((song) => {
+      return { ...state, songs: state.songs.map((song) => {
         if(action.song_id === song.id) {
-          return Object.assign({}, song, {
-            versions: [
+          return { ...song, versions: [
               ...song.versions.slice(0, action.version_id),
               ...song.versions.slice(action.version_id + 1) 
             ]
-          })
+          }
         }
         return song
         })
-      )
+      }
     default:
       return state
   }
