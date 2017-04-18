@@ -1,6 +1,31 @@
+import fetch from 'isomorphic-fetch'
+
 let next_id = 2
 // TO-DO: get correct id --^
 //
+export const requestSongs = () => {
+  console.log('REquesting songs!')
+  fetch('http://localhost:8080/artist/1')
+  .then(response => {
+    console.log("response", response)
+    return response.json()
+  })
+  .then(json => { 
+    console.log("json", json)
+    recieveSongs(json.artist.songs)
+  })
+  return { 
+    type: 'REQUEST_SONGS'
+  }
+}
+
+export const recieveSongs = (songs) => {
+  console.log(songs)
+  return {
+    type: 'RECIEVE_SONGS',
+    songs: songs
+  }
+}
 export const addSong = (title) => {
   return {
     type: 'ADD_SONG',

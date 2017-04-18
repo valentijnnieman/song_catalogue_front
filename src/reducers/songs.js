@@ -3,7 +3,7 @@ import dummyData from '../data/dummy_songs.js'
 let default_state = {
   is_fetching: false,
   invalidate: false,
-  songs: dummyData
+  songs: []
 }
 
 const song = (state = {}, action) => {
@@ -19,6 +19,10 @@ const song = (state = {}, action) => {
 
 const songs = (state = default_state, action) => {
   switch(action.type) {
+    case 'REQUEST_SONGS':
+      return { ...state, is_fetching: true, invalidate: false }
+    case 'RECIEVE_SONGS':
+      return { ...state, is_fetching: false, invalidate: false, songs: action.songs }
     case 'ADD_SONG':
       return {
         ...state,

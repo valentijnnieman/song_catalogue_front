@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import Song from './components/song.js';
 import AddNewSong from './components/add_new_song.js';
 import store from './store.js';
+import {requestSongs} from './actions/songs.js'
 
 const SongList = ({songs}) => {
   let list_songs = songs.map((song, index) =>
@@ -17,25 +18,34 @@ const SongList = ({songs}) => {
 
 const mapStateToProps = (state) => {
   console.log("mapstatetoprops", state);
-  return {
-    songs: state.songs
+  return { 
+    state: state
   }
 }
 
-const AllSongsList = connect(
-  mapStateToProps
-)(SongList)
+const AllSongsList = ({state}) => {
+  store.dispatch(requestSongs())
 
-const Dashboard = () => {
+  console.log("state", state)
   return <div>
-      <AllSongsList />
+      <SongList songs={state.songs} />
       <AddNewSong />
     </div>
 };
 
+const AppState = connect(
+  mapStateToProps
+)(AllSongsList)
+
+const App = () => {
+  return <div>
+    <AppState />
+  </div>
+}
+
 ReactDOM.render(
   <Provider store={store}>
-    <Dashboard />
+    <App />
   </Provider>,
   document.getElementById('root')
 )
