@@ -20,8 +20,10 @@ const song = (state = {}, action) => {
 const songs = (state = default_state, action) => {
   switch(action.type) {
     case 'REQUEST_SONGS':
+      console.log('reducer: REQUEST_SONGS')
       return { ...state, is_fetching: true, invalidate: false }
     case 'RECIEVE_SONGS':
+      console.log('reducer: RECIEVE_SONGS')
       return { ...state, is_fetching: false, invalidate: false, songs: action.songs }
     case 'ADD_SONG':
       return {
@@ -45,8 +47,8 @@ const songs = (state = default_state, action) => {
         ]
       }
     case 'ADD_VERSION':
-      return { ...state, songs: state.songs.map((song) => {
-        if(action.song_id === song.id) {
+      return { ...state, songs: state.songs.map((song, index) => {
+        if(action.song_id === index) {
           return { ...song, versions: [
               ...song.versions,
               action.version
@@ -57,10 +59,10 @@ const songs = (state = default_state, action) => {
         })
       }
     case 'EDIT_VERSION':
-      return { ...state, songs: state.songs.map((song) => {
-        if(action.song_id === song.id) {
-          return { ...song, versions: song.versions.map((version) => {
-              if(action.version.id === version.id) return action.version
+      return { ...state, songs: state.songs.map((song, index) => {
+        if(action.song_id === index) {
+          return { ...song, versions: song.versions.map((version, index) => {
+              if(action.version_id === index) return action.version
               return version
             })
           }
@@ -69,8 +71,8 @@ const songs = (state = default_state, action) => {
         })
       }
     case 'REMOVE_VERSION':
-      return { ...state, songs: state.songs.map((song) => {
-        if(action.song_id === song.id) {
+      return { ...state, songs: state.songs.map((song, index) => {
+        if(action.song_id === index) {
           return { ...song, versions: [
               ...song.versions.slice(0, action.version_id),
               ...song.versions.slice(action.version_id + 1) 
@@ -81,6 +83,7 @@ const songs = (state = default_state, action) => {
         })
       }
     default:
+      console.log('reducer: DEFAULT')
       return state
   }
 }

@@ -1,4 +1,5 @@
 import fetch from 'isomorphic-fetch'
+import store from '../store.js';
 
 let next_id = 2
 // TO-DO: get correct id --^
@@ -12,7 +13,8 @@ export const requestSongs = () => {
   })
   .then(json => { 
     console.log("json", json)
-    recieveSongs(json.artist.songs)
+    // eep!
+    store.dispatch(recieveSongs(json.artist.songs))
   })
   return { 
     type: 'REQUEST_SONGS'

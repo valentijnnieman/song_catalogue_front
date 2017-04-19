@@ -5,10 +5,10 @@ import {addVersion} from '../actions/versions.js'
 import {removeSong} from '../actions/songs.js'
 import { connect } from 'react-redux'
 
-let Song = ({dispatch, song}) => {
+let Song = ({dispatch, song_id, song}) => {
   let input
   let versions = song.versions.map((version, index) =>  {
-    return <Version key={index} version={version} song_id={song.id} />
+    return <Version key={index} version_id={index} version={version} song_id={song_id} />
   })
   return <Accordion title={song.title}>
     {versions}
@@ -19,7 +19,7 @@ let Song = ({dispatch, song}) => {
       }
       dispatch(addVersion(song.id, song.versions.length, input.value))
     }}>
-    <button className='version__submit version__submit--song' onClick={() => dispatch(removeSong(song.id))}>Remove</button>
+    <button className='version__submit version__submit--song' onClick={() => dispatch(removeSong(song_id))}>Remove</button>
     <button type="submit" className="new_song_input new_song_input--button new_song_input--version">
       +
     </button>

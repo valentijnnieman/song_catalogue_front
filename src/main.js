@@ -8,8 +8,9 @@ import store from './store.js';
 import {requestSongs} from './actions/songs.js'
 
 const SongList = ({songs}) => {
+  console.log("SongList.songs: ", songs)
   let list_songs = songs.map((song, index) =>
-    <Song key={index} song={song}></Song>
+    <Song key={index} song_id={index} song={song}></Song>
   );
   return <div>
     {list_songs} 
@@ -19,18 +20,24 @@ const SongList = ({songs}) => {
 const mapStateToProps = (state) => {
   console.log("mapstatetoprops", state);
   return { 
-    state: state
+    is_fetching: state.is_fetching,
+    invalidate: state.invalidate,
+    songs: state.songs
   }
 }
 
-const AllSongsList = ({state}) => {
-  store.dispatch(requestSongs())
+store.dispatch(requestSongs())
 
-  console.log("state", state)
-  return <div>
-      <SongList songs={state.songs} />
-      <AddNewSong />
-    </div>
+const AllSongsList = ({songs, is_fetching}) => {
+
+  console.log("state", is_fetching)
+  if(is_fetching)
+    return <h1>Loading...</h1>
+  else
+    return <div>
+        <SongList songs={songs} />
+        <AddNewSong />
+      </div>
 };
 
 const AppState = connect(
@@ -45,7 +52,7 @@ const App = () => {
 
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+    <AppState />
   </Provider>,
   document.getElementById('root')
 )
