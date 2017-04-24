@@ -4,18 +4,25 @@ import store from '../store.js';
 let next_id = 2
 // TO-DO: get correct id --^
 //
+
+export function fetchSongs() {
+  return function (dispatch) {
+    dispatch(requestSongs())
+
+    return fetch('http://localhost:8080/artist/1')
+      .then(response => {
+        console.log("response", response)
+        return response.json()
+      })
+      .then(json => { 
+        console.log("json", json)
+        // eep!
+        store.dispatch(recieveSongs(json.artist.songs))
+      })
+  }
+}
+
 export const requestSongs = () => {
-  console.log('REquesting songs!')
-  fetch('http://localhost:8080/artist/1')
-  .then(response => {
-    console.log("response", response)
-    return response.json()
-  })
-  .then(json => { 
-    console.log("json", json)
-    // eep!
-    store.dispatch(recieveSongs(json.artist.songs))
-  })
   return { 
     type: 'REQUEST_SONGS'
   }

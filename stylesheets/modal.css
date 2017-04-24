@@ -1,0 +1,19 @@
+.modal {
+	position: absolute;
+	width: 50%;
+	background-color: white;
+	color: black;
+  border: 1px solid black;
+	border-radius: 4px;	
+	padding: 8px;
+}
+.modal--hidden {
+	display: none;
+}
+.modal-label {
+	font-family: 'Roboto';
+  color: #19a974;
+}
+.modal-label--sub{
+  color: #5e2ca5;
+}

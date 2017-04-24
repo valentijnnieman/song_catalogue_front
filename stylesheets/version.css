@@ -13,6 +13,7 @@
   min-height: 100px;
   width: 47.6%;
   float: left;
+  background-color: white;
 } 
 .version__section:first-child{
   margin-right: 8px;
@@ -33,6 +34,7 @@
   font-weight: 300;
 }
 .version__input {
+  font-family: "Roboto";
   width: 100%;
   border: none;
   font-size: 20px;
@@ -42,42 +44,7 @@
   outline: none;
 }
 .version__input--textarea{
+  font-family: "Roboto";
   font-size: 16px;
   height: 200px;
 }
-.version__submit {
-  border: 1px solid purple;
-  margin-top: 8px;
-  margin-left: 4px;
-  color: purple;
-  border-radius: 4px;
-  background-color: white;
-  float: right;
-  padding: 8px;
-}
-.version__submit--big{
-  border: 2px solid #19a974;
-  width: 44px;
-  font-size: 20px;
-  color: #19a974;
-}
-.version__submit:hover {
-  cursor: pointer;
-  background-color: purple;
-  color: white;
-}
-.version__submit--big:hover{
-  cursor: pointer;
-  background-color: white;
-  color: #19a974;
-}
-/* ouch */
-.version__submit--song {
-  border: 1px solid #19a974;
-  color: #19a974;
-}
-.version__submit--song:hover {
-  background-color: #19a974;
-  color: white;
-}
-/* /ouch */

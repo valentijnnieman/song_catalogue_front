@@ -1,0 +1,36 @@
+.input {
+  border: 1px solid #19a974;
+  padding: 4px;
+  background-color: white;
+  font-size: 20px;
+  border-radius: 4px;
+  margin: 8px 0px;
+  font-size: 20px;
+  font-family: 'Roboto';
+}
+
+.button {
+  border: 1px solid #19a974;
+  font-family: 'Roboto';
+  background-color: white;
+  border-radius: 4px;
+  width: 33px;
+  height: 33px;
+  float: right;
+  margin: 8px 0px 8px 8px;
+  color: #19a974;
+  font-size: 20px;
+}
+.button--wide {
+  width: auto;
+  float: left;
+  margin: 8px 8px 8px 0px;
+}
+.button--right {
+	float: right;
+}
+
+.input--sub, .button--sub {
+  border: 1px solid #5e2ca5;
+  color: #5e2ca5;
+}

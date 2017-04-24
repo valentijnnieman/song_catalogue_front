@@ -32,8 +32,8 @@ let Version = ({dispatch, version_id, version, song_id}) => {
             <h6>lyrics</h6>
             <textarea className='version__input version__input--textarea' defaultValue={version.lyrics} onChange={e => {edited_version.lyrics = e.target.value}}></textarea>
           </div>
-          <input type='submit' className='version__submit' value='Save all'/>
-          <button className='song__submit' onClick={() => dispatch(removeVersion(song_id, version_id))}>Remove</button>
+          <input type='submit' className='button button--wide button--sub' value='Save all'/>
+          <button className='button button--wide button--sub' onClick={() => dispatch(removeVersion(song_id, version_id))}>Remove Version</button>
         </form>
       </div>
     </Accordion>

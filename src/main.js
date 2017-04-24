@@ -2,10 +2,11 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux'
 import { connect } from 'react-redux'
+import ReduxThunk from 'redux-thunk'
 import Song from './components/song.js';
 import AddNewSong from './components/add_new_song.js';
 import store from './store.js';
-import {requestSongs} from './actions/songs.js'
+import {fetchSongs} from './actions/songs.js'
 
 const SongList = ({songs}) => {
   console.log("SongList.songs: ", songs)
@@ -26,7 +27,7 @@ const mapStateToProps = (state) => {
   }
 }
 
-store.dispatch(requestSongs())
+store.dispatch(fetchSongs())
 
 const AllSongsList = ({songs, is_fetching}) => {
 

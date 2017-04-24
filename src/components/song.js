@@ -1,5 +1,6 @@
 import React from 'react';
 import Accordion from './accordion.js';
+import Modal from './modal.js';
 import Version from './version.js';
 import {addVersion} from '../actions/versions.js'
 import {removeSong} from '../actions/songs.js'
@@ -12,21 +13,22 @@ let Song = ({dispatch, song_id, song}) => {
   })
   return <Accordion title={song.title}>
     {versions}
-    <form onSubmit={e => {
-      e.preventDefault()
-      if (!input.value.trim()) {
-        return
-      }
-      dispatch(addVersion(song.id, song.versions.length, input.value))
-    }}>
-    <button className='version__submit version__submit--song' onClick={() => dispatch(removeSong(song_id))}>Remove</button>
-    <button type="submit" className="new_song_input new_song_input--button new_song_input--version">
-      +
-    </button>
-    <input className="new_song_input new_song_input--version" placeholder="Enter version title..." ref={node => {
-      input = node
-    }} />
-    </form>
+    <button className='button button--wide' onClick={() => dispatch(removeSong(song_id))}>Remove Song</button>
+		<Modal label='Add version' sub={true}>
+      <h3 className='modal-label modal-label--sub'>Add new version</h3>
+			<form onSubmit={e => {
+				e.preventDefault()
+				if (!input.value.trim()) {
+					return
+				}
+				dispatch(addVersion(song.id, song.versions.length, input.value))
+			}}>
+      <input className="input input--sub" placeholder="Enter version title..." ref={node => {
+        input = node
+      }} />
+			<button type="submit" className="button button--sub button--wide">Add</button>
+			</form>
+		</Modal>
   </Accordion>
 };
 
