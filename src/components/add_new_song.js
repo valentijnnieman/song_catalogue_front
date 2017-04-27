@@ -7,7 +7,7 @@ let AddSong= ({ dispatch }) => {
   let input
 
   return (
-		<Modal label='Add song'>
+		<Modal label='+'>
 			<h3 className='modal-label'>Add new song</h3>
 				<form onSubmit={e => {
 					e.preventDefault()
@@ -17,8 +17,8 @@ let AddSong= ({ dispatch }) => {
 					dispatch(addSong(input.value))
 					input.value = ''
 				}}>
-					<button type="submit" className="button">
-						+
+					<button type="submit" className="button button--wide">
+						add
 					</button>
 					<input className="input" placeholder="Enter song title..." ref={node => {
 						input = node

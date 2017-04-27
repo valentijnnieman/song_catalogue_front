@@ -12,16 +12,18 @@
 .button {
   border: 1px solid #19a974;
   font-family: 'Roboto';
-  background-color: white;
-  border-radius: 4px;
+  color: white;
   width: 33px;
   height: 33px;
   float: right;
   margin: 8px 0px 8px 8px;
-  color: #19a974;
+  background-color: #19a974;
   font-size: 20px;
+  border-radius: 100%;
+  box-shadow: 1px 1px 1px 1px #e0e0e0;
 }
 .button--wide {
+  border-radius: 4px;
   width: auto;
   float: left;
   margin: 8px 8px 8px 0px;
@@ -31,6 +33,10 @@
 }
 
 .input--sub, .button--sub {
-  border: 1px solid #5e2ca5;
-  color: #5e2ca5;
+  border: 1px solid #19a974;
+  color: #19a974;
+  background-color: white;
+}
+.button--sub {
+  float: right;
 }

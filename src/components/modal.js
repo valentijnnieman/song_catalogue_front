@@ -13,14 +13,16 @@ export class Modal extends React.Component {
   }
   render() {
     return <div className='modal_container'>
-      <button className={this.props.sub ? 'button button--sub button--wide' : 'button button--wide'} onClick={this.reveal_content}>
+      <button className={this.props.sub ? 'button button--sub' : 'button'} onClick={this.reveal_content}>
         {this.props.label}
       </button>
       <div className={this.state.revealed ? 'modal' : 'modal modal--hidden'}>
-        <button className={this.props.sub ? 'button button--right button--sub' : 'button button--right'} onClick={this.reveal_content}>
-          X
-        </button>
-        {this.props.children}
+        <div className='modal__content'>
+          <button className={this.props.sub ? 'button button--right button--sub' : 'button button--right'} onClick={this.reveal_content}>
+            x
+          </button>
+          {this.props.children}
+        </div>
       </div>
     </div>
   }

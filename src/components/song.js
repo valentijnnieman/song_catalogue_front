@@ -13,8 +13,11 @@ let Song = ({dispatch, song_id, song}) => {
   })
   return <Accordion title={song.title}>
     {versions}
-    <button className='button button--wide' onClick={() => dispatch(removeSong(song_id))}>Remove Song</button>
-		<Modal label='Add version' sub={true}>
+		<Modal label='-' right={true}>
+      <h3 className='modal-label'>Really remove this song?</h3>
+      <button className='button button--wide' onClick={() => dispatch(removeSong(song_id))}>Remove Song</button>
+    </Modal>
+		<Modal label='+' sub={true}>
       <h3 className='modal-label modal-label--sub'>Add new version</h3>
 			<form onSubmit={e => {
 				e.preventDefault()
