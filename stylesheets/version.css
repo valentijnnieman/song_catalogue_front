@@ -6,9 +6,9 @@
 }
 .version__section {
   padding: 8px;
-  border: 1px solid #5e2ca5;
+  border: 1px solid #19a974;
   border-radius: 4px;
-  color: #5e2ca5;
+  color: #19a974;
   margin: 8px 0px 0px;
   min-height: 100px;
   width: 47.6%;
@@ -38,7 +38,7 @@
   width: 100%;
   border: none;
   font-size: 20px;
-  color: #5e2ca5;
+  color: #19a974;
 }
 .version__input:focus{
   outline: none;
