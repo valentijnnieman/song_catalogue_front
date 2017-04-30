@@ -20,7 +20,7 @@ let AddSong= ({ dispatch }) => {
 					<button type="submit" className="button button--wide">
 						add
 					</button>
-					<input className="input" placeholder="Enter song title..." ref={node => {
+					<input className="input input--modal" placeholder="Enter song title..." ref={node => {
 						input = node
 					}} />
 				</form>

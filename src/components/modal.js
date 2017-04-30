@@ -18,7 +18,7 @@ export class Modal extends React.Component {
       </button>
       <div className={this.state.revealed ? 'modal' : 'modal modal--hidden'}>
         <div className='modal__content'>
-          <button className={this.props.sub ? 'button button--right button--sub' : 'button button--right'} onClick={this.reveal_content}>
+          <button className={this.props.sub ? 'button button--sub' : 'button'} onClick={this.reveal_content}>
             x
           </button>
           {this.props.children}

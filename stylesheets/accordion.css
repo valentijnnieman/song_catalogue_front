@@ -33,6 +33,9 @@ body {
   overflow: hidden;
   opacity: 1;
 }
+.accordion__content--sub {
+  background-color: #e6e6e6;
+}
 .accordion__content--hidden{
   visibility: hidden;
   height: 0px;

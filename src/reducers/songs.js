@@ -2,7 +2,11 @@ import dummyData from '../data/dummy_songs.js'
 
 let default_state = {
   is_fetching: false,
+  is_authenticating: false,
   invalidate: false,
+  token: null,
+  authenticated: false,
+  message: null,
   songs: []
 }
 
@@ -19,11 +23,15 @@ const song = (state = {}, action) => {
 
 const songs = (state = default_state, action) => {
   switch(action.type) {
+    case 'REQUEST_LOGIN' :
+      return { ...state, is_authenticating: true, authenticated: false }
+    case 'RECIEVE_LOGIN' :
+      return { ...state, is_authenticating: false, authenticated: true, token: action.token }
+    case 'FAILED_LOGIN' :
+      return { ...state, is_authenticating: false, authenticated: false, message: action.message }
     case 'REQUEST_SONGS':
-      console.log('reducer: REQUEST_SONGS')
       return { ...state, is_fetching: true, invalidate: false }
     case 'RECIEVE_SONGS':
-      console.log('reducer: RECIEVE_SONGS')
       return { ...state, is_fetching: false, invalidate: false, songs: action.songs }
     case 'ADD_SONG':
       return {

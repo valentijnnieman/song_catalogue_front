@@ -12,10 +12,11 @@ export const addVersion = (song_id, version_id, title) => {
     }
   }
 }
-export const editVersion = (version, song_id) => {
+export const editVersion = (song_id, version_id, version) => {
   return {
     type: 'EDIT_VERSION',
     song_id: song_id, 
+    version_id: version_id,
     version: version
   }
 }

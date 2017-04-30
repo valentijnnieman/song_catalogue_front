@@ -13,7 +13,7 @@ let Song = ({dispatch, song_id, song}) => {
   })
   return <Accordion title={song.title}>
     {versions}
-		<Modal label='-' right={true}>
+		<Modal label='-'>
       <h3 className='modal-label'>Really remove this song?</h3>
       <button className='button button--wide' onClick={() => dispatch(removeSong(song_id))}>Remove Song</button>
     </Modal>
@@ -24,9 +24,9 @@ let Song = ({dispatch, song_id, song}) => {
 				if (!input.value.trim()) {
 					return
 				}
-				dispatch(addVersion(song.id, song.versions.length, input.value))
+				dispatch(addVersion(song_id, song.versions.length, input.value))
 			}}>
-      <input className="input input--sub" placeholder="Enter version title..." ref={node => {
+      <input className="input input--modal input--sub" placeholder="Enter version title..." ref={node => {
         input = node
       }} />
 			<button type="submit" className="button button--sub button--wide">Add</button>

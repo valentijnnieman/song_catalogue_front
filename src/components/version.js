@@ -1,5 +1,6 @@
 import React from 'react';
 import Accordion from './accordion.js';
+import Modal from './modal.js';
 import {editVersion} from '../actions/versions.js'
 import {removeVersion} from '../actions/versions.js'
 import { connect } from 'react-redux'
@@ -10,7 +11,8 @@ let Version = ({dispatch, version_id, version, song_id}) => {
       <div className='version'>
         <form onSubmit={e => {
           e.preventDefault()
-          dispatch(editVersion(Object.assign({}, version, edited_version), song_id))
+          console.log(edited_version)
+          dispatch(editVersion(song_id, version_id, Object.assign({}, version, edited_version)))
         }}>
           <div className='version__section'>
             <h6>title</h6>
@@ -32,8 +34,11 @@ let Version = ({dispatch, version_id, version, song_id}) => {
             <h6>lyrics</h6>
             <textarea className='version__input version__input--textarea' defaultValue={version.lyrics} onChange={e => {edited_version.lyrics = e.target.value}}></textarea>
           </div>
-          <input type='submit' className='button button--wide button--sub' value='Save all'/>
-          <button className='button button--wide button--sub' onClick={() => dispatch(removeVersion(song_id, version_id))}>Remove Version</button>
+          <input type='submit' className='hidden'/>
+          <Modal label='-' sub={true}>
+            <h3 className='modal-label'>Really remove this song?</h3>
+            <button className='button button--wide' onClick={() => dispatch(removeVersion(song_id, version_id))}>Remove Version</button>
+          </Modal>
         </form>
       </div>
     </Accordion>

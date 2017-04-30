@@ -5,11 +5,18 @@ let next_id = 2
 // TO-DO: get correct id --^
 //
 
-export function fetchSongs() {
+export function fetchSongs(token) {
   return function (dispatch) {
+    console.log('fetchSongs!')
     dispatch(requestSongs())
+    console.log("auth: ", 'Bearer ' + token)
 
-    return fetch('http://localhost:8080/artist/1')
+    return fetch('https://song-catalogue-api.herokuapp.com/auth/artist/1', {
+        headers: {
+          'Authorization': 'Bearer ' + token, 
+          'Content-Type': 'application/json'
+        }, 
+      })
       .then(response => {
         console.log("response", response)
         return response.json()
@@ -22,6 +29,54 @@ export function fetchSongs() {
   }
 }
 
+export function fetchLogin(username, password) {
+  return function (dispatch) {
+    dispatch(requestLogin())
+
+    return fetch('https://song-catalogue-api.herokuapp.com/login', {
+        method: "POST",
+        body: JSON.stringify({
+          username: username,
+          password: password 
+        })
+      })
+      .then(response => {
+        console.log("response", response)
+        if(response.ok) {
+          response.json()
+          .then(json => { 
+            console.log("json", json)
+            // eep!
+            store.dispatch(recieveLogin(json.token))
+            store.dispatch(fetchSongs(json.token))
+          })
+        }
+        else { 
+          console.log("can't log in!")  
+          store.dispatch(failedLogin("Incorrect username or password"))
+        }
+      })
+  }
+}
+export const requestLogin= () => {
+  return { 
+    type: 'REQUEST_LOGIN'
+  }
+}
+
+export const recieveLogin = (token) => {
+  console.log(token)
+  return {
+    type: 'RECIEVE_LOGIN',
+    token: token
+  }
+}
+export const failedLogin= (message) => {
+  return {
+    type: 'FAILED_LOGIN',
+    message: message
+  }
+}
 export const requestSongs = () => {
   return { 
     type: 'REQUEST_SONGS'

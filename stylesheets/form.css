@@ -1,12 +1,21 @@
+form {
+  margin-bottom: 8px;
+}
+.notice {
+  color: red;
+}
 .input {
   border: 1px solid #19a974;
-  padding: 4px;
+  padding: 8px;
   background-color: white;
-  font-size: 20px;
+  font-size: 14px;
   border-radius: 4px;
   margin: 8px 0px;
-  font-size: 20px;
   font-family: 'Roboto';
+  width: 100%;
+}
+.input--modal {
+  width: 80%;
 }
 
 .button {
@@ -22,10 +31,13 @@
   border-radius: 100%;
   box-shadow: 1px 1px 1px 1px #e0e0e0;
 }
+button:focus {
+  outline:0;
+  box-shadow: inset 1px 0px 4px 0px #027731;
+}
 .button--wide {
   border-radius: 4px;
   width: auto;
-  float: left;
   margin: 8px 8px 8px 0px;
 }
 .button--right {
