@@ -1,0 +1,54 @@
+form {
+  margin-bottom: 8px;
+}
+.notice {
+  color: red;
+}
+.input {
+  border: 1px solid #19a974;
+  padding: 8px;
+  background-color: white;
+  font-size: 14px;
+  border-radius: 4px;
+  margin: 8px 0px;
+  font-family: 'Roboto';
+  width: 100%;
+}
+.input--modal {
+  width: 80%;
+}
+
+.button {
+  border: 1px solid #19a974;
+  font-family: 'Roboto';
+  color: white;
+  width: 33px;
+  height: 33px;
+  float: right;
+  margin: 8px 0px 8px 8px;
+  background-color: #19a974;
+  font-size: 20px;
+  border-radius: 100%;
+  box-shadow: 1px 1px 1px 1px #e0e0e0;
+}
+button:focus {
+  outline:0;
+  box-shadow: inset 1px 0px 4px 0px #027731;
+}
+.button--wide {
+  border-radius: 4px;
+  width: auto;
+  margin: 8px 8px 8px 0px;
+}
+.button--right {
+	float: right;
+}
+
+.input--sub, .button--sub {
+  border: 1px solid #19a974;
+  color: #19a974;
+  background-color: white;
+}
+.button--sub {
+  float: right;
+}

@@ -1,4 +1,5 @@
 import React from 'react';
+import Modal from './modal.js';
 import { connect } from 'react-redux'
 import {addSong} from '../actions/songs.js'
 
@@ -6,23 +7,24 @@ let AddSong= ({ dispatch }) => {
   let input
 
   return (
-    <div>
-      <form onSubmit={e => {
-        e.preventDefault()
-        if (!input.value.trim()) {
-          return
-        }
-        dispatch(addSong(input.value))
-        input.value = ''
-      }}>
-        <button type="submit" className="new_song_input new_song_input--button">
-          +
-        </button>
-        <input className="new_song_input" placeholder="Enter song title..." ref={node => {
-          input = node
-        }} />
-      </form>
-    </div>
+		<Modal label='+'>
+			<h3 className='modal-label'>Add new song</h3>
+				<form onSubmit={e => {
+					e.preventDefault()
+					if (!input.value.trim()) {
+						return
+					}
+					dispatch(addSong(input.value))
+					input.value = ''
+				}}>
+					<button type="submit" className="button button--wide">
+						add
+					</button>
+					<input className="input input--modal" placeholder="Enter song title..." ref={node => {
+						input = node
+					}} />
+				</form>
+			</Modal>
   )
 }
 

@@ -1,5 +1,15 @@
 import dummyData from '../data/dummy_songs.js'
 
+let default_state = {
+  is_fetching: false,
+  is_authenticating: false,
+  invalidate: false,
+  token: null,
+  authenticated: false,
+  message: null,
+  songs: []
+}
+
 const song = (state = {}, action) => {
   switch(action.type) {
     case 'ADD_SONG':
@@ -11,57 +21,77 @@ const song = (state = {}, action) => {
   }
 }
 
-const songs = (state = dummyData, action) => {
+const songs = (state = default_state, action) => {
   switch(action.type) {
+    case 'REQUEST_LOGIN' :
+      return { ...state, is_authenticating: true, authenticated: false }
+    case 'RECIEVE_LOGIN' :
+      return { ...state, is_authenticating: false, authenticated: true, token: action.token }
+    case 'FAILED_LOGIN' :
+      return { ...state, is_authenticating: false, authenticated: false, message: action.message }
+    case 'REQUEST_SONGS':
+      return { ...state, is_fetching: true, invalidate: false }
+    case 'RECIEVE_SONGS':
+      return { ...state, is_fetching: false, invalidate: false, songs: action.songs }
     case 'ADD_SONG':
-      return [
+      return {
         ...state,
-        song(undefined, action)
-      ]
+        songs: [ ...state.songs, song(undefined, action) ]
+      }
+    case 'EDIT_SONG':
+      return { 
+        ...state,
+        songs: state.songs.map((song) => {
+          if(action.song_id === song.id) {
+            return action.song
+          }
+          return song
+        })
+      }
+    case 'REMOVE_SONG':
+      return { ...state, songs: [ 
+          ...state.songs.slice(0, action.song_id),
+          ...state.songs.slice(action.song_id + 1)
+        ]
+      }
     case 'ADD_VERSION':
-      return Object.assign([], state, state.map((song) => {
-        if(action.song_id === song.id) {
-          console.log(action.song_id, song.id)
-          return Object.assign({}, song, {
-            versions: [
+      return { ...state, songs: state.songs.map((song, index) => {
+        if(action.song_id === index) {
+          return { ...song, versions: [
               ...song.versions,
               action.version
             ]
-          })
+          }
         }
         return song
         })
-      )
+      }
     case 'EDIT_VERSION':
-      return Object.assign([], state, state.map((song) => {
-        if(action.song_id === song.id) {
-          return Object.assign({}, song, {
-            versions: song.versions.map((version) => {
-              if(action.version.id === version.id) {
-                return action.version
-              }
+      return { ...state, songs: state.songs.map((song, index) => {
+        if(action.song_id === index) {
+          return { ...song, versions: song.versions.map((version, index) => {
+              if(action.version_id === index) return action.version
               return version
             })
-          })
+          }
         }
         return song
         })
-      )
+      }
     case 'REMOVE_VERSION':
-      return Object.assign([], state, state.map((song) => {
-        if(action.song_id === song.id) {
-          console.log(action.song_id, song.id)
-          return Object.assign({}, song, {
-            versions: [
+      return { ...state, songs: state.songs.map((song, index) => {
+        if(action.song_id === index) {
+          return { ...song, versions: [
               ...song.versions.slice(0, action.version_id),
               ...song.versions.slice(action.version_id + 1) 
             ]
-          })
+          }
         }
         return song
         })
-      )
+      }
     default:
+      console.log('reducer: DEFAULT')
       return state
   }
 }

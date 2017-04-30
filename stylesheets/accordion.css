@@ -4,6 +4,9 @@ body {
 }
 .accordion {
   margin: 8px 0px;
+  border-radius: 4px;
+  background-color: #f3f6f7;
+  border-bottom: 1px solid #d2d2d2;
 }
 .accordion__button {
   border-radius: 4px;
@@ -29,6 +32,9 @@ body {
   visibility: visible;
   overflow: hidden;
   opacity: 1;
+}
+.accordion__content--sub {
+  background-color: #e6e6e6;
 }
 .accordion__content--hidden{
   visibility: hidden;

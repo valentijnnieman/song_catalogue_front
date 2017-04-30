@@ -11,12 +11,18 @@ export class Accordion extends React.Component {
       revealed: !this.state.revealed
     });
   }
+  content_classes() {
+    let classes = 'accordion__content'
+    if(!this.state.revealed) classes += ' accordion__content--hidden';
+    if(this.props.sub) classes += ' accordion__content--sub';
+    return classes
+  }
   render() {
     return <div className='accordion'>
       <div className={this.props.sub ? 'accordion__button accordion__button--sub' : 'accordion__button'} onClick={this.reveal_content}>
         <span>{this.props.title}</span>
       </div>
-      <div className={this.state.revealed ? 'accordion__content' : 'accordion__content accordion__content--hidden'}>
+      <div className={this.content_classes()}>
         {this.props.children}
       </div>
     </div>
