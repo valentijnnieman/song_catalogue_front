@@ -36,7 +36,7 @@
   font-family: "Roboto";
   width: 100%;
   border: none;
-  font-size: 20px;
+  font-size: 16px;
   color: #19a974;
 }
 .version__input:focus{
@@ -44,6 +44,5 @@
 }
 .version__input--textarea{
   font-family: "Roboto";
-  font-size: 16px;
   height: 200px;
 }
