@@ -18,8 +18,8 @@
 
 .notice-box {
   background-color: gold;
-  border-radius: 4px;
-  display: block;
-  padding: 16px;
-  margin-top: 64px;
+  border: none;
+  width: auto;
+  margin-top: 0px;
+  color: black;
 }

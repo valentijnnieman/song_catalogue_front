@@ -1,6 +1,9 @@
 form {
   margin-bottom: 8px;
 }
+.form--login {
+  width: 300px;
+}
 .notice {
   color: red;
 }
