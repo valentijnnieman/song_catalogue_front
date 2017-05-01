@@ -36,7 +36,7 @@ let Version = ({dispatch, version_id, version, song_id}) => {
           </div>
           <input type='submit' className='hidden'/>
           <Modal label='-' sub={true}>
-            <h3 className='modal-label'>Really remove this song?</h3>
+            <h3 className='modal-label'>Really remove this version?</h3>
             <button className='button button--wide' onClick={() => dispatch(removeVersion(song_id, version_id))}>Remove Version</button>
           </Modal>
         </form>
