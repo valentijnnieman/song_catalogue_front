@@ -51,7 +51,9 @@ let Login = ({dispatch, message}) => {
     }} />
     <button type="submit" className="button button--sub button--wide">Login</button>
     </form>
-    <p>You can log in as 'demo' with password 'demo123' for a quick demo </p>
+    <div className="notice-box">
+      <p>You can log in as 'demo' with password 'demo123' for a quick demo </p>
+    </div>
   </div>
 }
 

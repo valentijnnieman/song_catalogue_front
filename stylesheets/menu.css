@@ -1,0 +1,23 @@
+.topbar {
+  background-color: #444444;
+  color: white;
+  padding: 16px;
+  margin-bottom: 32px;
+}
+.topbar h1 {
+  max-width: 60rem;
+  margin: 0 auto;
+  text-align: left;
+}
+.topbar h1 small {
+  float: right;
+  font-size: 12px;
+  margin: 12px 0px;
+}
+
+.notice-box {
+  border: 1px solid gold;
+  border-radius: 4px;
+  display: block;
+  padding: 16px;
+}
