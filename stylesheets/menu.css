@@ -16,8 +16,9 @@
 }
 
 .notice-box {
-  border: 1px solid gold;
+  background-color: gold;
   border-radius: 4px;
   display: block;
   padding: 16px;
+  margin-top: 64px;
 }
