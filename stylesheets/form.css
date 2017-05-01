@@ -6,7 +6,7 @@ form {
 }
 .input {
   border: 1px solid #19a974;
-  padding: 8px;
+  padding: 4px;
   background-color: white;
   font-size: 14px;
   border-radius: 4px;
@@ -27,7 +27,7 @@ form {
   float: right;
   margin: 8px 0px 8px 8px;
   background-color: #19a974;
-  font-size: 16px;
+  font-size: 14px;
   border-radius: 100%;
   box-shadow: 1px 1px 1px 1px #e0e0e0;
 }
@@ -38,7 +38,6 @@ button:focus {
 .button--wide {
   border-radius: 4px;
   width: auto;
-  margin: 8px 8px 8px 0px;
 }
 .button--right {
 	float: right;
