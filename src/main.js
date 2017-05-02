@@ -36,7 +36,7 @@ let Login = ({dispatch, message}) => {
 
   return <div className='login'>
     <div className='notice'>{message}</div>
-    <form onSubmit={e => {
+    <form className='form--login' onSubmit={e => {
       e.preventDefault()
       if (!username.value.trim()) {
         return
@@ -51,9 +51,7 @@ let Login = ({dispatch, message}) => {
     }} />
     <button type="submit" className="button button--sub button--wide">Login</button>
     </form>
-    <div className="notice-box">
-      <p>You can log in as 'demo' with password 'demo123' for a quick demo </p>
-    </div>
+    <button className="button button--wide notice-box" onClick={() => store.dispatch(fetchLogin('demo', 'demo123'))}>Login as Guest</button>
   </div>
 }
 
