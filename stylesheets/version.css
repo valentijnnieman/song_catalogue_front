@@ -6,19 +6,16 @@
 }
 .version__section {
   padding: 8px;
-  border: 1px solid #19a974;
+  border: 1px solid #e6e6e6;
   border-radius: 4px;
-  color: #19a974;
-  min-height: 100px;
-  width: 47.6%;
+  color: grey;
+  width: 50%;
   float: left;
   background-color: white;
+  box-sizing: border-box;
 } 
-.version__section:first-child{
-  margin-right: 8px;
-}
 .version__section--full{
-  width: 98%;
+  width: 100%;
   margin: 8px 0px 0px;
 }
 .version__section h6 {
@@ -37,7 +34,7 @@
   width: 100%;
   border: none;
   font-size: 16px;
-  color: #19a974;
+  color: grey;
 }
 .version__input:focus{
   outline: none;

@@ -16,8 +16,8 @@ export class Modal extends React.Component {
       <button className={this.props.sub ? 'button button--sub' : 'button'} onClick={this.reveal_content}>
         {this.props.label}
       </button>
-      <div className={this.state.revealed ? 'modal' : 'modal modal--hidden'}>
-        <div className='modal__content'>
+      <div className={this.state.revealed ? 'modal' : 'modal modal--hidden'} onClick={this.reveal_content}>
+        <div className='modal__content' onClick={(e) => e.stopPropagation()}>
           <button className={this.props.sub ? 'button button--sub' : 'button'} onClick={this.reveal_content}>
             x
           </button>
