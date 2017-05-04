@@ -4,16 +4,29 @@
   padding: 16px;
   margin-bottom: 32px;
 }
-.topbar h1 {
+.topbar_container {
   max-width: 60rem;
   margin: 0 auto;
-  text-align: left;
 }
-.topbar h1 small {
+.topbar h1 {
+  text-align: left;
+  width: 50%;
+  display: inline;
+}
+.topbar small {
   float: right;
   font-size: 12px;
   margin: 12px 0px;
   color: gold;
+}
+.topbar span {
+  float: right;
+  font-size: 12px;
+  margin: 12px 0px;
+}
+.topbar__image {
+  float: right;
+  margin: 0px 64px 0px 12px;
 }
 
 .notice-box {

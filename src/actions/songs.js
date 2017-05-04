@@ -12,6 +12,7 @@ export function fetchSongs(token) {
     console.log("auth: ", 'Bearer ' + token)
 
     return fetch('https://song-catalogue-api.herokuapp.com/auth/artist/1', {
+    //return fetch('http://localhost:8080/auth/artist/1', {
         headers: {
           'Authorization': 'Bearer ' + token, 
           'Content-Type': 'application/json'
@@ -34,6 +35,7 @@ export function fetchLogin(username, password) {
     dispatch(requestLogin())
 
     return fetch('https://song-catalogue-api.herokuapp.com/login', {
+    //return fetch('http://localhost:8080/login', {
         method: "POST",
         body: JSON.stringify({
           username: username,

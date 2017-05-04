@@ -5,8 +5,18 @@ import {editVersion} from '../actions/versions.js'
 import {removeVersion} from '../actions/versions.js'
 import { connect } from 'react-redux'
 
+import { PlayButton, Progress, Icons } from 'react-soundplayer/components';
+import { SoundPlayerContainer } from 'react-soundplayer/addons';
+import { SoundCloudAudio } from 'soundcloud-audio';
+
+const { SoundCloudLogoSVG } = Icons;
+const clientId = '800cf2032a2259c47dc6f74094459eb3';
+
 let Version = ({dispatch, version_id, version, song_id}) => {
   let edited_version = Object.assign({}, version)
+  const play_audio = () => {
+    console.log("playing audio!")
+  }
   return <Accordion sub={true} title={version.title}>
       <div className='version'>
         <form onSubmit={e => {
@@ -23,8 +33,16 @@ let Version = ({dispatch, version_id, version, song_id}) => {
             <input className='version__input' defaultValue={version.created_at} onChange={e => {edited_version.created_at = e.target.value}} />
           </div>
           <div className='version__section version__section--full'>
-            <h6>recording</h6>
-            <input className='version__input' defaultValue={version.recording} onChange={e => {edited_version.recording = e.target.value}} />
+            <h6>recording {version.recording}</h6>
+            <SoundPlayerContainer resolveUrl={version.recording} clientId={clientId}>
+              <PlayButton
+                className='version__play'
+              />
+              <Progress
+                className='audio_progress'
+                innerClassName='audio_progress__inner'
+              />
+            </SoundPlayerContainer>
           </div>
           <div className='version__section version__section--full'>
             <h6>notes</h6>
