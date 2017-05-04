@@ -24,13 +24,9 @@ let Version = ({dispatch, version_id, version, song_id}) => {
           console.log(edited_version)
           dispatch(editVersion(song_id, version_id, Object.assign({}, version, edited_version)))
         }}>
-          <div className='version__section'>
+          <div className='version__section version__section--full'>
             <h6>title</h6>
             <input className='version__input' defaultValue={version.title} onChange={e => {edited_version.title = e.target.value}} />
-          </div>
-          <div className='version__section'>
-            <h6>added on</h6>
-            <input className='version__input' defaultValue={version.created_at} onChange={e => {edited_version.created_at = e.target.value}} />
           </div>
           <div className='version__section version__section--full'>
             <h6>recording {version.recording}</h6>
