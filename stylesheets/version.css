@@ -47,15 +47,15 @@
   width: 32px;
   height: 32px;
   float: left;
-  border: 1px solid #444444;
+  border: 1px solid grey;
   background-color: white;
-  color: #444444;
+  color: grey;
   font-size: 14px;
   border-radius: 100%;
 }
 .version__play:hover, .version__play:focus{
   color: white;
-  background-color: #444444;
+  background-color: grey;
 }
 
 .audio_progress {
@@ -66,5 +66,5 @@
 }
 .audio_progress__inner {
   height: 32px;
-  background-color: #444444;
+  background-color: grey;
 }
