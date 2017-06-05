@@ -3,11 +3,12 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux'
 import { connect } from 'react-redux'
 import ReduxThunk from 'redux-thunk'
-import Song from './components/song.js';
-import AddNewSong from './components/add_new_song.js';
+import { Song } from './components/song.js';
+import { AddSong } from './components/song.js';
 import store from './store.js';
 import {fetchSongs} from './actions/songs.js'
 import {fetchLogin} from './actions/songs.js'
+import './main.scss'
 
 const SongList = ({songs}) => {
   console.log("SongList.songs: ", songs)
@@ -65,7 +66,7 @@ const AllSongsList = ({songs, message, is_authenticating, authenticated, is_fetc
       else
         return <div>
             <SongList songs={songs} />
-            <AddNewSong />
+            <AddSong />
           </div>
     else
       return <h1>Authenticating...</h1>

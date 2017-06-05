@@ -1,4 +1,5 @@
 import React from 'react';
+import './accordion.scss';
 
 export class Accordion extends React.Component {
   constructor(props) {

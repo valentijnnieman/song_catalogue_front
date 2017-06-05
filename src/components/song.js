@@ -3,8 +3,10 @@ import Accordion from './accordion.js';
 import Modal from './modal.js';
 import Version from './version.js';
 import {addVersion} from '../actions/versions.js'
+import {addSong} from '../actions/songs.js'
 import {removeSong} from '../actions/songs.js'
 import { connect } from 'react-redux'
+import './song.scss'
 
 let Song = ({dispatch, song_id, song}) => {
   let input
@@ -35,5 +37,32 @@ let Song = ({dispatch, song_id, song}) => {
   </Accordion>
 };
 
+let AddSong= ({ dispatch }) => {
+  let input
+
+  return (
+		<Modal label='+'>
+			<h3 className='modal-label'>Add new song</h3>
+				<form onSubmit={e => {
+					e.preventDefault()
+					if (!input.value.trim()) {
+						return
+					}
+					dispatch(addSong(input.value))
+					input.value = ''
+				}}>
+					<button type="submit" className="button button--wide">
+						add
+					</button>
+					<input className="input input--modal" placeholder="Enter song title..." ref={node => {
+						input = node
+					}} />
+				</form>
+			</Modal>
+  )
+}
+
+AddSong = connect()(AddSong)
 Song = connect()(Song)
-export default Song
+
+export { Song, AddSong }

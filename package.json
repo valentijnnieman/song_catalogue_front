@@ -9,37 +9,41 @@
   "watch": {
     "build": "src/**/*.js"
   },
+  "jest": {
+    "transform": {
+      ".*": "<rootDir>/node_modules/jest-css-modules"
+    }
+  },
   "scripts": {
+    "test": "jest",
     "build": "webpack",
-    "watch": "npm-watch"
+    "watch": "webpack --watch",
+    "start": "NODE_ENV=development node_modules/.bin/webpack-dev-server --content-base --port 9000 --hot"
   },
   "devDependencies": {
-    "babel-cli": "^6.23.0",
+    "babel-core": "^6.24.1",
+    "babel-jest": "^20.0.3",
     "babel-loader": "^6.4.0",
     "babel-plugin-transform-object-rest-spread": "^6.23.0",
     "babel-polyfill": "^6.22.0",
     "babel-preset-es2015": "^6.22.0",
     "babel-preset-react": "^6.23.0",
+    "css-loader": "^0.28.1",
     "es6-promise": "^4.0.5",
+    "extract-text-webpack-plugin": "^2.1.0",
+    "jest": "^20.0.3",
+    "jest-css-modules": "^1.1.0",
+    "node-sass": "^4.5.3",
     "grunt": "0.4.0",
     "grunt-serve": "^0.1.6",
-    "gulp": "^3.9.1",
-    "gulp-concat": "^2.6.1",
-    "gulp-minify-css": "^1.2.4",
-    "jasmine": "^2.5.3",
-    "jasmine-core": "^2.5.2",
-    "karma": "^1.4.0",
-    "karma-chrome-launcher": "^2.0.0",
-    "karma-jasmine": "^1.1.0",
-    "karma-phantomjs-launcher": "^1.0.2",
-    "karma-sourcemap-loader": "^0.3.7",
-    "karma-webpack": "^2.0.1",
     "npm-watch": "^0.1.8",
     "react-addons-test-utils": "^15.4.2",
+    "react-test-renderer": "^15.5.4",
     "redux-devtools": "^3.3.2",
-    "uglify-js": "git://github.com/mishoo/UglifyJS2.git#harmony",
-    "uglifyjs-webpack-plugin": "^0.4.0",
-    "webpack": "^2.2.1"
+    "sass-loader": "^6.0.5",
+    "style-loader": "^0.17.0",
+    "webpack": "^2.2.1",
+    "webpack-dev-server": "^2.4.5"
   },
   "dependencies": {
     "es6-promise": "^4.1.0",

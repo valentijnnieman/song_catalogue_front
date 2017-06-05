@@ -9,6 +9,8 @@ import { PlayButton, Progress, Icons } from 'react-soundplayer/components';
 import { SoundPlayerContainer } from 'react-soundplayer/addons';
 import { SoundCloudAudio } from 'soundcloud-audio';
 
+import './version.scss'
+
 const { SoundCloudLogoSVG } = Icons;
 const clientId = '800cf2032a2259c47dc6f74094459eb3';
 

@@ -1,8 +1,14 @@
-const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+const path = require('path')
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
+
+const extractSass = new ExtractTextPlugin({
+    filename: "[name].bundle.css",
+    disable: process.env.NODE_ENV === "development"
+});
 
 module.exports = {
   module: { 
-    loaders: [
+    rules: [ 
       {
         test: /\.jsx?$/,
         exclude: /(node_modules)/,
@@ -11,15 +17,28 @@ module.exports = {
           presets: ['es2015', 'react'],
           plugins: ['transform-object-rest-spread']
         }
+      },
+      {
+        test: /\.scss$/,
+        use: extractSass.extract({
+          use: [{
+            loader: "css-loader"
+          }, {
+            loader: "sass-loader"
+          }],
+          // use style-loader in development
+          fallback: "style-loader"
+        })
       }
     ]
   },
+  plugins: [
+    extractSass
+  ],
   entry: './src/main.js',
   output: {
-    filename: 'song_catalogue.js',
-    path: '/home/vaal/dev/js/song_catalogue/'
-  },
-  plugins: [
-    new UglifyJSPlugin()
-  ]
+    path: path.resolve(__dirname, "dist"),
+    publicPath: '/dist/',
+    filename: "song_catalogue.js"
+  }
 }
