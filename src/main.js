@@ -32,6 +32,18 @@ const mapStateToProps = (state) => {
   }
 }
 
+let Topbar = () => {
+  return <div className='topbar'>
+    <div className='topbar_container'>
+      <h1> Your Songs </h1> 
+      <button className='button button--wide notice-box' onClick={() => { localStorage.clear(); location.reload()}}>Log out</button>
+      <small> alpha v.0.0.1</small>
+      <img className='topbar__image' src="./assets/images/sc_logo.png" width={64} height={43} />
+      <span>powered by</span>
+    </div>
+  </div>
+}
+
 let Login = ({dispatch, message}) => {
   let username, password
 
@@ -64,9 +76,14 @@ const AllSongsList = ({songs, message, is_authenticating, authenticated, is_fetc
       if(is_fetching)
         return <h1>Loading...</h1>
       else
-        return <div>
-            <SongList songs={songs} />
-            <AddSong />
+        if(typeof(songs) !== 'undefined') 
+          return <div>
+              <SongList songs={songs} />
+              <AddSong />
+            </div>
+        else
+          return <div>
+            <h1> Oops! Something went wrong... </h1>
           </div>
     else
       return <h1>Authenticating...</h1>
@@ -74,13 +91,24 @@ const AllSongsList = ({songs, message, is_authenticating, authenticated, is_fetc
     return <Login message={message}/>
 };
 
+const Main = () => {
+  return <div>
+    <Topbar />
+    <App />
+  </div>
+}
+
 const App = connect(
   mapStateToProps
 )(AllSongsList)
 
+store.subscribe(()=>{
+  localStorage.setItem('reduxState', JSON.stringify(store.getState()))
+})
+
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+    <Main />
   </Provider>,
   document.getElementById('root')
 )
