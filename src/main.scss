@@ -7,7 +7,7 @@ body {
 #root {
   max-width: 60rem;
   margin: 0 auto;
-  padding: 0px 4px;
+  padding: 0px;
   height: 100vh;
   background-color: white;
 }
@@ -16,36 +16,38 @@ body {
   color: white;
   padding: 16px;
   margin-bottom: 32px;
+  &__title {
+    text-align: left;
+    width: 50%;
+    display: inline;
+  }
+  &__button {
+    margin-top: 2px;
+  }
+  small {
+    display: none;
+  }
+  span {
+    display: none;
+  }
+  &__image {
+    float: right;
+    margin: 0px 14px;
+  }
 }
 .topbar_container {
   max-width: 60rem;
   margin: 0 auto;
-}
-.topbar h1 {
-  text-align: left;
-  width: 50%;
-  display: inline;
-}
-.topbar small {
-  display: none;
-}
-.topbar span {
-  display: none;
-}
-.topbar__image {
-  float: right;
-  margin: 0px 14px;
 }
 
 .notice-box {
   background-color: gold;
   border: none;
   width: auto;
-  margin-top: 0px;
   color: black;
 }
-.topbar button {
-  margin-top: 2px;
+.songlist {
+  padding: 0px 4px;
 }
 .fl {
   float: left;

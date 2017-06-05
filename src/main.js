@@ -33,10 +33,14 @@ const mapStateToProps = (state) => {
 }
 
 let Topbar = () => {
+  const logOut = () => {
+    localStorage.removeItem('song_catalogue');
+    location.reload()
+  }
   return <div className='topbar'>
     <div className='topbar_container'>
-      <h1> Your Songs </h1> 
-      <button className='button button--wide notice-box' onClick={() => { localStorage.clear(); location.reload()}}>Log out</button>
+      <h1 className='topbar__title'> Your Songs </h1> 
+      <button className='topbar__button button button--wide notice-box' onClick={logOut}>Log out</button>
       <small> alpha v.0.0.1</small>
       <img className='topbar__image' src="./assets/images/sc_logo.png" width={64} height={43} />
       <span>powered by</span>
@@ -77,7 +81,7 @@ const AllSongsList = ({songs, message, is_authenticating, authenticated, is_fetc
         return <h1>Loading...</h1>
       else
         if(typeof(songs) !== 'undefined') 
-          return <div>
+          return <div className='songlist'>
               <SongList songs={songs} />
               <AddSong />
             </div>
@@ -103,7 +107,7 @@ const App = connect(
 )(AllSongsList)
 
 store.subscribe(()=>{
-  localStorage.setItem('reduxState', JSON.stringify(store.getState()))
+  localStorage.setItem('song_catalogue', JSON.stringify(store.getState()))
 })
 
 ReactDOM.render(
