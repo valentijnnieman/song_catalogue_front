@@ -78,7 +78,7 @@
 
 .version__section--full {
   width: 100%;
-  margin: 8px 0px 0px; }
+  margin: 0px 0px 8px; }
 
 .version__section h6 {
   margin: 4px 0px;
@@ -250,7 +250,15 @@ button:focus {
   float: right; }
 body {
   font-family: 'Roboto';
-  margin: 0px; }
+  margin: 0px;
+  background-color: aliceblue; }
+
+#root {
+  max-width: 60rem;
+  margin: 0 auto;
+  padding: 0px 4px;
+  height: 100vh;
+  background-color: white; }
 
 .topbar {
   background-color: #444444;
@@ -268,19 +276,14 @@ body {
   display: inline; }
 
 .topbar small {
-  float: right;
-  font-size: 12px;
-  margin: 12px 0px;
-  color: gold; }
+  display: none; }
 
 .topbar span {
-  float: right;
-  font-size: 12px;
-  margin: 12px 0px; }
+  display: none; }
 
 .topbar__image {
   float: right;
-  margin: 0px 64px 0px 12px; }
+  margin: 0px 14px; }
 
 .notice-box {
   background-color: gold;
@@ -288,6 +291,9 @@ body {
   width: auto;
   margin-top: 0px;
   color: black; }
+
+.topbar button {
+  margin-top: 2px; }
 
 .fl {
   float: left; }
@@ -297,3 +303,19 @@ body {
 
 .hidden {
   visibility: hidden; }
+
+@media screen and (min-width: 40rem) {
+  .topbar small {
+    float: right;
+    font-size: 12px;
+    margin: 12px 32px 0px 0px;
+    color: gold;
+    display: inline; }
+  .topbar span {
+    float: right;
+    font-size: 12px;
+    margin: 12px 0px;
+    display: inline; }
+  .topbar__image {
+    float: right;
+    margin: 0px 32px 0px 12px; } }

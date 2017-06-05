@@ -7322,8 +7322,8 @@ function fetchSongs(token) {
     dispatch(requestSongs());
     console.log("auth: ", 'Bearer ' + token);
 
-    //return fetch('https://song-catalogue-api.herokuapp.com/auth/artist/1', {
-    return (0, _isomorphicFetch2.default)('http://localhost:8080/auth/artist/1', {
+    return (0, _isomorphicFetch2.default)('https://song-catalogue-api.herokuapp.com/auth/artist/1', {
+      //return fetch('http://localhost:8080/auth/artist/1', {
       headers: {
         'Authorization': 'Bearer ' + token,
         'Content-Type': 'application/json'
@@ -7343,8 +7343,8 @@ function fetchLogin(username, password) {
   return function (dispatch) {
     dispatch(requestLogin());
 
-    //return fetch('https://song-catalogue-api.herokuapp.com/login', {
-    return (0, _isomorphicFetch2.default)('http://localhost:8080/login', {
+    return (0, _isomorphicFetch2.default)('https://song-catalogue-api.herokuapp.com/login', {
+      //return fetch('http://localhost:8080/login', {
       method: "POST",
       body: JSON.stringify({
         username: username,
@@ -7452,7 +7452,8 @@ var _songs2 = _interopRequireDefault(_songs);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var store = (0, _redux.createStore)(_songs2.default, (0, _redux.applyMiddleware)(_reduxThunk2.default));
+var persistedState = localStorage.getItem('reduxState') ? JSON.parse(localStorage.getItem('reduxState')) : {};
+var store = (0, _redux.createStore)(_songs2.default, persistedState, (0, _redux.applyMiddleware)(_reduxThunk2.default));
 
 exports.default = store;
 
@@ -12270,6 +12271,40 @@ var mapStateToProps = function mapStateToProps(state) {
   };
 };
 
+var Topbar = function Topbar() {
+  return _react2.default.createElement(
+    'div',
+    { className: 'topbar' },
+    _react2.default.createElement(
+      'div',
+      { className: 'topbar_container' },
+      _react2.default.createElement(
+        'h1',
+        null,
+        ' Your Songs '
+      ),
+      _react2.default.createElement(
+        'button',
+        { className: 'button button--wide notice-box', onClick: function onClick() {
+            localStorage.clear();location.reload();
+          } },
+        'Log out'
+      ),
+      _react2.default.createElement(
+        'small',
+        null,
+        ' alpha v.0.0.1'
+      ),
+      _react2.default.createElement('img', { className: 'topbar__image', src: './assets/images/sc_logo.png', width: 64, height: 43 }),
+      _react2.default.createElement(
+        'span',
+        null,
+        'powered by'
+      )
+    )
+  );
+};
+
 var Login = function Login(_ref2) {
   var dispatch = _ref2.dispatch,
       message = _ref2.message;
@@ -12331,11 +12366,19 @@ var AllSongsList = function AllSongsList(_ref3) {
         'h1',
         null,
         'Loading...'
-      );else return _react2.default.createElement(
+      );else if (typeof songs !== 'undefined') return _react2.default.createElement(
         'div',
         null,
         _react2.default.createElement(SongList, { songs: songs }),
         _react2.default.createElement(_song.AddSong, null)
+      );else return _react2.default.createElement(
+        'div',
+        null,
+        _react2.default.createElement(
+          'h1',
+          null,
+          ' Oops! Something went wrong... '
+        )
       );
     } else return _react2.default.createElement(
       'h1',
@@ -12345,12 +12388,25 @@ var AllSongsList = function AllSongsList(_ref3) {
   } else return _react2.default.createElement(Login, { message: message });
 };
 
+var Main = function Main() {
+  return _react2.default.createElement(
+    'div',
+    null,
+    _react2.default.createElement(Topbar, null),
+    _react2.default.createElement(App, null)
+  );
+};
+
 var App = (0, _reactRedux.connect)(mapStateToProps)(AllSongsList);
+
+_store2.default.subscribe(function () {
+  localStorage.setItem('reduxState', JSON.stringify(_store2.default.getState()));
+});
 
 _reactDom2.default.render(_react2.default.createElement(
   _reactRedux.Provider,
   { store: _store2.default },
-  _react2.default.createElement(App, null)
+  _react2.default.createElement(Main, null)
 ), document.getElementById('root'));
 
 /***/ }),
