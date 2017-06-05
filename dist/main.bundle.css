@@ -199,7 +199,8 @@ form {
   margin-bottom: 8px; }
 
 .form--login {
-  width: 300px; }
+  width: 300px;
+  margin: 0 auto; }
 
 .notice {
   color: red; }
@@ -256,8 +257,8 @@ body {
 #root {
   max-width: 60rem;
   margin: 0 auto;
-  padding: 0px 4px;
-  height: 100vh;
+  padding: 0px;
+  min-height: 100vh;
   background-color: white; }
 
 .topbar {
@@ -265,35 +266,32 @@ body {
   color: white;
   padding: 16px;
   margin-bottom: 32px; }
+  .topbar__title {
+    text-align: left;
+    width: 50%;
+    display: inline; }
+  .topbar__button {
+    margin-top: 2px; }
+  .topbar small {
+    display: none; }
+  .topbar span {
+    display: none; }
+  .topbar__image {
+    float: right;
+    margin: 0px 14px; }
 
 .topbar_container {
   max-width: 60rem;
   margin: 0 auto; }
 
-.topbar h1 {
-  text-align: left;
-  width: 50%;
-  display: inline; }
-
-.topbar small {
-  display: none; }
-
-.topbar span {
-  display: none; }
-
-.topbar__image {
-  float: right;
-  margin: 0px 14px; }
-
 .notice-box {
   background-color: gold;
   border: none;
   width: auto;
-  margin-top: 0px;
   color: black; }
 
-.topbar button {
-  margin-top: 2px; }
+.songlist {
+  padding: 0px 4px; }
 
 .fl {
   float: left; }
