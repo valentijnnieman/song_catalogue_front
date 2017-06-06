@@ -12,7 +12,7 @@ import { SoundCloudAudio } from 'soundcloud-audio';
 import './version.scss'
 
 const { SoundCloudLogoSVG } = Icons;
-const clientId = '800cf2032a2259c47dc6f74094459eb3';
+const clientId = 'I49FIxeHiQfMWdhxi0pI7MjiV210nFx6';
 
 let Version = ({dispatch, version_id, version, song_id}) => {
   let edited_version = Object.assign({}, version)
