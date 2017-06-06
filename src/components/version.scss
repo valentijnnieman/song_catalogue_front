@@ -6,7 +6,7 @@
 }
 .version__section {
   padding: 8px;
-  border: 1px solid #e6e6e6;
+  border-bottom: 1px solid #e6e6e6;
   border-radius: 4px;
   color: grey;
   width: 50%;
@@ -47,24 +47,24 @@
   width: 32px;
   height: 32px;
   float: left;
-  border: 1px solid grey;
+  border: 1px solid #444444;
   background-color: white;
-  color: grey;
+  color: #444444;
   font-size: 14px;
   border-radius: 100%;
 }
 .version__play:hover, .version__play:focus{
   color: white;
-  background-color: grey;
+  background-color: #444444;
 }
 
 .audio_progress {
-  background-color: aliceblue;
+  background-color: #444444;
   width: 94%;
   float: right;
   height: 32px;
 }
 .audio_progress__inner {
   height: 32px;
-  background-color: grey;
+  background-color: gold;
 }
