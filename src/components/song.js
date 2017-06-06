@@ -50,6 +50,7 @@ let AddSong= ({ dispatch }) => {
 					}
 					dispatch(addSong(input.value))
 					input.value = ''
+          this.props.reveal_content()
 				}}>
 					<button type="submit" className="button button--wide">
 						add

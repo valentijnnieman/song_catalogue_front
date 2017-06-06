@@ -7679,11 +7679,6 @@ var Modal = exports.Modal = function (_React$Component) {
             { className: 'modal__content', onClick: function onClick(e) {
                 return e.stopPropagation();
               } },
-            _react2.default.createElement(
-              'button',
-              { className: this.props.sub ? 'button button--sub' : 'button', onClick: this.reveal_content },
-              'x'
-            ),
             this.props.children
           )
         )
@@ -11466,6 +11461,7 @@ var AddSong = function AddSong(_ref2) {
 					}
 					dispatch((0, _songs.addSong)(input.value));
 					input.value = '';
+					undefined.props.reveal_content();
 				} },
 			_react2.default.createElement(
 				'button',
@@ -11540,7 +11536,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var SoundCloudLogoSVG = _components.Icons.SoundCloudLogoSVG;
 
-var clientId = '800cf2032a2259c47dc6f74094459eb3';
+var clientId = 'I49FIxeHiQfMWdhxi0pI7MjiV210nFx6';
 
 var Version = function Version(_ref) {
   var dispatch = _ref.dispatch,
@@ -27180,7 +27176,7 @@ var Login = function Login(_ref2) {
       { className: 'button button--wide notice-box', onClick: function onClick() {
           return _store2.default.dispatch((0, _songs.fetchLogin)('demo', 'demo123'));
         } },
-      'Login as Guest'
+      'See a live demo'
     )
   );
 };

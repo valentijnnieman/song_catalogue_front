@@ -68,7 +68,7 @@ let Login = ({dispatch, message}) => {
     }} />
     <button type="submit" className="button button--sub button--wide">Login</button>
     </form>
-    <button className="button button--wide notice-box" onClick={() => store.dispatch(fetchLogin('demo', 'demo123'))}>Login as Guest</button>
+    <button className="button button--wide notice-box" onClick={() => store.dispatch(fetchLogin('demo', 'demo123'))}>See a live demo</button>
   </div>
 }
 
