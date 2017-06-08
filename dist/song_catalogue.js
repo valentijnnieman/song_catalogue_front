@@ -27457,8 +27457,8 @@ var Register = function Register() {
         } }),
       _react2.default.createElement(
         'button',
-        { type: 'submit', className: 'button button--sub button--wide' },
-        'Disabled'
+        { type: 'submit', disabled: 'disabled', className: 'button button--sub button--wide' },
+        'Register (disabled)'
       )
     )
   );

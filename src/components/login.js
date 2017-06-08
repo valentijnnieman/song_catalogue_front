@@ -104,7 +104,7 @@ const Register = () => {
     <input type='password' className="input input--sub" disabled="disabled" placeholder="Repeat password" ref={node => {
       passwordCheck = node
     }} />
-    <button type="submit" className="button button--sub button--wide">Disabled</button>
+    <button type="submit"disabled="disabled" className="button button--sub button--wide">Register (disabled)</button>
     </form>
   </div>
 }
