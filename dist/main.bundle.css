@@ -196,31 +196,20 @@ h1 {
   width: 40%;
   visibility: visible; }
 
-form {
-  margin-bottom: 8px; }
-
-.form--login {
-  width: 300px;
-  margin: 0 auto; }
-
-.notice {
-  color: red; }
-
 .input {
-  border: 1px solid #19a974;
   padding: 8px;
   background-color: white;
   font-size: 14px;
   border-radius: 4px;
   margin: 8px 0px;
   font-family: 'Roboto';
-  width: 100%; }
+  width: 100%;
+  border: none; }
 
 .input--modal {
   width: 80%; }
 
 .button {
-  border: 1px solid #19a974;
   font-family: 'Roboto';
   color: white;
   width: 32px;
@@ -230,7 +219,8 @@ form {
   background-color: #19a974;
   font-size: 14px;
   border-radius: 100%;
-  box-shadow: 1px 1px 1px 1px #e0e0e0; }
+  box-shadow: 1px 1px 1px 1px #e0e0e0;
+  border: none; }
 
 button:focus {
   outline: 0;
@@ -244,12 +234,46 @@ button:focus {
   float: right; }
 
 .input--sub, .button--sub {
-  border: 1px solid #19a974;
   color: #19a974;
   background-color: white; }
 
 .button--sub {
   float: right; }
+form {
+  margin-bottom: 8px; }
+
+.form--login {
+  margin-top: 16px;
+  width: 300px; }
+
+.notice {
+  color: red; }
+
+.home {
+  width: 300px;
+  padding: 20px 20px 60px;
+  margin: 0 auto;
+  background-color: #f3f6f7; }
+  .home__tab {
+    display: inline-block;
+    padding: 0px 8px;
+    display: inline-block;
+    padding: 8px 8px;
+    margin-right: 1px;
+    font-weight: bold;
+    color: grey;
+    transition: all 0.2s; }
+    .home__tab--selected {
+      color: #444444;
+      border-bottom: 2px solid #444444; }
+    .home__tab:hover {
+      cursor: pointer; }
+
+.notice-box {
+  background-color: gold;
+  border: none;
+  width: auto;
+  color: black; }
 body {
   font-family: 'Roboto';
   margin: 0px;
@@ -284,12 +308,6 @@ body {
 .topbar_container {
   max-width: 60rem;
   margin: 0 auto; }
-
-.notice-box {
-  background-color: gold;
-  border: none;
-  width: auto;
-  color: black; }
 
 .songlist {
   padding: 0px 4px; }

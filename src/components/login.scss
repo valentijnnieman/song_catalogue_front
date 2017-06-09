@@ -1,0 +1,39 @@
+form {
+  margin-bottom: 8px;
+}
+.form--login {
+  margin-top: 16px;
+  width: 300px;
+}
+.notice {
+  color: red;
+}
+.home {
+  width: 300px;
+  padding: 20px 20px 60px;
+  margin: 0 auto;
+  background-color: #f3f6f7;
+  &__tab {
+    display: inline-block;
+    padding: 0px 8px;
+    display: inline-block;
+    padding: 8px 8px;
+    margin-right: 1px;
+    font-weight: bold;
+    color: grey;
+    transition: all 0.2s;
+    &--selected {
+      color: #444444;
+      border-bottom: 2px solid #444444;
+    }
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}
+.notice-box {
+  background-color: gold;
+  border: none;
+  width: auto;
+  color: black;
+}

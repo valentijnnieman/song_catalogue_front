@@ -62,18 +62,7 @@ h1 {
   width: 40%;
   visibility: visible;
 }
-form {
-  margin-bottom: 8px;
-}
-.form--login {
-  width: 300px;
-  margin: 0 auto;
-}
-.notice {
-  color: red;
-}
 .input {
-  border: 1px solid #19a974;
   padding: 8px;
   background-color: white;
   font-size: 14px;
@@ -81,13 +70,13 @@ form {
   margin: 8px 0px;
   font-family: 'Roboto';
   width: 100%;
+  border: none;
 }
 .input--modal {
   width: 80%;
 }
 
 .button {
-  border: 1px solid #19a974;
   font-family: 'Roboto';
   color: white;
   width: 32px;
@@ -98,6 +87,7 @@ form {
   font-size: 14px;
   border-radius: 100%;
   box-shadow: 1px 1px 1px 1px #e0e0e0;
+  border: none;
 }
 button:focus {
   outline:0;
@@ -112,7 +102,6 @@ button:focus {
 }
 
 .input--sub, .button--sub {
-  border: 1px solid #19a974;
   color: #19a974;
   background-color: white;
 }

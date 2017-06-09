@@ -5,9 +5,9 @@ import { connect } from 'react-redux'
 import ReduxThunk from 'redux-thunk'
 import { Song } from './components/song.js';
 import { AddSong } from './components/song.js';
+import LoginContainer from './components/login.js';
 import store from './store.js';
 import {fetchSongs} from './actions/songs.js'
-import {fetchLogin} from './actions/songs.js'
 import './main.scss'
 
 const SongList = ({songs}) => {
@@ -41,36 +41,12 @@ let Topbar = () => {
     <div className='topbar_container'>
       <h1 className='topbar__title'> Your Songs </h1> 
       <button className='topbar__button button button--wide notice-box' onClick={logOut}>Log out</button>
-      <small> alpha v.0.0.1</small>
       <img className='topbar__image' src="./assets/images/sc_logo.png" width={64} height={43} />
       <span>powered by</span>
     </div>
   </div>
 }
 
-let Login = ({dispatch, message}) => {
-  let username, password
-
-  return <div className='login'>
-    <div className='notice'>{message}</div>
-    <form className='form--login' onSubmit={e => {
-      e.preventDefault()
-      if (!username.value.trim()) {
-        return
-      }
-      store.dispatch(fetchLogin(username.value, password.value))
-    }}>
-    <input className="input input--sub" placeholder="User name" ref={node => {
-      username = node
-    }} />
-    <input type='password' className="input input--sub" placeholder="Password" ref={node => {
-      password = node
-    }} />
-    <button type="submit" className="button button--sub button--wide">Login</button>
-    </form>
-    <button className="button button--wide notice-box" onClick={() => store.dispatch(fetchLogin('demo', 'demo123'))}>See a live demo</button>
-  </div>
-}
 
 //store.dispatch(fetchLogin())
 
@@ -92,7 +68,7 @@ const AllSongsList = ({songs, message, is_authenticating, authenticated, is_fetc
     else
       return <h1>Authenticating...</h1>
   else
-    return <Login message={message}/>
+    return <LoginContainer message={message}/> 
 };
 
 const Main = () => {
