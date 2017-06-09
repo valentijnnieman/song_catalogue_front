@@ -7322,8 +7322,8 @@ function fetchSongs(token) {
     dispatch(requestSongs());
     console.log("auth: ", 'Bearer ' + token);
 
-    return (0, _isomorphicFetch2.default)('https://song-catalogue-api.herokuapp.com/auth/artist/1', {
-      //return fetch('http://localhost:8080/auth/artist/1', {
+    //return fetch('https://song-catalogue-api.herokuapp.com/auth/artist/1', {
+    return (0, _isomorphicFetch2.default)('http://localhost:8080/auth/artist/1', {
       headers: {
         'Authorization': 'Bearer ' + token,
         'Content-Type': 'application/json'
@@ -7343,8 +7343,8 @@ function fetchLogin(username, password) {
   return function (dispatch) {
     dispatch(requestLogin());
 
-    return (0, _isomorphicFetch2.default)('https://song-catalogue-api.herokuapp.com/login', {
-      //return fetch('http://localhost:8080/login', {
+    //return fetch('https://song-catalogue-api.herokuapp.com/login', {
+    return (0, _isomorphicFetch2.default)('http://localhost:8080/login', {
       method: "POST",
       body: JSON.stringify({
         username: username,

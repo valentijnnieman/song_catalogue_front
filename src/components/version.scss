@@ -59,12 +59,13 @@
 }
 
 .audio_progress {
-  background-color: #444444;
+  border-bottom: 1px solid #444444;
   width: 94%;
-  float: right;
-  height: 32px;
+  height: 16px;
+  display: inline-block;
+  margin-left: 16px;
 }
 .audio_progress__inner {
   height: 32px;
-  background-color: gold;
+  border-right: 1px solid gold;
 }
