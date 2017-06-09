@@ -9,7 +9,6 @@ export function fetchSongs(token) {
   return function (dispatch) {
     console.log('fetchSongs!')
     dispatch(requestSongs())
-    console.log("auth: ", 'Bearer ' + token)
 
     return fetch('https://song-catalogue-api.herokuapp.com/auth/artist/1', {
     //return fetch('http://localhost:8080/auth/artist/1', {
