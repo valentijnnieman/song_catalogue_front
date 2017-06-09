@@ -23,16 +23,24 @@ let Version = ({dispatch, version_id, version, song_id}) => {
       <div className='version'>
         <form onSubmit={e => {
           e.preventDefault()
-          console.log(edited_version)
           dispatch(editVersion(song_id, version_id, Object.assign({}, version, edited_version)))
         }}>
           <div className='version__section version__section--full'>
             <h6>title</h6>
-            <input className='version__input' defaultValue={version.title} onChange={e => {edited_version.title = e.target.value}} />
+            <input className='version__input' 
+              defaultValue={version.title} 
+              onChange={e => {edited_version.title = e.target.value}} 
+            />
           </div>
           <div className='version__section version__section--full'>
-            <h6>recording {version.recording}</h6>
-            <SoundPlayerContainer resolveUrl={version.recording} clientId={clientId}>
+            <h6>recording</h6>
+            <input className='version__input'
+              defaultValue={version.recording}
+              onChange={e => {edited_version.recording = e.target.value}}
+            />
+            <SoundPlayerContainer 
+              resolveUrl={version.recording} 
+              clientId={clientId}>
               <PlayButton
                 className='version__play'
               />
@@ -44,16 +52,25 @@ let Version = ({dispatch, version_id, version, song_id}) => {
           </div>
           <div className='version__section version__section--full'>
             <h6>notes</h6>
-            <textarea className='version__input version__input--textarea' defaultValue={version.notes} onChange={e => {edited_version.notes = e.target.value}}></textarea>
+            <textarea className='version__input version__input--textarea' 
+              defaultValue={version.notes} 
+              onChange={e => {edited_version.notes = e.target.value}}>
+            </textarea>
           </div>
           <div className='version__section version__section--full'>
             <h6>lyrics</h6>
-            <textarea className='version__input version__input--textarea' defaultValue={version.lyrics} onChange={e => {edited_version.lyrics = e.target.value}}></textarea>
+            <textarea className='version__input version__input--textarea' 
+              defaultValue={version.lyrics} 
+              onChange={e => {edited_version.lyrics = e.target.value}}>
+            </textarea>
           </div>
           <input type='submit' className='hidden'/>
           <Modal label='-' sub={true}>
             <h3 className='modal-label'>Really remove this version?</h3>
-            <button className='button button--wide' onClick={() => dispatch(removeVersion(song_id, version_id))}>Remove Version</button>
+            <button className='button button--wide' 
+              onClick={() => dispatch(removeVersion(song_id, version_id))}>
+              Remove Version
+            </button>
           </Modal>
         </form>
       </div>
