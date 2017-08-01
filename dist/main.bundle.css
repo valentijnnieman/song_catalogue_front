@@ -277,7 +277,8 @@ form {
   color: black; }
 body {
   font-family: 'Roboto';
-  margin: 0px; }
+  margin: 0px;
+  background-color: #fafcff; }
 
 #root {
   max-width: 60rem;
