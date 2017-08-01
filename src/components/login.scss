@@ -30,6 +30,13 @@ form {
       cursor: pointer;
     }
   }
+  &__title {
+    text-align: center;
+  }
+  &__subtitle {
+    text-align: center;
+    margin-bottom: 128px;
+  }
 }
 .notice-box {
   background-color: gold;

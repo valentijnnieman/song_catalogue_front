@@ -22,20 +22,24 @@ class LoginContainer extends React.Component {
         tabElement = <Register message={this.props.message} />
         break
     }
-      return <div className='home'>
-        <nav>
-          <Tab 
-            label="Login" 
-            thisTab='login' 
-            currentTab={this.state.currentTab} clickHandler={this.clickTab} 
-          />
-          <Tab 
-            label="Register" 
-            thisTab='register' 
-            currentTab={this.state.currentTab} clickHandler={this.clickTab} 
-          />
-        </nav>
-        {tabElement}
+      return <div className='home-container'>
+        <h1 className='home__title'>A song-writer's companion</h1>
+        <p className='home__subtitle'>Catalogue the songs that you are writing and get insights on each iteration of the song you're writing</p>
+        <div className='home'>
+          <nav>
+            <Tab 
+              label="Login" 
+              thisTab='login' 
+              currentTab={this.state.currentTab} clickHandler={this.clickTab} 
+            />
+            <Tab 
+              label="Register" 
+              thisTab='register' 
+              currentTab={this.state.currentTab} clickHandler={this.clickTab} 
+            />
+          </nav>
+          {tabElement}
+        </div>
       </div>
   }
 }
