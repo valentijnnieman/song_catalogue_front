@@ -2,7 +2,6 @@
 body {
   font-family: 'Roboto';
   margin: 0px;
-  background-color: aliceblue;
 }
 #root {
   max-width: 60rem;
@@ -10,6 +9,7 @@ body {
   padding: 0px;
   min-height: 100vh;
   background-color: white;
+  box-shadow: 1px 1px 10px 2px lightgrey;
 }
 .topbar {
   background-color: #444444;
