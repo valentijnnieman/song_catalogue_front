@@ -3,7 +3,7 @@ import Accordion from './accordion.js';
 import Modal from './modal.js';
 import Version from './version.js';
 import {addVersion} from '../actions/versions.js'
-import {addSong} from '../actions/songs.js'
+import {createSong} from '../actions/songs.js'
 import {removeSong} from '../actions/songs.js'
 import { connect } from 'react-redux'
 import './song.scss'
@@ -37,7 +37,7 @@ let Song = ({dispatch, song_id, song}) => {
   </Accordion>
 };
 
-let AddSong= ({ dispatch }) => {
+let AddSong= ({ token, dispatch }) => {
   let input
 
   return (
@@ -48,7 +48,7 @@ let AddSong= ({ dispatch }) => {
 					if (!input.value.trim()) {
 						return
 					}
-					dispatch(addSong(input.value))
+					dispatch(createSong(token, 1, input.value))
 					input.value = ''
           this.props.reveal_content()
 				}}>

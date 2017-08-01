@@ -28,7 +28,8 @@ const mapStateToProps = (state) => {
     is_fetching: state.is_fetching,
     invalidate: state.invalidate,
     message: state.message,
-    songs: state.songs
+    songs: state.songs,
+    token: state.token
   }
 }
 
@@ -50,7 +51,7 @@ let Topbar = () => {
 
 //store.dispatch(fetchLogin())
 
-const AllSongsList = ({songs, message, is_authenticating, authenticated, is_fetching}) => {
+const AllSongsList = ({token, songs, message, is_authenticating, authenticated, is_fetching}) => {
   if(is_authenticating || authenticated)
     if(authenticated)
       if(is_fetching)
@@ -59,7 +60,7 @@ const AllSongsList = ({songs, message, is_authenticating, authenticated, is_fetc
         if(typeof(songs) !== 'undefined') 
           return <div className='songlist'>
               <SongList songs={songs} />
-              <AddSong />
+              <AddSong token={token}/>
             </div>
         else
           return <div>
