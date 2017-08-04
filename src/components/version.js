@@ -1,8 +1,8 @@
 import React from 'react';
 import Accordion from './accordion.js';
 import Modal from './modal.js';
-import {editVersion} from '../actions/versions.js'
-import {removeVersion} from '../actions/versions.js'
+import {updateVersion} from '../actions/versions.js'
+import {deleteVersion} from '../actions/versions.js'
 import { connect } from 'react-redux'
 
 import { PlayButton, Progress, Icons } from 'react-soundplayer/components';
@@ -14,16 +14,16 @@ import './version.scss'
 const { SoundCloudLogoSVG } = Icons;
 const clientId = 'I49FIxeHiQfMWdhxi0pI7MjiV210nFx6';
 
-let Version = ({dispatch, version_id, version, song_id}) => {
+let Version = ({dispatch, token, version_index, version, song_index, song_id}) => {
   let edited_version = Object.assign({}, version)
   const play_audio = () => {
     console.log("playing audio!")
   }
   return <Accordion sub={true} title={version.title}>
       <div className='version'>
-        <form onSubmit={e => {
+        <form onChange={e => {
           e.preventDefault()
-          dispatch(editVersion(song_id, version_id, Object.assign({}, version, edited_version)))
+          dispatch(updateVersion(token, song_index, song_id, version_index, Object.assign({}, version, edited_version)))
         }}>
           <div className='version__section version__section--full'>
             <h6>title</h6>
@@ -68,7 +68,7 @@ let Version = ({dispatch, version_id, version, song_id}) => {
           <Modal label='-' sub={true}>
             <h3 className='modal-label'>Really remove this version?</h3>
             <button className='button button--wide' 
-              onClick={() => dispatch(removeVersion(song_id, version_id))}>
+              onClick={() => dispatch(deleteVersion(token, song_index, song_id, version_index, version.ID))}>
               Remove Version
             </button>
           </Modal>

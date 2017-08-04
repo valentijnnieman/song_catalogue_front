@@ -5134,9 +5134,12 @@ module.exports = canDefineProperty;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.removeSong = exports.editSong = exports.addSong = exports.recieveSongs = exports.requestSongs = exports.failedLogin = exports.recieveLogin = exports.requestLogin = undefined;
-exports.fetchSongs = fetchSongs;
+exports.removeSong = exports.editSong = exports.addSong = exports.recieveSongs = exports.requestSongs = exports.recieveArtist = exports.failedLogin = exports.recieveLogin = exports.requestLogin = undefined;
+exports.createSong = createSong;
+exports.deleteSong = deleteSong;
 exports.fetchLogin = fetchLogin;
+exports.fetchArtist = fetchArtist;
+exports.fetchSongs = fetchSongs;
 
 var _isomorphicFetch = __webpack_require__(134);
 
@@ -5152,13 +5155,97 @@ var next_id = 2;
 // TO-DO: get correct id --^
 //
 
-function fetchSongs(token) {
+function createSong(token, artist_id, title) {
   return function (dispatch) {
-    console.log('fetchSongs!');
+    return (0, _isomorphicFetch2.default)('http://localhost:8080/auth/artist/' + artist_id + '/song/create', {
+      method: "POST",
+      body: JSON.stringify({
+        artist_id: artist_id,
+        title: title,
+        versions: []
+      }),
+      headers: {
+        'Authorization': 'Bearer ' + token
+      }
+    }).then(function (response) {
+      if (response.ok) {
+        response.json().then(function (json) {
+          console.log("hey! listen! ", json.song);
+          _store2.default.dispatch(addSong(json.song));
+        });
+      } else {
+        console.log("ERROR! Couldn't create song!");
+      }
+    });
+  };
+}
+function deleteSong(token, artist_id, song_index, song_id) {
+  return function (dispatch) {
+    console.log("HEARD", token);
+    return (0, _isomorphicFetch2.default)('http://localhost:8080/auth/artist/' + artist_id + '/song/' + song_id + '/delete', {
+      method: "DELETE",
+      headers: {
+        'Authorization': 'Bearer ' + token
+      }
+    }).then(function (response) {
+      if (response.ok) {
+        response.json().then(function (json) {
+          _store2.default.dispatch(removeSong(song_index));
+        });
+      } else {
+        console.log("ERROR! Couldn't delete song!");
+      }
+    });
+  };
+}
+function fetchLogin(username, password) {
+  return function (dispatch) {
+    dispatch(requestLogin());
+
+    //return fetch('https://song-catalogue-api.herokuapp.com/login', {
+    return (0, _isomorphicFetch2.default)('http://localhost:8080/login', {
+      method: "POST",
+      body: JSON.stringify({
+        username: username,
+        password: password
+      })
+    }).then(function (response) {
+      console.log("response", response);
+      if (response.ok) {
+        response.json().then(function (json) {
+          console.log("json", json);
+          // eep!
+          _store2.default.dispatch(recieveLogin(json.token));
+          _store2.default.dispatch(fetchArtist(json.token, 1));
+        });
+      } else {
+        console.log("can't log in!");
+        _store2.default.dispatch(failedLogin("Incorrect username or password"));
+      }
+    });
+  };
+}function fetchArtist(token, artist_id) {
+  return function (dispatch) {
+    //return fetch('https://song-catalogue-api.herokuapp.com/auth/artist/1', {
+    return (0, _isomorphicFetch2.default)('http://localhost:8080/auth/artist/' + artist_id, {
+      headers: {
+        'Authorization': 'Bearer ' + token,
+        'Content-Type': 'application/json'
+      }
+    }).then(function (response) {
+      return response.json();
+    }).then(function (json) {
+      _store2.default.dispatch(recieveArtist(json.artist));
+      _store2.default.dispatch(fetchSongs(token, artist_id));
+    });
+  };
+}
+function fetchSongs(token, artist_id) {
+  return function (dispatch) {
     dispatch(requestSongs());
 
-    return (0, _isomorphicFetch2.default)('https://song-catalogue-api.herokuapp.com/auth/artist/1', {
-      //return fetch('http://localhost:8080/auth/artist/1', {
+    //return fetch('https://song-catalogue-api.herokuapp.com/auth/artist/1', {
+    return (0, _isomorphicFetch2.default)('http://localhost:8080/auth/artist/' + artist_id + '/songs', {
       headers: {
         'Authorization': 'Bearer ' + token,
         'Content-Type': 'application/json'
@@ -5174,33 +5261,6 @@ function fetchSongs(token) {
   };
 }
 
-function fetchLogin(username, password) {
-  return function (dispatch) {
-    dispatch(requestLogin());
-
-    return (0, _isomorphicFetch2.default)('https://song-catalogue-api.herokuapp.com/login', {
-      //return fetch('http://localhost:8080/login', {
-      method: "POST",
-      body: JSON.stringify({
-        username: username,
-        password: password
-      })
-    }).then(function (response) {
-      console.log("response", response);
-      if (response.ok) {
-        response.json().then(function (json) {
-          console.log("json", json);
-          // eep!
-          _store2.default.dispatch(recieveLogin(json.token));
-          _store2.default.dispatch(fetchSongs(json.token));
-        });
-      } else {
-        console.log("can't log in!");
-        _store2.default.dispatch(failedLogin("Incorrect username or password"));
-      }
-    });
-  };
-}
 var requestLogin = exports.requestLogin = function requestLogin() {
   return {
     type: 'REQUEST_LOGIN'
@@ -5220,6 +5280,12 @@ var failedLogin = exports.failedLogin = function failedLogin(message) {
     message: message
   };
 };
+var recieveArtist = exports.recieveArtist = function recieveArtist(artist) {
+  return {
+    type: 'RECIEVE_ARTIST',
+    artist: artist
+  };
+};
 var requestSongs = exports.requestSongs = function requestSongs() {
   return {
     type: 'REQUEST_SONGS'
@@ -5233,19 +5299,10 @@ var recieveSongs = exports.recieveSongs = function recieveSongs(songs) {
     songs: songs
   };
 };
-var addSong = exports.addSong = function addSong(title) {
+var addSong = exports.addSong = function addSong(song) {
   return {
     type: 'ADD_SONG',
-    id: next_id++,
-    title: title,
-    versions: [{
-      "id": 0,
-      "title": "Version #1 (new)",
-      "created_at": "14 march, 2017",
-      "recording": "file.mp3",
-      "notes": "Add notes here",
-      "lyrics": "Add lyrics here"
-    }]
+    song: song
   };
 };
 var editSong = exports.editSong = function editSong(song, song_id) {
@@ -7495,34 +7552,99 @@ exports['default'] = thunk;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-var addVersion = exports.addVersion = function addVersion(song_id, version_id, title) {
+exports.createVersion = createVersion;
+exports.updateVersion = updateVersion;
+exports.deleteVersion = deleteVersion;
+function createVersion(token, song_index, song_id, version_id, version_title) {
+  return function (dispatch) {
+    return fetch("http://localhost:8080/auth/song/" + song_id + "/version/create", {
+      method: "POST",
+      body: JSON.stringify({
+        title: version_title,
+        "recording": "file.mp3",
+        "notes": "Add notes here",
+        "lyrics": "Add lyrics here",
+        "song_id": song_id
+      }),
+      headers: {
+        'Authorization': 'Bearer ' + token
+      }
+    }).then(function (response) {
+      if (response.ok) {
+        response.json().then(function (json) {
+          dispatch(addVersion(song_index, json.version));
+        });
+      } else {
+        console.log("ERROR! Couldn't create version!");
+      }
+    });
+  };
+}
+function updateVersion(token, song_index, song_id, version_index, version) {
+  return function (dispatch) {
+    return fetch("http://localhost:8080/auth/song/" + song_id + "/version/" + version.ID + "/update", {
+      method: "PATCH",
+      body: JSON.stringify({
+        title: version.title,
+        "recording": version.recording,
+        "notes": version.notes,
+        "lyrics": version.lyrics,
+        "song_id": song_id
+      }),
+      headers: {
+        'Authorization': 'Bearer ' + token
+      }
+    }).then(function (response) {
+      if (response.ok) {
+        response.json().then(function (json) {
+          dispatch(editVersion(song_index, version_index, json.version));
+        });
+      } else {
+        console.log("ERROR! Couldn't create version!");
+      }
+    });
+  };
+}
+function deleteVersion(token, song_index, song_id, version_index, version_id) {
+  return function (dispatch) {
+    return fetch("http://localhost:8080/auth/song/" + song_id + "/version/" + version_id + "/delete", {
+      method: "DELETE",
+      headers: {
+        'Authorization': 'Bearer ' + token
+      }
+    }).then(function (response) {
+      if (response.ok) {
+        response.json().then(function (json) {
+          dispatch(removeVersion(song_index, version_index));
+        });
+      } else {
+        console.log("ERROR! Couldn't delete song!");
+      }
+    });
+  };
+}
+
+var addVersion = exports.addVersion = function addVersion(song_index, version) {
   return {
     type: 'ADD_VERSION',
-    song_id: song_id,
-    version: {
-      "id": version_id,
-      "title": title,
-      "created_at": "14 march, 2017",
-      "recording": "file.mp3",
-      "notes": "Add notes here",
-      "lyrics": "Add lyrics here"
-    }
+    song_index: song_index,
+    version: version
   };
 };
-var editVersion = exports.editVersion = function editVersion(song_id, version_id, version) {
+var editVersion = exports.editVersion = function editVersion(song_index, version_index, version) {
   return {
     type: 'EDIT_VERSION',
-    song_id: song_id,
-    version_id: version_id,
+    song_index: song_index,
+    version_index: version_index,
     version: version
   };
 };
 
-var removeVersion = exports.removeVersion = function removeVersion(song_id, version_id) {
+var removeVersion = exports.removeVersion = function removeVersion(song_index, version_index) {
   return {
     type: 'REMOVE_VERSION',
-    song_id: song_id,
-    version_id: version_id
+    song_index: song_index,
+    version_index: version_index
   };
 };
 
@@ -11929,22 +12051,36 @@ var LoginContainer = function (_React$Component) {
       }
       return _react2.default.createElement(
         'div',
-        { className: 'home' },
+        { className: 'home-container' },
         _react2.default.createElement(
-          'nav',
-          null,
-          _react2.default.createElement(Tab, {
-            label: 'Login',
-            thisTab: 'login',
-            currentTab: this.state.currentTab, clickHandler: this.clickTab
-          }),
-          _react2.default.createElement(Tab, {
-            label: 'Register',
-            thisTab: 'register',
-            currentTab: this.state.currentTab, clickHandler: this.clickTab
-          })
+          'h1',
+          { className: 'home__title' },
+          'A song-writer\'s companion'
         ),
-        tabElement
+        _react2.default.createElement(
+          'p',
+          { className: 'home__subtitle' },
+          'Catalogue the songs that you are writing and get insights on each iteration of the song you\'re writing'
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: 'home' },
+          _react2.default.createElement(
+            'nav',
+            null,
+            _react2.default.createElement(Tab, {
+              label: 'Login',
+              thisTab: 'login',
+              currentTab: this.state.currentTab, clickHandler: this.clickTab
+            }),
+            _react2.default.createElement(Tab, {
+              label: 'Register',
+              thisTab: 'register',
+              currentTab: this.state.currentTab, clickHandler: this.clickTab
+            })
+          ),
+          tabElement
+        )
       );
     }
   }]);
@@ -12102,14 +12238,24 @@ __webpack_require__(116);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Song = function Song(_ref) {
-	var dispatch = _ref.dispatch,
-	    song_id = _ref.song_id,
+	var token = _ref.token,
+	    dispatch = _ref.dispatch,
+	    artist_id = _ref.artist_id,
+	    song_index = _ref.song_index,
 	    song = _ref.song;
 
 	var input = void 0;
-	var versions = song.versions.map(function (version, index) {
-		return _react2.default.createElement(_version2.default, { key: index, version_id: index, version: version, song_id: song_id });
-	});
+	var versions = void 0;
+	if (song.versions != null && song.versions.length > 0) {
+		versions = song.versions.map(function (version, index) {
+			return _react2.default.createElement(_version2.default, { key: index,
+				token: token,
+				version_index: index,
+				version: version,
+				song_index: song_index,
+				song_id: song.ID });
+		});
+	}
 	return _react2.default.createElement(
 		_accordion2.default,
 		{ title: song.title },
@@ -12125,7 +12271,7 @@ var Song = function Song(_ref) {
 			_react2.default.createElement(
 				'button',
 				{ className: 'button button--wide', onClick: function onClick() {
-						return dispatch((0, _songs.removeSong)(song_id));
+						return dispatch((0, _songs.deleteSong)(token, artist_id, song_index, song.ID));
 					} },
 				'Remove Song'
 			)
@@ -12145,7 +12291,7 @@ var Song = function Song(_ref) {
 						if (!input.value.trim()) {
 							return;
 						}
-						dispatch((0, _versions.addVersion)(song_id, song.versions.length, input.value));
+						dispatch((0, _versions.createVersion)(token, song_index, song.ID, song.versions.length, input.value));
 					} },
 				_react2.default.createElement('input', { className: 'input input--modal input--sub', placeholder: 'Enter version title...', ref: function ref(node) {
 						input = node;
@@ -12161,7 +12307,9 @@ var Song = function Song(_ref) {
 };
 
 var AddSong = function AddSong(_ref2) {
-	var dispatch = _ref2.dispatch;
+	var token = _ref2.token,
+	    artist_id = _ref2.artist_id,
+	    dispatch = _ref2.dispatch;
 
 	var input = void 0;
 
@@ -12171,7 +12319,8 @@ var AddSong = function AddSong(_ref2) {
 		_react2.default.createElement(
 			'h3',
 			{ className: 'modal-label' },
-			'Add new song'
+			'Add new song ',
+			artist_id
 		),
 		_react2.default.createElement(
 			'form',
@@ -12180,7 +12329,7 @@ var AddSong = function AddSong(_ref2) {
 					if (!input.value.trim()) {
 						return;
 					}
-					dispatch((0, _songs.addSong)(input.value));
+					dispatch((0, _songs.createSong)(token, artist_id, input.value));
 					input.value = '';
 					undefined.props.reveal_content();
 				} },
@@ -12261,8 +12410,10 @@ var clientId = 'I49FIxeHiQfMWdhxi0pI7MjiV210nFx6';
 
 var Version = function Version(_ref) {
   var dispatch = _ref.dispatch,
-      version_id = _ref.version_id,
+      token = _ref.token,
+      version_index = _ref.version_index,
       version = _ref.version,
+      song_index = _ref.song_index,
       song_id = _ref.song_id;
 
   var edited_version = Object.assign({}, version);
@@ -12277,9 +12428,9 @@ var Version = function Version(_ref) {
       { className: 'version' },
       _react2.default.createElement(
         'form',
-        { onSubmit: function onSubmit(e) {
+        { onChange: function onChange(e) {
             e.preventDefault();
-            dispatch((0, _versions.editVersion)(song_id, version_id, Object.assign({}, version, edited_version)));
+            dispatch((0, _versions.updateVersion)(token, song_index, song_id, version_index, Object.assign({}, version, edited_version)));
           } },
         _react2.default.createElement(
           'div',
@@ -12365,7 +12516,7 @@ var Version = function Version(_ref) {
             'button',
             { className: 'button button--wide',
               onClick: function onClick() {
-                return dispatch((0, _versions.removeVersion)(song_id, version_id));
+                return dispatch((0, _versions.deleteVersion)(token, song_index, song_id, version_index, version.ID));
               } },
             'Remove Version'
           )
@@ -12458,11 +12609,13 @@ __webpack_require__(107);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var SongList = function SongList(_ref) {
-  var songs = _ref.songs;
+  var token = _ref.token,
+      artist_id = _ref.artist_id,
+      songs = _ref.songs;
 
   console.log("SongList.songs: ", songs);
   var list_songs = songs.map(function (song, index) {
-    return _react2.default.createElement(_song.Song, { key: index, song_id: index, song: song });
+    return _react2.default.createElement(_song.Song, { key: index, token: token, artist_id: artist_id, song_index: index, song: song });
   });
   return _react2.default.createElement(
     'div',
@@ -12479,7 +12632,9 @@ var mapStateToProps = function mapStateToProps(state) {
     is_fetching: state.is_fetching,
     invalidate: state.invalidate,
     message: state.message,
-    songs: state.songs
+    artist_id: state.artist_id,
+    songs: state.songs,
+    token: state.token
   };
 };
 
@@ -12517,7 +12672,9 @@ var Topbar = function Topbar() {
 //store.dispatch(fetchLogin())
 
 var AllSongsList = function AllSongsList(_ref2) {
-  var songs = _ref2.songs,
+  var token = _ref2.token,
+      artist_id = _ref2.artist_id,
+      songs = _ref2.songs,
       message = _ref2.message,
       is_authenticating = _ref2.is_authenticating,
       authenticated = _ref2.authenticated,
@@ -12532,8 +12689,8 @@ var AllSongsList = function AllSongsList(_ref2) {
       );else if (typeof songs !== 'undefined') return _react2.default.createElement(
         'div',
         { className: 'songlist' },
-        _react2.default.createElement(SongList, { songs: songs }),
-        _react2.default.createElement(_song.AddSong, null)
+        _react2.default.createElement(SongList, { token: token, artist_id: artist_id, songs: songs }),
+        _react2.default.createElement(_song.AddSong, { token: token, artist_id: artist_id })
       );else return _react2.default.createElement(
         'div',
         null,
@@ -12600,6 +12757,7 @@ var default_state = {
   token: null,
   authenticated: false,
   message: null,
+  artist_id: null,
   songs: []
 };
 
@@ -12628,13 +12786,16 @@ var songs = function songs() {
       return _extends({}, state, { is_authenticating: false, authenticated: true, token: action.token });
     case 'FAILED_LOGIN':
       return _extends({}, state, { is_authenticating: false, authenticated: false, message: action.message });
+    case 'RECIEVE_ARTIST':
+      return _extends({}, state, { artist_id: action.artist.ID });
     case 'REQUEST_SONGS':
       return _extends({}, state, { is_fetching: true, invalidate: false });
     case 'RECIEVE_SONGS':
       return _extends({}, state, { is_fetching: false, invalidate: false, songs: action.songs });
     case 'ADD_SONG':
+      console.log('actionnnnn ', action.song);
       return _extends({}, state, {
-        songs: [].concat(_toConsumableArray(state.songs), [song(undefined, action)])
+        songs: [].concat(_toConsumableArray(state.songs), [action.song])
       });
     case 'EDIT_SONG':
       return _extends({}, state, {
@@ -12650,7 +12811,7 @@ var songs = function songs() {
       });
     case 'ADD_VERSION':
       return _extends({}, state, { songs: state.songs.map(function (song, index) {
-          if (action.song_id === index) {
+          if (action.song_index === index) {
             return _extends({}, song, { versions: [].concat(_toConsumableArray(song.versions), [action.version])
             });
           }
@@ -12659,9 +12820,9 @@ var songs = function songs() {
       });
     case 'EDIT_VERSION':
       return _extends({}, state, { songs: state.songs.map(function (song, index) {
-          if (action.song_id === index) {
+          if (action.song_index === index) {
             return _extends({}, song, { versions: song.versions.map(function (version, index) {
-                if (action.version_id === index) return action.version;
+                if (action.version_index === index) return action.version;
                 return version;
               })
             });
@@ -12671,8 +12832,8 @@ var songs = function songs() {
       });
     case 'REMOVE_VERSION':
       return _extends({}, state, { songs: state.songs.map(function (song, index) {
-          if (action.song_id === index) {
-            return _extends({}, song, { versions: [].concat(_toConsumableArray(song.versions.slice(0, action.version_id)), _toConsumableArray(song.versions.slice(action.version_id + 1)))
+          if (action.song_index === index) {
+            return _extends({}, song, { versions: [].concat(_toConsumableArray(song.versions.slice(0, action.version_index)), _toConsumableArray(song.versions.slice(action.version_index + 1)))
             });
           }
           return song;

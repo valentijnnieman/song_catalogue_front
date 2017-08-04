@@ -10,10 +10,10 @@ import store from './store.js';
 import {fetchSongs} from './actions/songs.js'
 import './main.scss'
 
-const SongList = ({songs}) => {
+const SongList = ({token, artist_id, songs}) => {
   console.log("SongList.songs: ", songs)
   let list_songs = songs.map((song, index) =>
-    <Song key={index} song_id={index} song={song}></Song>
+    <Song key={index} token={token} artist_id={artist_id} song_index={index} song={song}></Song>
   );
   return <div>
     {list_songs} 
@@ -28,6 +28,7 @@ const mapStateToProps = (state) => {
     is_fetching: state.is_fetching,
     invalidate: state.invalidate,
     message: state.message,
+    artist_id: state.artist_id,
     songs: state.songs,
     token: state.token
   }
@@ -51,7 +52,7 @@ let Topbar = () => {
 
 //store.dispatch(fetchLogin())
 
-const AllSongsList = ({token, songs, message, is_authenticating, authenticated, is_fetching}) => {
+const AllSongsList = ({token, artist_id, songs, message, is_authenticating, authenticated, is_fetching}) => {
   if(is_authenticating || authenticated)
     if(authenticated)
       if(is_fetching)
@@ -59,8 +60,8 @@ const AllSongsList = ({token, songs, message, is_authenticating, authenticated, 
       else
         if(typeof(songs) !== 'undefined') 
           return <div className='songlist'>
-              <SongList songs={songs} />
-              <AddSong token={token}/>
+              <SongList token={token} artist_id={artist_id} songs={songs} />
+              <AddSong token={token} artist_id={artist_id}/>
             </div>
         else
           return <div>

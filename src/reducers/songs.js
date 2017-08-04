@@ -7,6 +7,7 @@ let default_state = {
   token: null,
   authenticated: false,
   message: null,
+  artist_id: null,
   songs: []
 }
 
@@ -29,14 +30,17 @@ const songs = (state = default_state, action) => {
       return { ...state, is_authenticating: false, authenticated: true, token: action.token }
     case 'FAILED_LOGIN' :
       return { ...state, is_authenticating: false, authenticated: false, message: action.message }
+    case 'RECIEVE_ARTIST' :
+      return { ...state, artist_id: action.artist.ID }
     case 'REQUEST_SONGS':
       return { ...state, is_fetching: true, invalidate: false }
     case 'RECIEVE_SONGS':
       return { ...state, is_fetching: false, invalidate: false, songs: action.songs }
     case 'ADD_SONG':
+      console.log('actionnnnn ', action.song)
       return {
         ...state,
-        songs: [ ...state.songs, song(undefined, action) ]
+        songs: [ ...state.songs, action.song ]
       }
     case 'EDIT_SONG':
       return { 
@@ -56,7 +60,7 @@ const songs = (state = default_state, action) => {
       }
     case 'ADD_VERSION':
       return { ...state, songs: state.songs.map((song, index) => {
-        if(action.song_id === index) {
+        if(action.song_index === index) {
           return { ...song, versions: [
               ...song.versions,
               action.version
@@ -68,9 +72,9 @@ const songs = (state = default_state, action) => {
       }
     case 'EDIT_VERSION':
       return { ...state, songs: state.songs.map((song, index) => {
-        if(action.song_id === index) {
+        if(action.song_index === index) {
           return { ...song, versions: song.versions.map((version, index) => {
-              if(action.version_id === index) return action.version
+              if(action.version_index === index) return action.version
               return version
             })
           }
@@ -80,10 +84,10 @@ const songs = (state = default_state, action) => {
       }
     case 'REMOVE_VERSION':
       return { ...state, songs: state.songs.map((song, index) => {
-        if(action.song_id === index) {
+        if(action.song_index === index) {
           return { ...song, versions: [
-              ...song.versions.slice(0, action.version_id),
-              ...song.versions.slice(action.version_id + 1) 
+              ...song.versions.slice(0, action.version_index),
+              ...song.versions.slice(action.version_index + 1) 
             ]
           }
         }

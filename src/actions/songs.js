@@ -7,25 +7,23 @@ let next_id = 2
 
 export function createSong(token, artist_id, title) {
   return function (dispatch) {
-    console.log('token: ', token)
     return fetch(`http://localhost:8080/auth/artist/${artist_id}/song/create`, {
       method: "POST",
       body: JSON.stringify({
         artist_id: artist_id,
-        title: title
+        title: title,
+        versions: []
       }),
       headers: {
         'Authorization': 'Bearer ' + token
       }
     })
     .then(response => {
-      console.log("response", response)
       if(response.ok) {
         response.json()
         .then(json => { 
-          console.log("json", json)
-          // eep!
-          store.dispatch(addSong(title))
+          console.log("hey! listen! ", json.song)
+          store.dispatch(addSong(json.song))
         })
       }
       else { 
@@ -34,31 +32,28 @@ export function createSong(token, artist_id, title) {
     })
   }
 }
-
-export function fetchSongs(token) {
+export function deleteSong(token, artist_id, song_index, song_id) {
   return function (dispatch) {
-    console.log('fetchSongs!')
-    dispatch(requestSongs())
-
-    //return fetch('https://song-catalogue-api.herokuapp.com/auth/artist/1', {
-    return fetch('http://localhost:8080/auth/artist/1', {
-        headers: {
-          'Authorization': 'Bearer ' + token, 
-          'Content-Type': 'application/json'
-        }, 
-      })
-      .then(response => {
-        console.log("response", response)
-        return response.json()
-      })
-      .then(json => { 
-        console.log("json", json)
-        // eep!
-        store.dispatch(recieveSongs(json.artist.songs))
-      })
+    console.log("HEARD", token)
+    return fetch(`http://localhost:8080/auth/artist/${artist_id}/song/${song_id}/delete`, {
+      method: "DELETE",
+      headers: {
+        'Authorization': 'Bearer ' + token
+      }
+    })
+    .then(response => {
+      if(response.ok) {
+        response.json()
+        .then(json => { 
+          store.dispatch(removeSong(song_index))
+        })
+      }
+      else { 
+        console.log("ERROR! Couldn't delete song!")  
+      }
+    })
   }
 }
-
 export function fetchLogin(username, password) {
   return function (dispatch) {
     dispatch(requestLogin())
@@ -79,7 +74,7 @@ export function fetchLogin(username, password) {
             console.log("json", json)
             // eep!
             store.dispatch(recieveLogin(json.token))
-            store.dispatch(fetchSongs(json.token))
+            store.dispatch(fetchArtist(json.token, 1))
           })
         }
         else { 
@@ -88,7 +83,48 @@ export function fetchLogin(username, password) {
         }
       })
   }
+}export function fetchArtist(token, artist_id) {
+  return function (dispatch) {
+    //return fetch('https://song-catalogue-api.herokuapp.com/auth/artist/1', {
+    return fetch(`http://localhost:8080/auth/artist/${artist_id}`, {
+        headers: {
+          'Authorization': 'Bearer ' + token, 
+          'Content-Type': 'application/json'
+        }, 
+      })
+      .then(response => {
+        return response.json()
+      })
+      .then(json => { 
+        store.dispatch(recieveArtist(json.artist))
+        store.dispatch(fetchSongs(token, artist_id))
+      })
+  }
 }
+export function fetchSongs(token, artist_id) {
+  return function (dispatch) {
+    dispatch(requestSongs())
+
+    //return fetch('https://song-catalogue-api.herokuapp.com/auth/artist/1', {
+    return fetch(`http://localhost:8080/auth/artist/${artist_id}/songs`, {
+        headers: {
+          'Authorization': 'Bearer ' + token, 
+          'Content-Type': 'application/json'
+        }, 
+      })
+      .then(response => {
+        console.log("response", response)
+        return response.json()
+      })
+      .then(json => { 
+        console.log("json", json)
+        // eep!
+        store.dispatch(recieveSongs(json.artist.songs))
+      })
+  }
+}
+
+
 export const requestLogin= () => {
   return { 
     type: 'REQUEST_LOGIN'
@@ -108,6 +144,12 @@ export const failedLogin= (message) => {
     message: message
   }
 }
+export const recieveArtist = (artist) => {
+  return {
+    type: 'RECIEVE_ARTIST',
+    artist: artist  
+  }
+}
 export const requestSongs = () => {
   return { 
     type: 'REQUEST_SONGS'
@@ -121,19 +163,10 @@ export const recieveSongs = (songs) => {
     songs: songs
   }
 }
-export const addSong = (title) => {
+export const addSong = (song) => {
   return {
     type: 'ADD_SONG',
-    id: next_id++,
-    title,
-    versions: [{ 
-      "id": 0,
-      "title": "Version #1 (new)",
-      "created_at": "14 march, 2017",
-      "recording": "file.mp3",
-      "notes": "Add notes here",
-      "lyrics": "Add lyrics here"
-    }]
+    song: song
   }
 }
 export const editSong = (song, song_id) => {
