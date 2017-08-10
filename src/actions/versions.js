@@ -1,6 +1,6 @@
 export function createVersion(token, song_index, song_id, version_id, version_title) {
   return function (dispatch) {
-    return fetch(`http://localhost:8080/auth/song/${song_id}/version/create`, {
+    return fetch(`http://localhost:8080/auth/version/create`, {
       method: "POST",
       body: JSON.stringify({
         title: version_title,
@@ -28,7 +28,7 @@ export function createVersion(token, song_index, song_id, version_id, version_ti
 }
 export function updateVersion(token, song_index, song_id, version_index, version) {
   return function (dispatch) {
-    return fetch(`http://localhost:8080/auth/song/${song_id}/version/${version.ID}/update`, {
+    return fetch(`http://localhost:8080/auth/version/${version.ID}/update`, {
       method: "PATCH",
       body: JSON.stringify({
         title: version.title,
@@ -37,6 +37,32 @@ export function updateVersion(token, song_index, song_id, version_index, version
         "lyrics": version.lyrics,
         "song_id": song_id
       }),
+      headers: {
+        'Authorization': 'Bearer ' + token
+      }
+    })
+    .then(response => {
+      if(response.ok) {
+        response.json()
+        .then(json => { 
+          dispatch(editVersion(song_index, version_index, json.version))
+        })
+      }
+      else { 
+        console.log("ERROR! Couldn't create version!")  
+      }
+    })
+  }
+}
+export function updateRecording(token, song_index, song_id, version_index, version_id, file) {
+  return function (dispatch) {
+    var data = new FormData()
+    data.append('song_id', song_id)
+    data.append('version_id', version_id)
+    data.append('file', file)
+    return fetch(`http://localhost:8080/auth/version/recording`, {
+      method: "POST",
+      body: data,
       headers: {
         'Authorization': 'Bearer ' + token
       }

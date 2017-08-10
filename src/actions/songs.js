@@ -5,12 +5,11 @@ let next_id = 2
 // TO-DO: get correct id --^
 //
 
-export function createSong(token, artist_id, title) {
+export function createSong(token, title) {
   return function (dispatch) {
-    return fetch(`http://localhost:8080/auth/artist/${artist_id}/song/create`, {
+    return fetch(`http://localhost:8080/auth/song/create`, {
       method: "POST",
       body: JSON.stringify({
-        artist_id: artist_id,
         title: title,
         versions: []
       }),
@@ -32,10 +31,10 @@ export function createSong(token, artist_id, title) {
     })
   }
 }
-export function deleteSong(token, artist_id, song_index, song_id) {
+export function deleteSong(token, song_index, song_id) {
   return function (dispatch) {
     console.log("HEARD", token)
-    return fetch(`http://localhost:8080/auth/artist/${artist_id}/song/${song_id}/delete`, {
+    return fetch(`http://localhost:8080/auth/song/${song_id}/delete`, {
       method: "DELETE",
       headers: {
         'Authorization': 'Bearer ' + token
@@ -71,10 +70,10 @@ export function fetchLogin(username, password) {
         if(response.ok) {
           response.json()
           .then(json => { 
-            console.log("json", json)
+            console.log("login returns this json: ", json)
             // eep!
             store.dispatch(recieveLogin(json.token))
-            store.dispatch(fetchArtist(json.token, 1))
+            store.dispatch(fetchSongs(json.token, 1))
           })
         }
         else { 
@@ -83,30 +82,13 @@ export function fetchLogin(username, password) {
         }
       })
   }
-}export function fetchArtist(token, artist_id) {
-  return function (dispatch) {
-    //return fetch('https://song-catalogue-api.herokuapp.com/auth/artist/1', {
-    return fetch(`http://localhost:8080/auth/artist/${artist_id}`, {
-        headers: {
-          'Authorization': 'Bearer ' + token, 
-          'Content-Type': 'application/json'
-        }, 
-      })
-      .then(response => {
-        return response.json()
-      })
-      .then(json => { 
-        store.dispatch(recieveArtist(json.artist))
-        store.dispatch(fetchSongs(token, artist_id))
-      })
-  }
 }
-export function fetchSongs(token, artist_id) {
+export function fetchSongs(token) {
   return function (dispatch) {
     dispatch(requestSongs())
 
     //return fetch('https://song-catalogue-api.herokuapp.com/auth/artist/1', {
-    return fetch(`http://localhost:8080/auth/artist/${artist_id}/songs`, {
+    return fetch(`http://localhost:8080/auth/songs`, {
         headers: {
           'Authorization': 'Bearer ' + token, 
           'Content-Type': 'application/json'
@@ -119,7 +101,7 @@ export function fetchSongs(token, artist_id) {
       .then(json => { 
         console.log("json", json)
         // eep!
-        store.dispatch(recieveSongs(json.artist.songs))
+        store.dispatch(recieveSongs(json.songs))
       })
   }
 }
@@ -142,12 +124,6 @@ export const failedLogin= (message) => {
   return {
     type: 'FAILED_LOGIN',
     message: message
-  }
-}
-export const recieveArtist = (artist) => {
-  return {
-    type: 'RECIEVE_ARTIST',
-    artist: artist  
   }
 }
 export const requestSongs = () => {

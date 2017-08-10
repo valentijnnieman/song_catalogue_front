@@ -8,7 +8,7 @@ import {deleteSong} from '../actions/songs.js'
 import { connect } from 'react-redux'
 import './song.scss'
 
-let Song = ({token, dispatch, artist_id, song_index, song}) => {
+let Song = ({token, dispatch, song_index, song}) => {
   let input
   let versions
   if(song.versions != null && song.versions.length > 0) { 
@@ -25,7 +25,7 @@ let Song = ({token, dispatch, artist_id, song_index, song}) => {
     {versions}
 		<Modal label='-'>
       <h3 className='modal-label'>Really remove this song?</h3>
-      <button className='button button--wide' onClick={() => dispatch(deleteSong(token, artist_id, song_index, song.ID))}>Remove Song</button>
+      <button className='button button--wide' onClick={() => dispatch(deleteSong(token, song_index, song.ID))}>Remove Song</button>
     </Modal>
 		<Modal label='+' sub={true}>
       <h3 className='modal-label modal-label--sub'>Add new version</h3>
@@ -45,18 +45,18 @@ let Song = ({token, dispatch, artist_id, song_index, song}) => {
   </Accordion>
 };
 
-let AddSong= ({ token, artist_id, dispatch }) => {
+let AddSong= ({ token, dispatch }) => {
   let input
 
   return (
 		<Modal label='+'>
-			<h3 className='modal-label'>Add new song {artist_id}</h3>
+			<h3 className='modal-label'>Add new song</h3>
 				<form onSubmit={e => {
 					e.preventDefault()
 					if (!input.value.trim()) {
 						return
 					}
-					dispatch(createSong(token, artist_id, input.value))
+					dispatch(createSong(token, input.value))
 					input.value = ''
           this.props.reveal_content()
 				}}>

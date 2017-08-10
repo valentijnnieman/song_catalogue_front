@@ -105,6 +105,12 @@
   font-family: "Roboto";
   height: 200px; }
 
+.version__input--upload {
+  margin: 16px 0px; }
+
+.version__audio {
+  width: 100%; }
+
 .version__play {
   width: 32px;
   height: 32px;
@@ -240,6 +246,14 @@ button:focus {
 
 .button--sub {
   float: right; }
+
+.button--upload {
+  float: left;
+  margin-left: 0px;
+  margin-top: 0px;
+  margin-bottom: 24px;
+  padding: 10px 16px 0px;
+  height: 24px; }
 form {
   margin-bottom: 8px; }
 

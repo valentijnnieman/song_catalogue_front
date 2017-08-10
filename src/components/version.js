@@ -2,26 +2,33 @@ import React from 'react';
 import Accordion from './accordion.js';
 import Modal from './modal.js';
 import {updateVersion} from '../actions/versions.js'
+import {updateRecording} from '../actions/versions.js'
 import {deleteVersion} from '../actions/versions.js'
 import { connect } from 'react-redux'
 
-import { PlayButton, Progress, Icons } from 'react-soundplayer/components';
-import { SoundPlayerContainer } from 'react-soundplayer/addons';
-import { SoundCloudAudio } from 'soundcloud-audio';
+import Dropzone from 'react-dropzone'
 
 import './version.scss'
-
-const { SoundCloudLogoSVG } = Icons;
-const clientId = 'I49FIxeHiQfMWdhxi0pI7MjiV210nFx6';
 
 let Version = ({dispatch, token, version_index, version, song_index, song_id}) => {
   let edited_version = Object.assign({}, version)
   const play_audio = () => {
     console.log("playing audio!")
   }
+  const upload_recording = (file) => {
+    console.log('yay')
+    console.log(file)
+    if(file[0].type == "audio/mp3") {
+      console.log("tis an mp3 file mlord")
+      if(file[0].size < 3000000 ){
+        console.log('ooh, size is: ', file[0].size)
+        dispatch(updateRecording(token, song_index, song_id, version_index, version.ID, file[0]))
+      }
+    }
+  }
   return <Accordion sub={true} title={version.title}>
       <div className='version'>
-        <form onChange={e => {
+        <form onBlur={e => {
           e.preventDefault()
           dispatch(updateVersion(token, song_index, song_id, version_index, Object.assign({}, version, edited_version)))
         }}>
@@ -34,21 +41,13 @@ let Version = ({dispatch, token, version_index, version, song_index, song_id}) =
           </div>
           <div className='version__section version__section--full'>
             <h6>recording</h6>
-            <input className='version__input'
-              defaultValue={version.recording}
-              onChange={e => {edited_version.recording = e.target.value}}
-            />
-            <SoundPlayerContainer 
-              resolveUrl={version.recording} 
-              clientId={clientId}>
-              <PlayButton
-                className='version__play'
-              />
-              <Progress
-                className='audio_progress'
-                innerClassName='audio_progress__inner'
-              />
-            </SoundPlayerContainer>
+            <Dropzone accept="audio/mp3" className='version__input version__input--upload' onDrop={upload_recording}>
+            <div className="button button--upload button--sub button--wide">Upload</div>
+            </Dropzone>
+            <audio className='version__audio' controls>
+              <source src={version.recording} type="audio/mpeg" />
+              Your browser does not support the audio tag.
+            </audio>
           </div>
           <div className='version__section version__section--full'>
             <h6>notes</h6>
@@ -65,14 +64,14 @@ let Version = ({dispatch, token, version_index, version, song_index, song_id}) =
             </textarea>
           </div>
           <input type='submit' className='hidden'/>
-          <Modal label='-' sub={true}>
-            <h3 className='modal-label'>Really remove this version?</h3>
-            <button className='button button--wide' 
-              onClick={() => dispatch(deleteVersion(token, song_index, song_id, version_index, version.ID))}>
-              Remove Version
-            </button>
-          </Modal>
         </form>
+        <Modal label='-' sub={true}>
+          <h3 className='modal-label'>Really remove this version?</h3>
+          <button className='button button--wide' 
+            onClick={() => dispatch(deleteVersion(token, song_index, song_id, version_index, version.ID))}>
+            Remove Version
+          </button>
+        </Modal>
       </div>
     </Accordion>
 };

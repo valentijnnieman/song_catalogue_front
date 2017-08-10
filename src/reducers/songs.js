@@ -7,8 +7,7 @@ let default_state = {
   token: null,
   authenticated: false,
   message: null,
-  artist_id: null,
-  songs: []
+  songs: [{}]
 }
 
 const song = (state = {}, action) => {
@@ -30,8 +29,6 @@ const songs = (state = default_state, action) => {
       return { ...state, is_authenticating: false, authenticated: true, token: action.token }
     case 'FAILED_LOGIN' :
       return { ...state, is_authenticating: false, authenticated: false, message: action.message }
-    case 'RECIEVE_ARTIST' :
-      return { ...state, artist_id: action.artist.ID }
     case 'REQUEST_SONGS':
       return { ...state, is_fetching: true, invalidate: false }
     case 'RECIEVE_SONGS':
