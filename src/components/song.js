@@ -2,22 +2,30 @@ import React from 'react';
 import Accordion from './accordion.js';
 import Modal from './modal.js';
 import Version from './version.js';
-import {addVersion} from '../actions/versions.js'
-import {addSong} from '../actions/songs.js'
-import {removeSong} from '../actions/songs.js'
+import {createVersion} from '../actions/versions.js'
+import {createSong} from '../actions/songs.js'
+import {deleteSong} from '../actions/songs.js'
 import { connect } from 'react-redux'
 import './song.scss'
 
-let Song = ({dispatch, song_id, song}) => {
+let Song = ({token, dispatch, song_index, song}) => {
   let input
-  let versions = song.versions.map((version, index) =>  {
-    return <Version key={index} version_id={index} version={version} song_id={song_id} />
-  })
+  let versions
+  if(song.versions != null && song.versions.length > 0) { 
+    versions = song.versions.map((version, index) =>  {
+      return <Version key={index} 
+              token={token}
+              version_index={index} 
+              version={version} 
+              song_index={song_index} 
+              song_id={song.ID} />
+    })
+  }
   return <Accordion title={song.title}>
     {versions}
 		<Modal label='-'>
       <h3 className='modal-label'>Really remove this song?</h3>
-      <button className='button button--wide' onClick={() => dispatch(removeSong(song_id))}>Remove Song</button>
+      <button className='button button--wide' onClick={() => dispatch(deleteSong(token, song_index, song.ID))}>Remove Song</button>
     </Modal>
 		<Modal label='+' sub={true}>
       <h3 className='modal-label modal-label--sub'>Add new version</h3>
@@ -26,7 +34,7 @@ let Song = ({dispatch, song_id, song}) => {
 				if (!input.value.trim()) {
 					return
 				}
-				dispatch(addVersion(song_id, song.versions.length, input.value))
+				dispatch(createVersion(token, song_index, song.ID, song.versions.length, input.value))
 			}}>
       <input className="input input--modal input--sub" placeholder="Enter version title..." ref={node => {
         input = node
@@ -37,7 +45,7 @@ let Song = ({dispatch, song_id, song}) => {
   </Accordion>
 };
 
-let AddSong= ({ dispatch }) => {
+let AddSong= ({ token, dispatch }) => {
   let input
 
   return (
@@ -48,9 +56,9 @@ let AddSong= ({ dispatch }) => {
 					if (!input.value.trim()) {
 						return
 					}
-					dispatch(addSong(input.value))
+					dispatch(createSong(token, input.value))
 					input.value = ''
-          this.props.reveal_content()
+          // this.props.reveal_content()
 				}}>
 					<button type="submit" className="button button--wide">
 						add

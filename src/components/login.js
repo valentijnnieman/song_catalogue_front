@@ -1,6 +1,6 @@
 import React from 'react';
 import './login.scss';
-import {fetchLogin} from '../actions/songs.js'
+import {fetchLogin, fetchRegister} from '../actions/songs.js'
 import store from '../store.js';
 
 class LoginContainer extends React.Component {
@@ -58,36 +58,35 @@ const Tab = ({label, thisTab, currentTab, clickHandler}) => {
 }
 
 let Login = ({dispatch, message}) => {
-  let username, password
+  let email, password
 
   return <div className='login'>
     <div className='notice'>{message}</div>
     <form className='form--login' onSubmit={e => {
       e.preventDefault()
-      if (!username.value.trim()) {
+      if (!email.value.trim()) {
         return
       }
-      store.dispatch(fetchLogin(username.value, password.value))
+      store.dispatch(fetchLogin(email.value, password.value))
     }}>
     <input className="input input--sub" placeholder="Email adress" ref={node => {
-      username = node
+      email = node
     }} />
     <input type='password' className="input input--sub" placeholder="Password" ref={node => {
       password = node
     }} />
     <button type="submit" className="button button--sub button--wide">Login</button>
-    <button className="button button--wide notice-box" onClick={() => store.dispatch(fetchLogin('demo', 'demo123'))}>See a live demo</button>
     </form>
   </div>
 }
 
 const Register = () => {
-  let username, password, passwordCheck
+  let email, password, passwordCheck
 
   return <div className='register'>
     <form className='form--login' onSubmit={e => {
       e.preventDefault()
-      if (!username.value.trim()) {
+      if (!email.value.trim()) {
         return
       }
       if (password.value === passwordCheck.value) {
@@ -95,20 +94,20 @@ const Register = () => {
       }
       else {
         console.log("something went wrong!")
-        console.log(username.value, password.value, passwordCheck.value)
+        console.log(email.value, password.value, passwordCheck.value)
       }
-      //store.dispatch(fetchLogin(username.value, password.value))
+      store.dispatch(fetchRegister(email.value, password.value))
     }}>
-    <input className="input input--sub" disabled="disabled" placeholder="Email adress" ref={node => {
-      username = node
+    <input className="input input--sub" placeholder="Email adress" ref={node => {
+      email = node
     }} />
-    <input type='password' className="input input--sub" disabled="disabled" placeholder="Password" ref={node => {
+    <input type='password' className="input input--sub" placeholder="Password" ref={node => {
       password = node
     }} />
-    <input type='password' className="input input--sub" disabled="disabled" placeholder="Repeat password" ref={node => {
+    <input type='password' className="input input--sub" placeholder="Repeat password" ref={node => {
       passwordCheck = node
     }} />
-    <button type="submit"disabled="disabled" className="button button--sub button--wide">Register (disabled)</button>
+    <button type="submit" className="button button--sub button--wide">Register</button>
     </form>
   </div>
 }

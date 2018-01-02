@@ -10,11 +10,16 @@ import store from './store.js';
 import {fetchSongs} from './actions/songs.js'
 import './main.scss'
 
-const SongList = ({songs}) => {
+const SongList = ({token, songs}) => {
   console.log("SongList.songs: ", songs)
-  let list_songs = songs.map((song, index) =>
-    <Song key={index} song_id={index} song={song}></Song>
-  );
+  let list_songs
+  if (songs != null) {
+    list_songs = songs.map((song, index) =>
+      <Song key={index} token={token} song_index={index} song={song}></Song>
+    );
+  } else {
+    list_songs = <div>Empty</div>
+  }
   return <div>
     {list_songs} 
     </div>
@@ -28,7 +33,8 @@ const mapStateToProps = (state) => {
     is_fetching: state.is_fetching,
     invalidate: state.invalidate,
     message: state.message,
-    songs: state.songs
+    songs: state.songs,
+    token: state.token
   }
 }
 
@@ -41,8 +47,6 @@ let Topbar = () => {
     <div className='topbar_container'>
       <h1 className='topbar__title'> Your Songs </h1> 
       <button className='topbar__button button button--wide notice-box' onClick={logOut}>Log out</button>
-      <img className='topbar__image' src="./assets/images/sc_logo.png" width={64} height={43} />
-      <span>powered by</span>
     </div>
   </div>
 }
@@ -50,7 +54,7 @@ let Topbar = () => {
 
 //store.dispatch(fetchLogin())
 
-const AllSongsList = ({songs, message, is_authenticating, authenticated, is_fetching}) => {
+const AllSongsList = ({token, songs, message, is_authenticating, authenticated, is_fetching}) => {
   if(is_authenticating || authenticated)
     if(authenticated)
       if(is_fetching)
@@ -58,8 +62,8 @@ const AllSongsList = ({songs, message, is_authenticating, authenticated, is_fetc
       else
         if(typeof(songs) !== 'undefined') 
           return <div className='songlist'>
-              <SongList songs={songs} />
-              <AddSong />
+              <SongList token={token} songs={songs} />
+              <AddSong token={token} />
             </div>
         else
           return <div>
