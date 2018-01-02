@@ -1,4 +1,5 @@
 import {endpoint} from '../config.js';
+import {fetchSongs} from './songs.js';
 
 export function createVersion(token, song_index, song_id, version_id, version_title) {
   return function (dispatch) {
@@ -72,6 +73,7 @@ export function updateRecording(token, song_index, song_id, version_index, versi
         response.json()
         .then(json => { 
           dispatch(editVersion(song_index, version_index, json.version))
+          dispatch(fetchSongs(token))
         })
       }
       else { 

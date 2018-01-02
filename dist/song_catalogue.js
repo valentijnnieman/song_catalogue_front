@@ -1195,7 +1195,7 @@ var CallbackQueue = __webpack_require__(72);
 var PooledClass = __webpack_require__(17);
 var ReactFeatureFlags = __webpack_require__(77);
 var ReactReconciler = __webpack_require__(20);
-var Transaction = __webpack_require__(30);
+var Transaction = __webpack_require__(31);
 
 var invariant = __webpack_require__(1);
 
@@ -2260,12 +2260,12 @@ module.exports = PooledClass;
 
 
 
-var _assign = __webpack_require__(34);
+var _assign = __webpack_require__(35);
 
 var ReactCurrentOwner = __webpack_require__(11);
 
 var warning = __webpack_require__(16);
-var canDefineProperty = __webpack_require__(33);
+var canDefineProperty = __webpack_require__(34);
 var hasOwnProperty = Object.prototype.hasOwnProperty;
 
 var REACT_ELEMENT_TYPE = __webpack_require__(105);
@@ -2606,7 +2606,7 @@ module.exports = ReactElement;
 
 
 var DOMNamespaces = __webpack_require__(43);
-var setInnerHTML = __webpack_require__(32);
+var setInnerHTML = __webpack_require__(33);
 
 var createMicrosoftUnsafeLocalFunction = __webpack_require__(50);
 var setTextContent = __webpack_require__(91);
@@ -2896,7 +2896,7 @@ module.exports = ReactReconciler;
 
 
 
-var _assign = __webpack_require__(34);
+var _assign = __webpack_require__(35);
 
 var ReactBaseClasses = __webpack_require__(104);
 var ReactChildren = __webpack_require__(256);
@@ -2914,7 +2914,7 @@ var cloneElement = ReactElement.cloneElement;
 
 if (process.env.NODE_ENV !== 'production') {
   var lowPriorityWarning = __webpack_require__(62);
-  var canDefineProperty = __webpack_require__(33);
+  var canDefineProperty = __webpack_require__(34);
   var ReactElementValidator = __webpack_require__(106);
   var didWarnPropTypesDeprecated = false;
   createElement = ReactElementValidator.createElement;
@@ -3076,7 +3076,7 @@ module.exports = reactProdInvariant;
 
 var _prodInvariant = __webpack_require__(3);
 
-var EventPluginRegistry = __webpack_require__(27);
+var EventPluginRegistry = __webpack_require__(28);
 var EventPluginUtils = __webpack_require__(44);
 var ReactErrorUtils = __webpack_require__(48);
 
@@ -3591,6 +3591,184 @@ module.exports = SyntheticUIEvent;
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.removeSong = exports.editSong = exports.addSong = exports.recieveSongs = exports.requestSongs = exports.failedLogin = exports.recieveLogin = exports.requestLogin = undefined;
+exports.createSong = createSong;
+exports.deleteSong = deleteSong;
+exports.fetchLogin = fetchLogin;
+exports.fetchRegister = fetchRegister;
+exports.fetchSongs = fetchSongs;
+
+var _isomorphicFetch = __webpack_require__(137);
+
+var _isomorphicFetch2 = _interopRequireDefault(_isomorphicFetch);
+
+var _store = __webpack_require__(36);
+
+var _store2 = _interopRequireDefault(_store);
+
+var _config = __webpack_require__(68);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function createSong(token, title) {
+  return function (dispatch) {
+    return (0, _isomorphicFetch2.default)(_config.endpoint + 'auth/song/create', {
+      method: "POST",
+      body: JSON.stringify({
+        title: title,
+        versions: []
+      }),
+      headers: {
+        'Authorization': 'Bearer ' + token
+      }
+    }).then(function (response) {
+      if (response.ok) {
+        response.json().then(function (json) {
+          // store.dispatch(addSong(json.song))
+          _store2.default.dispatch(fetchSongs(token));
+        });
+      } else {}
+    });
+  };
+}
+function deleteSong(token, song_index, song_id) {
+  return function (dispatch) {
+    return (0, _isomorphicFetch2.default)(_config.endpoint + '/auth/song/' + song_id + '/delete', {
+      method: "DELETE",
+      headers: {
+        'Authorization': 'Bearer ' + token
+      }
+    }).then(function (response) {
+      if (response.ok) {
+        response.json().then(function (json) {
+          _store2.default.dispatch(removeSong(song_index));
+        });
+      } else {}
+    });
+  };
+}
+function fetchLogin(email, password) {
+  return function (dispatch) {
+    dispatch(requestLogin());
+
+    return (0, _isomorphicFetch2.default)(_config.endpoint + 'login', {
+      method: "POST",
+      body: JSON.stringify({
+        username: email, // jwt middleware requires json to be 'username'!
+        password: password
+      })
+    }).then(function (response) {
+      if (response.ok) {
+        response.json().then(function (json) {
+          _store2.default.dispatch(recieveLogin(json.token));
+          _store2.default.dispatch(fetchSongs(json.token));
+        });
+      } else {
+        _store2.default.dispatch(failedLogin("Incorrect username or password"));
+      }
+    });
+  };
+}
+function fetchRegister(email, password) {
+  return function (dispatch) {
+    dispatch(requestLogin());
+
+    return (0, _isomorphicFetch2.default)(_config.endpoint + 'register', {
+      method: "POST",
+      body: JSON.stringify({
+        email: email,
+        password: password
+      })
+    }).then(function (response) {
+      if (response.ok) {
+        response.json().then(function (json) {
+          // eep!
+          _store2.default.dispatch(fetchLogin(email, password));
+        });
+      } else {
+        _store2.default.dispatch(failedLogin("Account already exists!"));
+      }
+    });
+  };
+}
+function fetchSongs(token) {
+  return function (dispatch) {
+    dispatch(requestSongs());
+
+    return (0, _isomorphicFetch2.default)(_config.endpoint + 'auth/songs', {
+      headers: {
+        'Authorization': 'Bearer ' + token,
+        'Content-Type': 'application/json'
+      }
+    }).then(function (response) {
+      return response.json();
+    }).then(function (json) {
+      _store2.default.dispatch(recieveSongs(json.songs));
+    });
+  };
+}
+
+var requestLogin = exports.requestLogin = function requestLogin() {
+  return {
+    type: 'REQUEST_LOGIN'
+  };
+};
+
+var recieveLogin = exports.recieveLogin = function recieveLogin(token) {
+  return {
+    type: 'RECIEVE_LOGIN',
+    token: token
+  };
+};
+var failedLogin = exports.failedLogin = function failedLogin(message) {
+  return {
+    type: 'FAILED_LOGIN',
+    message: message
+  };
+};
+var requestSongs = exports.requestSongs = function requestSongs() {
+  return {
+    type: 'REQUEST_SONGS'
+  };
+};
+
+var recieveSongs = exports.recieveSongs = function recieveSongs(songs) {
+  return {
+    type: 'RECIEVE_SONGS',
+    songs: songs
+  };
+};
+var addSong = exports.addSong = function addSong(song) {
+  return {
+    type: 'ADD_SONG',
+    song: song
+  };
+};
+var editSong = exports.editSong = function editSong(song, song_id) {
+  return {
+    type: 'EDIT_SONG',
+    song: song,
+    song_id: song_id
+  };
+};
+
+var removeSong = exports.removeSong = function removeSong(song_id) {
+  return {
+    type: 'REMOVE_SONG',
+    song_id: song_id
+  };
+};
+
+/***/ }),
+/* 28 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
 /* WEBPACK VAR INJECTION */(function(process) {/**
  * Copyright (c) 2013-present, Facebook, Inc.
  *
@@ -3844,7 +4022,7 @@ module.exports = EventPluginRegistry;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 28 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3860,7 +4038,7 @@ module.exports = EventPluginRegistry;
 
 var _assign = __webpack_require__(5);
 
-var EventPluginRegistry = __webpack_require__(27);
+var EventPluginRegistry = __webpack_require__(28);
 var ReactEventEmitterMixin = __webpack_require__(183);
 var ViewportMetrics = __webpack_require__(83);
 
@@ -4171,7 +4349,7 @@ var ReactBrowserEventEmitter = _assign({}, ReactEventEmitterMixin, {
 module.exports = ReactBrowserEventEmitter;
 
 /***/ }),
-/* 29 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4246,7 +4424,7 @@ SyntheticUIEvent.augmentClass(SyntheticMouseEvent, MouseEventInterface);
 module.exports = SyntheticMouseEvent;
 
 /***/ }),
-/* 30 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4478,7 +4656,7 @@ module.exports = TransactionImpl;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 31 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4603,7 +4781,7 @@ function escapeTextContentForBrowser(text) {
 module.exports = escapeTextContentForBrowser;
 
 /***/ }),
-/* 32 */
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4704,7 +4882,7 @@ if (ExecutionEnvironment.canUseDOM) {
 module.exports = setInnerHTML;
 
 /***/ }),
-/* 33 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4734,7 +4912,7 @@ module.exports = canDefineProperty;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 34 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4829,184 +5007,6 @@ module.exports = shouldUseNative() ? Object.assign : function (target, source) {
 	return to;
 };
 
-
-/***/ }),
-/* 35 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.removeSong = exports.editSong = exports.addSong = exports.recieveSongs = exports.requestSongs = exports.failedLogin = exports.recieveLogin = exports.requestLogin = undefined;
-exports.createSong = createSong;
-exports.deleteSong = deleteSong;
-exports.fetchLogin = fetchLogin;
-exports.fetchRegister = fetchRegister;
-exports.fetchSongs = fetchSongs;
-
-var _isomorphicFetch = __webpack_require__(137);
-
-var _isomorphicFetch2 = _interopRequireDefault(_isomorphicFetch);
-
-var _store = __webpack_require__(36);
-
-var _store2 = _interopRequireDefault(_store);
-
-var _config = __webpack_require__(68);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function createSong(token, title) {
-  return function (dispatch) {
-    return (0, _isomorphicFetch2.default)(_config.endpoint + 'auth/song/create', {
-      method: "POST",
-      body: JSON.stringify({
-        title: title,
-        versions: []
-      }),
-      headers: {
-        'Authorization': 'Bearer ' + token
-      }
-    }).then(function (response) {
-      if (response.ok) {
-        response.json().then(function (json) {
-          // store.dispatch(addSong(json.song))
-          _store2.default.dispatch(fetchSongs(token));
-        });
-      } else {}
-    });
-  };
-}
-function deleteSong(token, song_index, song_id) {
-  return function (dispatch) {
-    return (0, _isomorphicFetch2.default)(_config.endpoint + '/auth/song/' + song_id + '/delete', {
-      method: "DELETE",
-      headers: {
-        'Authorization': 'Bearer ' + token
-      }
-    }).then(function (response) {
-      if (response.ok) {
-        response.json().then(function (json) {
-          _store2.default.dispatch(removeSong(song_index));
-        });
-      } else {}
-    });
-  };
-}
-function fetchLogin(email, password) {
-  return function (dispatch) {
-    dispatch(requestLogin());
-
-    return (0, _isomorphicFetch2.default)(_config.endpoint + 'login', {
-      method: "POST",
-      body: JSON.stringify({
-        username: email, // jwt middleware requires json to be 'username'!
-        password: password
-      })
-    }).then(function (response) {
-      if (response.ok) {
-        response.json().then(function (json) {
-          _store2.default.dispatch(recieveLogin(json.token));
-          _store2.default.dispatch(fetchSongs(json.token));
-        });
-      } else {
-        _store2.default.dispatch(failedLogin("Incorrect username or password"));
-      }
-    });
-  };
-}
-function fetchRegister(email, password) {
-  return function (dispatch) {
-    dispatch(requestLogin());
-
-    return (0, _isomorphicFetch2.default)(_config.endpoint + 'register', {
-      method: "POST",
-      body: JSON.stringify({
-        email: email,
-        password: password
-      })
-    }).then(function (response) {
-      if (response.ok) {
-        response.json().then(function (json) {
-          // eep!
-          _store2.default.dispatch(fetchLogin(email, password));
-        });
-      } else {
-        _store2.default.dispatch(failedLogin("Account already exists!"));
-      }
-    });
-  };
-}
-function fetchSongs(token) {
-  return function (dispatch) {
-    dispatch(requestSongs());
-
-    return (0, _isomorphicFetch2.default)(_config.endpoint + 'auth/songs', {
-      headers: {
-        'Authorization': 'Bearer ' + token,
-        'Content-Type': 'application/json'
-      }
-    }).then(function (response) {
-      return response.json();
-    }).then(function (json) {
-      _store2.default.dispatch(recieveSongs(json.songs));
-    });
-  };
-}
-
-var requestLogin = exports.requestLogin = function requestLogin() {
-  return {
-    type: 'REQUEST_LOGIN'
-  };
-};
-
-var recieveLogin = exports.recieveLogin = function recieveLogin(token) {
-  return {
-    type: 'RECIEVE_LOGIN',
-    token: token
-  };
-};
-var failedLogin = exports.failedLogin = function failedLogin(message) {
-  return {
-    type: 'FAILED_LOGIN',
-    message: message
-  };
-};
-var requestSongs = exports.requestSongs = function requestSongs() {
-  return {
-    type: 'REQUEST_SONGS'
-  };
-};
-
-var recieveSongs = exports.recieveSongs = function recieveSongs(songs) {
-  return {
-    type: 'RECIEVE_SONGS',
-    songs: songs
-  };
-};
-var addSong = exports.addSong = function addSong(song) {
-  return {
-    type: 'ADD_SONG',
-    song: song
-  };
-};
-var editSong = exports.editSong = function editSong(song, song_id) {
-  return {
-    type: 'EDIT_SONG',
-    song: song,
-    song_id: song_id
-  };
-};
-
-var removeSong = exports.removeSong = function removeSong(song_id) {
-  return {
-    type: 'REMOVE_SONG',
-    song_id: song_id
-  };
-};
 
 /***/ }),
 /* 36 */
@@ -5275,7 +5275,7 @@ var ReactDOMComponentTree = __webpack_require__(4);
 var ReactInstrumentation = __webpack_require__(8);
 
 var createMicrosoftUnsafeLocalFunction = __webpack_require__(50);
-var setInnerHTML = __webpack_require__(32);
+var setInnerHTML = __webpack_require__(33);
 var setTextContent = __webpack_require__(91);
 
 function getNodeAfter(parentNode, node) {
@@ -7342,9 +7342,11 @@ exports.deleteVersion = deleteVersion;
 
 var _config = __webpack_require__(68);
 
+var _songs = __webpack_require__(27);
+
 function createVersion(token, song_index, song_id, version_id, version_title) {
   return function (dispatch) {
-    return fetch(_config.endpoint + "auth/version/create", {
+    return fetch(_config.endpoint + 'auth/version/create', {
       method: "POST",
       body: JSON.stringify({
         title: version_title,
@@ -7367,7 +7369,7 @@ function createVersion(token, song_index, song_id, version_id, version_title) {
 }
 function updateVersion(token, song_index, song_id, version_index, version) {
   return function (dispatch) {
-    return fetch(_config.endpoint + "auth/version/" + version.ID + "/update", {
+    return fetch(_config.endpoint + 'auth/version/' + version.ID + '/update', {
       method: "PATCH",
       body: JSON.stringify({
         title: version.title,
@@ -7394,7 +7396,7 @@ function updateRecording(token, song_index, song_id, version_index, version_id, 
     data.append('song_id', song_id);
     data.append('version_id', version_id);
     data.append('file', file);
-    return fetch(_config.endpoint + "auth/version/recording", {
+    return fetch(_config.endpoint + 'auth/version/recording', {
       method: "POST",
       body: data,
       headers: {
@@ -7404,6 +7406,7 @@ function updateRecording(token, song_index, song_id, version_index, version_id, 
       if (response.ok) {
         response.json().then(function (json) {
           dispatch(editVersion(song_index, version_index, json.version));
+          dispatch((0, _songs.fetchSongs)(token));
         });
       } else {}
     });
@@ -7411,7 +7414,7 @@ function updateRecording(token, song_index, song_id, version_index, version_id, 
 }
 function deleteVersion(token, song_index, song_id, version_index, version_id) {
   return function (dispatch) {
-    return fetch(_config.endpoint + "auth/song/" + song_id + "/version/" + version_id + "/delete", {
+    return fetch(_config.endpoint + 'auth/song/' + song_id + '/version/' + version_id + '/delete', {
       method: "DELETE",
       headers: {
         'Authorization': 'Bearer ' + token
@@ -8742,7 +8745,7 @@ var _prodInvariant = __webpack_require__(3);
 var DOMLazyTree = __webpack_require__(19);
 var DOMProperty = __webpack_require__(14);
 var React = __webpack_require__(21);
-var ReactBrowserEventEmitter = __webpack_require__(28);
+var ReactBrowserEventEmitter = __webpack_require__(29);
 var ReactCurrentOwner = __webpack_require__(11);
 var ReactDOMComponentTree = __webpack_require__(4);
 var ReactDOMContainerInfo = __webpack_require__(166);
@@ -8758,7 +8761,7 @@ var ReactUpdates = __webpack_require__(9);
 var emptyObject = __webpack_require__(94);
 var instantiateReactComponent = __webpack_require__(89);
 var invariant = __webpack_require__(1);
-var setInnerHTML = __webpack_require__(32);
+var setInnerHTML = __webpack_require__(33);
 var shouldUpdateReactComponent = __webpack_require__(55);
 var warning = __webpack_require__(2);
 
@@ -9850,8 +9853,8 @@ module.exports = isTextInputElement;
 
 
 var ExecutionEnvironment = __webpack_require__(6);
-var escapeTextContentForBrowser = __webpack_require__(31);
-var setInnerHTML = __webpack_require__(32);
+var escapeTextContentForBrowser = __webpack_require__(32);
+var setInnerHTML = __webpack_require__(33);
 
 /**
  * Set the textContent property of a node, ensuring that whitespace is preserved
@@ -10809,11 +10812,11 @@ if (process.env.NODE_ENV !== 'production') {
 
 
 var _prodInvariant = __webpack_require__(22),
-    _assign = __webpack_require__(34);
+    _assign = __webpack_require__(35);
 
 var ReactNoopUpdateQueue = __webpack_require__(107);
 
-var canDefineProperty = __webpack_require__(33);
+var canDefineProperty = __webpack_require__(34);
 var emptyObject = __webpack_require__(267);
 var invariant = __webpack_require__(15);
 var lowPriorityWarning = __webpack_require__(62);
@@ -10991,7 +10994,7 @@ var ReactElement = __webpack_require__(18);
 
 var checkReactTypeSpec = __webpack_require__(262);
 
-var canDefineProperty = __webpack_require__(33);
+var canDefineProperty = __webpack_require__(34);
 var getIteratorFn = __webpack_require__(108);
 var warning = __webpack_require__(16);
 var lowPriorityWarning = __webpack_require__(62);
@@ -11793,7 +11796,7 @@ var _react2 = _interopRequireDefault(_react);
 
 __webpack_require__(131);
 
-var _songs = __webpack_require__(35);
+var _songs = __webpack_require__(27);
 
 var _store = __webpack_require__(36);
 
@@ -12006,7 +12009,7 @@ var _version2 = _interopRequireDefault(_version);
 
 var _versions = __webpack_require__(65);
 
-var _songs = __webpack_require__(35);
+var _songs = __webpack_require__(27);
 
 var _reactRedux = __webpack_require__(37);
 
@@ -12377,7 +12380,7 @@ var _store = __webpack_require__(36);
 
 var _store2 = _interopRequireDefault(_store);
 
-var _songs = __webpack_require__(35);
+var _songs = __webpack_require__(27);
 
 __webpack_require__(117);
 
@@ -16460,7 +16463,7 @@ module.exports = DefaultEventPluginOrder;
 
 var EventPropagators = __webpack_require__(24);
 var ReactDOMComponentTree = __webpack_require__(4);
-var SyntheticMouseEvent = __webpack_require__(29);
+var SyntheticMouseEvent = __webpack_require__(30);
 
 var eventTypes = {
   mouseEnter: {
@@ -18116,8 +18119,8 @@ var DOMNamespaces = __webpack_require__(43);
 var DOMProperty = __webpack_require__(14);
 var DOMPropertyOperations = __webpack_require__(73);
 var EventPluginHub = __webpack_require__(23);
-var EventPluginRegistry = __webpack_require__(27);
-var ReactBrowserEventEmitter = __webpack_require__(28);
+var EventPluginRegistry = __webpack_require__(28);
+var ReactBrowserEventEmitter = __webpack_require__(29);
 var ReactDOMComponentFlags = __webpack_require__(74);
 var ReactDOMComponentTree = __webpack_require__(4);
 var ReactDOMInput = __webpack_require__(170);
@@ -18129,7 +18132,7 @@ var ReactMultiChild = __webpack_require__(189);
 var ReactServerRenderingTransaction = __webpack_require__(194);
 
 var emptyFunction = __webpack_require__(10);
-var escapeTextContentForBrowser = __webpack_require__(31);
+var escapeTextContentForBrowser = __webpack_require__(32);
 var invariant = __webpack_require__(1);
 var isEventSupported = __webpack_require__(54);
 var shallowEqual = __webpack_require__(57);
@@ -20063,7 +20066,7 @@ var DOMChildrenOperations = __webpack_require__(42);
 var DOMLazyTree = __webpack_require__(19);
 var ReactDOMComponentTree = __webpack_require__(4);
 
-var escapeTextContentForBrowser = __webpack_require__(31);
+var escapeTextContentForBrowser = __webpack_require__(32);
 var invariant = __webpack_require__(1);
 var validateDOMNesting = __webpack_require__(56);
 
@@ -20527,7 +20530,7 @@ module.exports = {
 
 
 var DOMProperty = __webpack_require__(14);
-var EventPluginRegistry = __webpack_require__(27);
+var EventPluginRegistry = __webpack_require__(28);
 var ReactComponentTreeHook = __webpack_require__(7);
 
 var warning = __webpack_require__(2);
@@ -21010,7 +21013,7 @@ module.exports = ReactDebugTool;
 var _assign = __webpack_require__(5);
 
 var ReactUpdates = __webpack_require__(9);
-var Transaction = __webpack_require__(30);
+var Transaction = __webpack_require__(31);
 
 var emptyFunction = __webpack_require__(10);
 
@@ -21425,7 +21428,7 @@ var EventPluginHub = __webpack_require__(23);
 var EventPluginUtils = __webpack_require__(44);
 var ReactComponentEnvironment = __webpack_require__(47);
 var ReactEmptyComponent = __webpack_require__(76);
-var ReactBrowserEventEmitter = __webpack_require__(28);
+var ReactBrowserEventEmitter = __webpack_require__(29);
 var ReactHostComponent = __webpack_require__(78);
 var ReactUpdates = __webpack_require__(9);
 
@@ -22131,10 +22134,10 @@ var _assign = __webpack_require__(5);
 
 var CallbackQueue = __webpack_require__(72);
 var PooledClass = __webpack_require__(17);
-var ReactBrowserEventEmitter = __webpack_require__(28);
+var ReactBrowserEventEmitter = __webpack_require__(29);
 var ReactInputSelection = __webpack_require__(79);
 var ReactInstrumentation = __webpack_require__(8);
-var Transaction = __webpack_require__(30);
+var Transaction = __webpack_require__(31);
 var ReactUpdateQueue = __webpack_require__(49);
 
 /**
@@ -22404,7 +22407,7 @@ module.exports = ReactRef;
 var _assign = __webpack_require__(5);
 
 var PooledClass = __webpack_require__(17);
-var Transaction = __webpack_require__(30);
+var Transaction = __webpack_require__(31);
 var ReactInstrumentation = __webpack_require__(8);
 var ReactServerUpdateQueue = __webpack_require__(195);
 
@@ -23162,7 +23165,7 @@ var SyntheticClipboardEvent = __webpack_require__(201);
 var SyntheticEvent = __webpack_require__(13);
 var SyntheticFocusEvent = __webpack_require__(204);
 var SyntheticKeyboardEvent = __webpack_require__(206);
-var SyntheticMouseEvent = __webpack_require__(29);
+var SyntheticMouseEvent = __webpack_require__(30);
 var SyntheticDragEvent = __webpack_require__(203);
 var SyntheticTouchEvent = __webpack_require__(207);
 var SyntheticTransitionEvent = __webpack_require__(208);
@@ -23503,7 +23506,7 @@ module.exports = SyntheticCompositionEvent;
 
 
 
-var SyntheticMouseEvent = __webpack_require__(29);
+var SyntheticMouseEvent = __webpack_require__(30);
 
 /**
  * @interface DragEvent
@@ -23798,7 +23801,7 @@ module.exports = SyntheticTransitionEvent;
 
 
 
-var SyntheticMouseEvent = __webpack_require__(29);
+var SyntheticMouseEvent = __webpack_require__(30);
 
 /**
  * @interface WheelEvent
@@ -24557,7 +24560,7 @@ module.exports = getVendorPrefixedEventName;
 
 
 
-var escapeTextContentForBrowser = __webpack_require__(31);
+var escapeTextContentForBrowser = __webpack_require__(32);
 
 /**
  * Escapes attribute value to prevent scripting attacks.
@@ -29144,7 +29147,7 @@ module.exports = function(isValidElement) {
 var emptyFunction = __webpack_require__(63);
 var invariant = __webpack_require__(15);
 var warning = __webpack_require__(16);
-var assign = __webpack_require__(34);
+var assign = __webpack_require__(35);
 
 var ReactPropTypesSecret = __webpack_require__(109);
 var checkPropTypes = __webpack_require__(268);
