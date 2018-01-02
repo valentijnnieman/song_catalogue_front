@@ -1,13 +1,10 @@
 import fetch from 'isomorphic-fetch'
 import store from '../store.js';
-
-let next_id = 2
-// TO-DO: get correct id --^
-//
+import {endpoint} from '../config.js';
 
 export function createSong(token, title) {
   return function (dispatch) {
-    return fetch(`http://localhost:8080/auth/song/create`, {
+    return fetch(`${endpoint}auth/song/create`, {
       method: "POST",
       body: JSON.stringify({
         title: title,
@@ -21,8 +18,8 @@ export function createSong(token, title) {
       if(response.ok) {
         response.json()
         .then(json => { 
-          console.log("hey! listen! ", json.song)
-          store.dispatch(addSong(json.song))
+          // store.dispatch(addSong(json.song))
+          store.dispatch(fetchSongs(token))
         })
       }
       else { 
@@ -34,7 +31,7 @@ export function createSong(token, title) {
 export function deleteSong(token, song_index, song_id) {
   return function (dispatch) {
     console.log("HEARD", token)
-    return fetch(`http://localhost:8080/auth/song/${song_id}/delete`, {
+    return fetch(`${endpoint}/auth/song/${song_id}/delete`, {
       method: "DELETE",
       headers: {
         'Authorization': 'Bearer ' + token
@@ -53,15 +50,15 @@ export function deleteSong(token, song_index, song_id) {
     })
   }
 }
-export function fetchLogin(username, password) {
+export function fetchLogin(email, password) {
   return function (dispatch) {
     dispatch(requestLogin())
 
-    //return fetch('https://song-catalogue-api.herokuapp.com/login', {
-    return fetch('http://localhost:8080/login', {
+    console.log(endpoint + 'login')
+    return fetch(`${endpoint}login`, {
         method: "POST",
         body: JSON.stringify({
-          username: username,
+          username: email, // jwt middleware requires json to be 'username'!
           password: password 
         })
       })
@@ -73,7 +70,7 @@ export function fetchLogin(username, password) {
             console.log("login returns this json: ", json)
             // eep!
             store.dispatch(recieveLogin(json.token))
-            store.dispatch(fetchSongs(json.token, 1))
+            store.dispatch(fetchSongs(json.token))
           })
         }
         else { 
@@ -83,12 +80,37 @@ export function fetchLogin(username, password) {
       })
   }
 }
+export function fetchRegister(email, password) {
+  return function (dispatch) {
+    dispatch(requestLogin())
+
+    return fetch(`${endpoint}register`, {
+        method: "POST",
+        body: JSON.stringify({
+          email: email,
+          password: password 
+        })
+      })
+      .then(response => {
+        console.log("response", response)
+        if(response.ok) {
+          response.json()
+          .then(json => { 
+            // eep!
+            store.dispatch(fetchLogin(email, password))
+          })
+        }
+        else { 
+          store.dispatch(failedLogin("Account already exists!"))
+        }
+      })
+  }
+}
 export function fetchSongs(token) {
   return function (dispatch) {
     dispatch(requestSongs())
 
-    //return fetch('https://song-catalogue-api.herokuapp.com/auth/artist/1', {
-    return fetch(`http://localhost:8080/auth/songs`, {
+    return fetch(`${endpoint}auth/songs`, {
         headers: {
           'Authorization': 'Bearer ' + token, 
           'Content-Type': 'application/json'

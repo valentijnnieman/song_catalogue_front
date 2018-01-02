@@ -113,6 +113,10 @@ button:focus {
   margin-left: 0px;
   margin-top: 0px;
   margin-bottom: 24px;
-  padding: 10px 16px 0px;
+  padding: 10px 16px 0px 0px;
   height: 24px;
+  box-shadow: none;
+  &:hover {
+    cursor: pointer;
+  }
 }

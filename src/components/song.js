@@ -58,7 +58,7 @@ let AddSong= ({ token, dispatch }) => {
 					}
 					dispatch(createSong(token, input.value))
 					input.value = ''
-          this.props.reveal_content()
+          // this.props.reveal_content()
 				}}>
 					<button type="submit" className="button button--wide">
 						add

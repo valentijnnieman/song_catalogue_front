@@ -20,7 +20,7 @@ let Version = ({dispatch, token, version_index, version, song_index, song_id}) =
     console.log(file)
     if(file[0].type == "audio/mp3") {
       console.log("tis an mp3 file mlord")
-      if(file[0].size < 3000000 ){
+      if(file[0].size < 12000000 ){
         console.log('ooh, size is: ', file[0].size)
         dispatch(updateRecording(token, song_index, song_id, version_index, version.ID, file[0]))
       }
@@ -42,7 +42,7 @@ let Version = ({dispatch, token, version_index, version, song_index, song_id}) =
           <div className='version__section version__section--full'>
             <h6>recording</h6>
             <Dropzone accept="audio/mp3" className='version__input version__input--upload' onDrop={upload_recording}>
-            <div className="button button--upload button--sub button--wide">Upload</div>
+              <div className="button button--upload button--sub button--wide">Click or drag new recording here</div>
             </Dropzone>
             <audio className='version__audio' controls>
               <source src={version.recording} type="audio/mpeg" />

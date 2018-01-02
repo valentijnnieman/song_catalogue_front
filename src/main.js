@@ -47,8 +47,6 @@ let Topbar = () => {
     <div className='topbar_container'>
       <h1 className='topbar__title'> Your Songs </h1> 
       <button className='topbar__button button button--wide notice-box' onClick={logOut}>Log out</button>
-      <img className='topbar__image' src="./assets/images/sc_logo.png" width={64} height={43} />
-      <span>powered by</span>
     </div>
   </div>
 }
