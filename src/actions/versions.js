@@ -2,7 +2,7 @@ import {endpoint} from '../config.js';
 
 export function createVersion(token, song_index, song_id, version_id, version_title) {
   return function (dispatch) {
-    return fetch(`${endpoint}/auth/version/create`, {
+    return fetch(`${endpoint}auth/version/create`, {
       method: "POST",
       body: JSON.stringify({
         title: version_title,

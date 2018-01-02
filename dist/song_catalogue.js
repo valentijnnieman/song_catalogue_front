@@ -7344,7 +7344,7 @@ var _config = __webpack_require__(68);
 
 function createVersion(token, song_index, song_id, version_id, version_title) {
   return function (dispatch) {
-    return fetch(_config.endpoint + "/auth/version/create", {
+    return fetch(_config.endpoint + "auth/version/create", {
       method: "POST",
       body: JSON.stringify({
         title: version_title,
