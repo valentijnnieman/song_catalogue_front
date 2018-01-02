@@ -5,9 +5,11 @@ import { connect } from 'react-redux'
 import ReduxThunk from 'redux-thunk'
 import { Song } from './components/song.js';
 import { AddSong } from './components/song.js';
+import { ResetPassword } from './components/login.js';
 import LoginContainer from './components/login.js';
 import store from './store.js';
 import {fetchSongs} from './actions/songs.js'
+import Modal from './components/modal.js';
 import './main.scss'
 
 const SongList = ({token, songs}) => {
@@ -41,12 +43,20 @@ let Topbar = () => {
     localStorage.removeItem('song_catalogue');
     location.reload()
   }
-  return <div className='topbar'>
-    <div className='topbar_container'>
-      <h1 className='topbar__title'> Your Songs </h1> 
-      <button className='topbar__button button button--wide notice-box' onClick={logOut}>Log out</button>
-    </div>
+  return <nav>
+  <div className="nav-wrapper">
+    <ul className="left">
+      <li><a>Song Catalogue</a></li>
+    </ul>
+    <ul className="right">
+      <li><Modal label='Reset password' wide={true}>
+          <h4 className='modal-label'>Reset password</h4>
+          <ResetPassword />
+      </Modal></li>
+      <li><a className='btn ' onClick={logOut}>Log out</a></li>
+    </ul>
   </div>
+</nav>
 }
 
 
@@ -56,7 +66,19 @@ const AllSongsList = ({token, songs, message, is_authenticating, authenticated, 
   if(is_authenticating || authenticated)
     if(authenticated)
       if(is_fetching)
-        return <h1>Loading...</h1>
+        return <div className='loading-screen'>
+          <div className="preloader-wrapper big active">
+            <div className="spinner-layer spinner-blue-only">
+              <div className="circle-clipper left">
+                <div className="circle"></div>
+              </div><div className="gap-patch">
+                <div className="circle"></div>
+              </div><div className="circle-clipper right">
+                <div className="circle"></div>
+              </div>
+            </div>
+          </div>  
+        </div>
       else
         if(typeof(songs) !== 'undefined') 
           return <div className='songlist'>
@@ -68,7 +90,19 @@ const AllSongsList = ({token, songs, message, is_authenticating, authenticated, 
             <h1> Oops! Something went wrong... </h1>
           </div>
     else
-      return <h1>Authenticating...</h1>
+      return <div className='loading-screen'>
+        <div className="preloader-wrapper big active">
+          <div className="spinner-layer spinner-blue-only">
+            <div className="circle-clipper left">
+              <div className="circle"></div>
+            </div><div className="gap-patch">
+              <div className="circle"></div>
+            </div><div className="circle-clipper right">
+              <div className="circle"></div>
+            </div>
+          </div>
+        </div>  
+      </div>
   else
     return <LoginContainer message={message}/> 
 };

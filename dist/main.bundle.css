@@ -8,8 +8,8 @@
 .accordion__button {
   border-radius: 4px;
   display: block;
-  height: 32px;
-  background-color: #19a974;
+  height: 48px;
+  background-color: #26a69a;
   padding: 8px;
   color: white; }
 
@@ -36,7 +36,7 @@
   visibility: hidden;
   height: 0px;
   opacity: 0; }
-.modal {
+.song-modal {
   width: 100vw;
   height: 100vh;
   top: 0;
@@ -44,8 +44,8 @@
   position: fixed;
   background-color: rgba(0, 0, 0, 0.28); }
 
-.modal__content {
-  width: 283px;
+.song-modal__content {
+  width: 340px;
   background-color: white;
   color: black;
   border-radius: 4px;
@@ -53,13 +53,23 @@
   margin: 25vh auto;
   min-height: 102px; }
 
-.modal--hidden {
+.song-modal--hidden {
   display: none; }
 
-.modal-label {
+.song-modal-label {
   font-family: 'Roboto';
   color: #19a974;
   margin: 10px 0px 20px; }
+
+.btn-sub {
+  color: #19a974;
+  background-color: white; }
+
+.btn-sub:hover {
+  background-color: #c4c4c4; }
+
+.btn-wide {
+  margin-top: 14px; }
 .hidden {
   display: none; }
 
@@ -215,48 +225,6 @@ h1 {
 
 .input--modal {
   width: 80%; }
-
-.button {
-  font-family: 'Roboto';
-  color: white;
-  width: 32px;
-  height: 32px;
-  float: right;
-  margin: 8px 0px 8px 8px;
-  background-color: #19a974;
-  font-size: 14px;
-  border-radius: 100%;
-  box-shadow: 1px 1px 1px 1px #e0e0e0;
-  border: none; }
-
-button:focus {
-  outline: 0;
-  box-shadow: inset 1px 0px 2px 0px #444444; }
-
-.button--wide {
-  border-radius: 4px;
-  width: auto; }
-
-.button--right {
-  float: right; }
-
-.input--sub, .button--sub {
-  color: #19a974;
-  background-color: white; }
-
-.button--sub {
-  float: right; }
-
-.button--upload {
-  float: left;
-  margin-left: 0px;
-  margin-top: 0px;
-  margin-bottom: 24px;
-  padding: 10px 16px 0px 0px;
-  height: 24px;
-  box-shadow: none; }
-  .button--upload:hover {
-    cursor: pointer; }
 form {
   margin-bottom: 8px; }
 
@@ -264,14 +232,16 @@ form {
   margin-top: 16px;
   width: 300px; }
 
+.form--reset {
+  height: 340px; }
+
 .notice {
   color: red; }
 
 .home {
-  width: 300px;
+  width: 340px;
   padding: 20px 20px 60px;
-  margin: 0 auto;
-  background-color: #f3f6f7; }
+  margin: 0 auto; }
   .home__tab {
     display: inline-block;
     padding: 0px 8px;
@@ -329,12 +299,18 @@ body {
     float: right;
     margin: 0px 14px; }
 
+.loading-screen {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50vh; }
+
 .topbar_container {
   max-width: 60rem;
   margin: 0 auto; }
 
 .songlist {
-  padding: 0px 20px; }
+  padding: 32px 20px; }
 
 .fl {
   float: left; }

@@ -7589,20 +7589,42 @@ var Modal = exports.Modal = function (_React$Component) {
   }, {
     key: 'render',
     value: function render() {
+      if (this.props.wide) {
+        return _react2.default.createElement(
+          'div',
+          { className: 'modal_container' },
+          _react2.default.createElement(
+            'button',
+            { className: this.props.sub ? 'btn btn-wide btn-sub fr' : 'btn btn-wide fr', onClick: this.reveal_content },
+            this.props.label
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: this.state.revealed ? 'song-modal' : 'song-modal song-modal--hidden', onClick: this.reveal_content },
+            _react2.default.createElement(
+              'div',
+              { className: 'song-modal__content', onClick: function onClick(e) {
+                  return e.stopPropagation();
+                } },
+              this.props.children
+            )
+          )
+        );
+      }
       return _react2.default.createElement(
         'div',
         { className: 'modal_container' },
         _react2.default.createElement(
           'button',
-          { className: this.props.sub ? 'button button--sub' : 'button', onClick: this.reveal_content },
+          { className: this.props.sub ? 'btn-floating btn-sub fr' : 'btn-floating fr', onClick: this.reveal_content },
           this.props.label
         ),
         _react2.default.createElement(
           'div',
-          { className: this.state.revealed ? 'modal' : 'modal modal--hidden', onClick: this.reveal_content },
+          { className: this.state.revealed ? 'song-modal' : 'song-modal song-modal--hidden', onClick: this.reveal_content },
           _react2.default.createElement(
             'div',
-            { className: 'modal__content', onClick: function onClick(e) {
+            { className: 'song-modal__content', onClick: function onClick(e) {
                 return e.stopPropagation();
               } },
             this.props.children
@@ -7627,7 +7649,7 @@ exports.default = Modal;
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-var mode = "production";
+var mode = "development";
 var endpoint = void 0;
 if (mode == "development") {
     exports.endpoint = endpoint = "http://localhost:8080/";
@@ -11787,6 +11809,7 @@ module.exports = g;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.ResetPassword = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -11857,7 +11880,7 @@ var LoginContainer = function (_React$Component) {
           'div',
           { className: 'home' },
           _react2.default.createElement(
-            'nav',
+            'div',
             null,
             _react2.default.createElement(Tab, {
               label: 'Login',
@@ -11933,7 +11956,7 @@ var Login = function Login(_ref2) {
         } }),
       _react2.default.createElement(
         'button',
-        { type: 'submit', className: 'button button--sub button--wide' },
+        { type: 'submit', className: 'btn btn-large' },
         'Login'
       )
     )
@@ -11970,8 +11993,49 @@ var Register = function Register() {
         } }),
       _react2.default.createElement(
         'button',
-        { type: 'submit', className: 'button button--sub button--wide' },
+        { type: 'submit', className: 'btn btn-large' },
         'Register'
+      )
+    )
+  );
+};
+
+var ResetPassword = exports.ResetPassword = function ResetPassword() {
+  var email = void 0,
+      password = void 0,
+      newPassword = void 0,
+      newPasswordCheck = void 0;
+
+  return _react2.default.createElement(
+    'div',
+    { className: 'reset-password' },
+    _react2.default.createElement(
+      'form',
+      { className: 'form--reset', onSubmit: function onSubmit(e) {
+          e.preventDefault();
+          if (!email.value.trim()) {
+            return;
+          }
+          if (newPassword.value === newPasswordCheck.value) {
+            _store2.default.dispatch(fetchResetPassword(email.value, password.value, newPassword.value));
+          } else {}
+        } },
+      _react2.default.createElement('input', { className: 'input input--sub', placeholder: 'Re-enter your email adress', ref: function ref(node) {
+          email = node;
+        } }),
+      _react2.default.createElement('input', { type: 'password', className: 'input input--sub', placeholder: 'Re-enter your current password', ref: function ref(node) {
+          password = node;
+        } }),
+      _react2.default.createElement('input', { type: 'password', className: 'input input--sub', placeholder: 'New password', ref: function ref(node) {
+          newPassword = node;
+        } }),
+      _react2.default.createElement('input', { type: 'password', className: 'input input--sub', placeholder: 'Repeat new password', ref: function ref(node) {
+          newPasswordCheck = node;
+        } }),
+      _react2.default.createElement(
+        'button',
+        { type: 'submit', className: 'btn btn-large' },
+        'Reset password'
       )
     )
   );
@@ -12043,13 +12107,13 @@ var Song = function Song(_ref) {
 			_modal2.default,
 			{ label: '-' },
 			_react2.default.createElement(
-				'h3',
+				'h4',
 				{ className: 'modal-label' },
 				'Really remove this song?'
 			),
 			_react2.default.createElement(
 				'button',
-				{ className: 'button button--wide', onClick: function onClick() {
+				{ className: 'btn btn-large', onClick: function onClick() {
 						return dispatch((0, _songs.deleteSong)(token, song_index, song.ID));
 					} },
 				'Remove Song'
@@ -12059,7 +12123,7 @@ var Song = function Song(_ref) {
 			_modal2.default,
 			{ label: '+', sub: true },
 			_react2.default.createElement(
-				'h3',
+				'h4',
 				{ className: 'modal-label modal-label--sub' },
 				'Add new version'
 			),
@@ -12077,7 +12141,7 @@ var Song = function Song(_ref) {
 					} }),
 				_react2.default.createElement(
 					'button',
-					{ type: 'submit', className: 'button button--sub button--wide' },
+					{ type: 'submit', className: 'btn btn-large' },
 					'Add'
 				)
 			)
@@ -12095,7 +12159,7 @@ var AddSong = function AddSong(_ref2) {
 		_modal2.default,
 		{ label: '+' },
 		_react2.default.createElement(
-			'h3',
+			'h4',
 			{ className: 'modal-label' },
 			'Add new song'
 		),
@@ -12110,14 +12174,14 @@ var AddSong = function AddSong(_ref2) {
 					input.value = '';
 					// this.props.reveal_content()
 				} },
-			_react2.default.createElement(
-				'button',
-				{ type: 'submit', className: 'button button--wide' },
-				'add'
-			),
 			_react2.default.createElement('input', { className: 'input input--modal', placeholder: 'Enter song title...', ref: function ref(node) {
 					input = node;
-				} })
+				} }),
+			_react2.default.createElement(
+				'button',
+				{ type: 'submit', className: 'btn btn-large' },
+				'add'
+			)
 		)
 	);
 };
@@ -12213,6 +12277,9 @@ var Version = function Version(_ref) {
         { onBlur: function onBlur(e) {
             e.preventDefault();
             dispatch((0, _versions.updateVersion)(token, song_index, song_id, version_index, Object.assign({}, version, edited_version)));
+          }, onSubmit: function onSubmit(e) {
+            e.preventDefault();
+            dispatch((0, _versions.updateVersion)(token, song_index, song_id, version_index, Object.assign({}, version, edited_version)));
           } },
         _react2.default.createElement(
           'div',
@@ -12287,13 +12354,13 @@ var Version = function Version(_ref) {
         _modal2.default,
         { label: '-', sub: true },
         _react2.default.createElement(
-          'h3',
+          'h4',
           { className: 'modal-label' },
           'Really remove this version?'
         ),
         _react2.default.createElement(
           'button',
-          { className: 'button button--wide',
+          { className: 'btn btn-large',
             onClick: function onClick() {
               return dispatch((0, _versions.deleteVersion)(token, song_index, song_id, version_index, version.ID));
             } },
@@ -12382,6 +12449,10 @@ var _store2 = _interopRequireDefault(_store);
 
 var _songs = __webpack_require__(27);
 
+var _modal = __webpack_require__(67);
+
+var _modal2 = _interopRequireDefault(_modal);
+
 __webpack_require__(117);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -12427,20 +12498,50 @@ var Topbar = function Topbar() {
     location.reload();
   };
   return _react2.default.createElement(
-    'div',
-    { className: 'topbar' },
+    'nav',
+    null,
     _react2.default.createElement(
       'div',
-      { className: 'topbar_container' },
+      { className: 'nav-wrapper' },
       _react2.default.createElement(
-        'h1',
-        { className: 'topbar__title' },
-        ' Your Songs '
+        'ul',
+        { className: 'left' },
+        _react2.default.createElement(
+          'li',
+          null,
+          _react2.default.createElement(
+            'a',
+            null,
+            'Song Catalogue'
+          )
+        )
       ),
       _react2.default.createElement(
-        'button',
-        { className: 'topbar__button button button--wide notice-box', onClick: logOut },
-        'Log out'
+        'ul',
+        { className: 'right' },
+        _react2.default.createElement(
+          'li',
+          null,
+          _react2.default.createElement(
+            _modal2.default,
+            { label: 'Reset password', wide: true },
+            _react2.default.createElement(
+              'h4',
+              { className: 'modal-label' },
+              'Reset password'
+            ),
+            _react2.default.createElement(_login.ResetPassword, null)
+          )
+        ),
+        _react2.default.createElement(
+          'li',
+          null,
+          _react2.default.createElement(
+            'a',
+            { className: 'btn ', onClick: logOut },
+            'Log out'
+          )
+        )
       )
     )
   );
@@ -12459,9 +12560,31 @@ var AllSongsList = function AllSongsList(_ref2) {
   if (is_authenticating || authenticated) {
     if (authenticated) {
       if (is_fetching) return _react2.default.createElement(
-        'h1',
-        null,
-        'Loading...'
+        'div',
+        { className: 'loading-screen' },
+        _react2.default.createElement(
+          'div',
+          { className: 'preloader-wrapper big active' },
+          _react2.default.createElement(
+            'div',
+            { className: 'spinner-layer spinner-blue-only' },
+            _react2.default.createElement(
+              'div',
+              { className: 'circle-clipper left' },
+              _react2.default.createElement('div', { className: 'circle' })
+            ),
+            _react2.default.createElement(
+              'div',
+              { className: 'gap-patch' },
+              _react2.default.createElement('div', { className: 'circle' })
+            ),
+            _react2.default.createElement(
+              'div',
+              { className: 'circle-clipper right' },
+              _react2.default.createElement('div', { className: 'circle' })
+            )
+          )
+        )
       );else if (typeof songs !== 'undefined') return _react2.default.createElement(
         'div',
         { className: 'songlist' },
@@ -12477,9 +12600,31 @@ var AllSongsList = function AllSongsList(_ref2) {
         )
       );
     } else return _react2.default.createElement(
-      'h1',
-      null,
-      'Authenticating...'
+      'div',
+      { className: 'loading-screen' },
+      _react2.default.createElement(
+        'div',
+        { className: 'preloader-wrapper big active' },
+        _react2.default.createElement(
+          'div',
+          { className: 'spinner-layer spinner-blue-only' },
+          _react2.default.createElement(
+            'div',
+            { className: 'circle-clipper left' },
+            _react2.default.createElement('div', { className: 'circle' })
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'gap-patch' },
+            _react2.default.createElement('div', { className: 'circle' })
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'circle-clipper right' },
+            _react2.default.createElement('div', { className: 'circle' })
+          )
+        )
+      )
     );
   } else return _react2.default.createElement(_login2.default, { message: message });
 };

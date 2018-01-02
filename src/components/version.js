@@ -26,7 +26,10 @@ let Version = ({dispatch, token, version_index, version, song_index, song_id}) =
         <form onBlur={e => {
           e.preventDefault()
           dispatch(updateVersion(token, song_index, song_id, version_index, Object.assign({}, version, edited_version)))
-        }}>
+        }} onSubmit={e => {
+          e.preventDefault() 
+          dispatch(updateVersion(token, song_index, song_id, version_index, Object.assign({}, version, edited_version)))
+        }} >
           <div className='version__section version__section--full'>
             <h6>title</h6>
             <input className='version__input' 
@@ -61,8 +64,8 @@ let Version = ({dispatch, token, version_index, version, song_index, song_id}) =
           <input type='submit' className='hidden'/>
         </form>
         <Modal label='-' sub={true}>
-          <h3 className='modal-label'>Really remove this version?</h3>
-          <button className='button button--wide' 
+          <h4 className='modal-label'>Really remove this version?</h4>
+          <button className='btn btn-large' 
             onClick={() => dispatch(deleteVersion(token, song_index, song_id, version_index, version.ID))}>
             Remove Version
           </button>

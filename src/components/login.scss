@@ -5,14 +5,16 @@ form {
   margin-top: 16px;
   width: 300px;
 }
+.form--reset {
+  height: 340px;
+}
 .notice {
   color: red;
 }
 .home {
-  width: 300px;
+  width: 340px;
   padding: 20px 20px 60px;
   margin: 0 auto;
-  background-color: #f3f6f7;
   &__tab {
     display: inline-block;
     padding: 0px 8px;

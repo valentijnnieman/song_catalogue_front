@@ -19,7 +19,7 @@
     "build": "webpack --env.NODE_ENV=production",
     "watch": "webpack --watch --env.NODE_ENV=development ",
     "dev-old": "NODE_ENV=development node_modules/.bin/webpack-dev-server --content-base --port 9000 --hot",
-    "dev": "NODE_ENV=development node server.js",
+    "dev": "webpack --watch --env.NODE_ENV=development && node server.js",
     "start": "webpack --env.NODE_ENV=production && node server.js"
   },
   "devDependencies": {
