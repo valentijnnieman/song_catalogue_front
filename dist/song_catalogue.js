@@ -7672,7 +7672,7 @@ exports.default = Accordion;
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-var mode = "development";
+var mode = "production";
 var endpoint = void 0;
 if (mode == "development") {
     exports.endpoint = endpoint = "http://localhost:8080/";
