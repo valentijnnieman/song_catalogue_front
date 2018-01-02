@@ -1,4 +1,4 @@
-.modal {
+.song-modal {
   width: 100vw; 
   height: 100vh;
   top: 0;
@@ -6,8 +6,8 @@
   position: fixed;
   background-color: rgba(0, 0, 0, 0.28);
 }
-.modal__content{
-	width: 283px; 
+.song-modal__content{
+	width: 340px; 
 	background-color: white;
 	color: black;
 	border-radius: 4px;	
@@ -15,11 +15,23 @@
   margin: 25vh auto;
   min-height: 102px;
 }
-.modal--hidden {
+.song-modal--hidden {
 	display: none;
 }
-.modal-label {
+.song-modal-label {
 	font-family: 'Roboto';
   color: #19a974;
   margin: 10px 0px 20px;
+}
+
+.btn-sub {
+  color: #19a974;
+  background-color: white;
+}
+.btn-sub:hover {
+  background-color: rgb(196, 196, 196);
+}
+
+.btn-wide {
+  margin-top: 14px;
 }

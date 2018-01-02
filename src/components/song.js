@@ -24,11 +24,11 @@ let Song = ({token, dispatch, song_index, song}) => {
   return <Accordion title={song.title}>
     {versions}
 		<Modal label='-'>
-      <h3 className='modal-label'>Really remove this song?</h3>
-      <button className='button button--wide' onClick={() => dispatch(deleteSong(token, song_index, song.ID))}>Remove Song</button>
+      <h4 className='modal-label'>Really remove this song?</h4>
+      <button className='btn btn-large' onClick={() => dispatch(deleteSong(token, song_index, song.ID))}>Remove Song</button>
     </Modal>
 		<Modal label='+' sub={true}>
-      <h3 className='modal-label modal-label--sub'>Add new version</h3>
+      <h4 className='modal-label modal-label--sub'>Add new version</h4>
 			<form onSubmit={e => {
 				e.preventDefault()
 				if (!input.value.trim()) {
@@ -39,7 +39,7 @@ let Song = ({token, dispatch, song_index, song}) => {
       <input className="input input--modal input--sub" placeholder="Enter version title..." ref={node => {
         input = node
       }} />
-			<button type="submit" className="button button--sub button--wide">Add</button>
+			<button type="submit" className="btn btn-large">Add</button>
 			</form>
 		</Modal>
   </Accordion>
@@ -50,7 +50,7 @@ let AddSong= ({ token, dispatch }) => {
 
   return (
 		<Modal label='+'>
-			<h3 className='modal-label'>Add new song</h3>
+			<h4 className='modal-label'>Add new song</h4>
 				<form onSubmit={e => {
 					e.preventDefault()
 					if (!input.value.trim()) {
@@ -60,12 +60,12 @@ let AddSong= ({ token, dispatch }) => {
 					input.value = ''
           // this.props.reveal_content()
 				}}>
-					<button type="submit" className="button button--wide">
-						add
-					</button>
 					<input className="input input--modal" placeholder="Enter song title..." ref={node => {
 						input = node
 					}} />
+					<button type="submit" className="btn btn-large">
+						add
+					</button>
 				</form>
 			</Modal>
   )

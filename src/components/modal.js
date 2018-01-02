@@ -13,12 +13,24 @@ export class Modal extends React.Component {
     });
   }
   render() {
+    if(this.props.wide) {
+      return <div className='modal_container'>
+        <a className={this.props.sub ? 'fr' : 'fr'} onClick={this.reveal_content}>
+          {this.props.label}
+        </a>
+        <div className={this.state.revealed ? 'song-modal' : 'song-modal song-modal--hidden'} onClick={this.reveal_content}>
+          <div className='song-modal__content' onClick={(e) => e.stopPropagation()}>
+            {this.props.children}
+          </div>
+        </div>
+      </div>
+    }
     return <div className='modal_container'>
-      <button className={this.props.sub ? 'button button--sub' : 'button'} onClick={this.reveal_content}>
+      <button className={this.props.sub ? 'btn-floating btn-sub fr' : 'btn-floating fr'} onClick={this.reveal_content}>
         {this.props.label}
       </button>
-      <div className={this.state.revealed ? 'modal' : 'modal modal--hidden'} onClick={this.reveal_content}>
-        <div className='modal__content' onClick={(e) => e.stopPropagation()}>
+      <div className={this.state.revealed ? 'song-modal' : 'song-modal song-modal--hidden'} onClick={this.reveal_content}>
+        <div className='song-modal__content' onClick={(e) => e.stopPropagation()}>
           {this.props.children}
         </div>
       </div>

@@ -36,12 +36,18 @@ body {
     margin: 0px 14px;
   }
 }
+.loading-screen {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50vh;
+}
 .topbar_container {
   max-width: 60rem;
   margin: 0 auto;
 }
 .songlist {
-  padding: 0px 20px;
+  padding: 12px 20px;
 }
 .fl {
   float: left;

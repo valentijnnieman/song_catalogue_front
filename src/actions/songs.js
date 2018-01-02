@@ -29,7 +29,7 @@ export function createSong(token, title) {
 }
 export function deleteSong(token, song_index, song_id) {
   return function (dispatch) {
-    return fetch(`${endpoint}/auth/song/${song_id}/delete`, {
+    return fetch(`${endpoint}auth/song/${song_id}/delete`, {
       method: "DELETE",
       headers: {
         'Authorization': 'Bearer ' + token
@@ -74,8 +74,6 @@ export function fetchLogin(email, password) {
 }
 export function fetchRegister(email, password) {
   return function (dispatch) {
-    dispatch(requestLogin())
-
     return fetch(`${endpoint}register`, {
         method: "POST",
         body: JSON.stringify({
@@ -93,6 +91,33 @@ export function fetchRegister(email, password) {
         }
         else { 
           store.dispatch(failedLogin("Account already exists!"))
+        }
+      })
+  }
+}
+export function fetchPasswordReset(token, email, password, newPassword) {
+  return function (dispatch) {
+    return fetch(`${endpoint}auth/user/reset`, {
+        headers: {
+          'Authorization': 'Bearer ' + token, 
+          'Content-Type': 'application/json'
+        }, 
+        method: "POST",
+        body: JSON.stringify({
+          email: email,
+          password: password,
+          newPassword: newPassword 
+        })
+      })
+      .then(response => {
+        if(response.ok) {
+          response.json()
+          .then(json => { 
+            store.dispatch(failedLogin("Password reset complete. Please login again"))
+          })
+        }
+        else { 
+          // store.dispatch(failedReset("Email or password was incorrect"))
         }
       })
   }
