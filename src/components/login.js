@@ -90,13 +90,10 @@ const Register = () => {
         return
       }
       if (password.value === passwordCheck.value) {
-        console.log("it all checks out, let's register!")
+        store.dispatch(fetchRegister(email.value, password.value))
       }
       else {
-        console.log("something went wrong!")
-        console.log(email.value, password.value, passwordCheck.value)
       }
-      store.dispatch(fetchRegister(email.value, password.value))
     }}>
     <input className="input input--sub" placeholder="Email adress" ref={node => {
       email = node

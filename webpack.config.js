@@ -8,7 +8,6 @@ const extractSass = new ExtractTextPlugin({
 });
 
 module.exports = env => {
-  console.log('NODE_ENV: ', env.NODE_ENV) // 'local'
   return {
     module: { 
       rules: [ 

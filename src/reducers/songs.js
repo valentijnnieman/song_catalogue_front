@@ -34,7 +34,6 @@ const songs = (state = default_state, action) => {
     case 'RECIEVE_SONGS':
       return { ...state, is_fetching: false, invalidate: false, songs: action.songs }
     case 'ADD_SONG':
-      console.log('actionnnnn ', action.song)
       return {
         ...state,
         songs: [ ...state.songs, action.song ]
@@ -92,7 +91,6 @@ const songs = (state = default_state, action) => {
         })
       }
     default:
-      console.log('reducer: DEFAULT')
       return state
   }
 }

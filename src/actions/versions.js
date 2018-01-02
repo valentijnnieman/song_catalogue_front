@@ -1,6 +1,8 @@
+import {endpoint} from '../config.js';
+
 export function createVersion(token, song_index, song_id, version_id, version_title) {
   return function (dispatch) {
-    return fetch(`http://localhost:8080/auth/version/create`, {
+    return fetch(`${endpoint}/auth/version/create`, {
       method: "POST",
       body: JSON.stringify({
         title: version_title,
@@ -21,14 +23,13 @@ export function createVersion(token, song_index, song_id, version_id, version_ti
         })
       }
       else { 
-        console.log("ERROR! Couldn't create version!")  
       }
     })
   }
 }
 export function updateVersion(token, song_index, song_id, version_index, version) {
   return function (dispatch) {
-    return fetch(`http://localhost:8080/auth/version/${version.ID}/update`, {
+    return fetch(`${endpoint}auth/version/${version.ID}/update`, {
       method: "PATCH",
       body: JSON.stringify({
         title: version.title,
@@ -49,7 +50,6 @@ export function updateVersion(token, song_index, song_id, version_index, version
         })
       }
       else { 
-        console.log("ERROR! Couldn't create version!")  
       }
     })
   }
@@ -60,7 +60,7 @@ export function updateRecording(token, song_index, song_id, version_index, versi
     data.append('song_id', song_id)
     data.append('version_id', version_id)
     data.append('file', file)
-    return fetch(`http://localhost:8080/auth/version/recording`, {
+    return fetch(`${endpoint}auth/version/recording`, {
       method: "POST",
       body: data,
       headers: {
@@ -75,14 +75,13 @@ export function updateRecording(token, song_index, song_id, version_index, versi
         })
       }
       else { 
-        console.log("ERROR! Couldn't create version!")  
       }
     })
   }
 }
 export function deleteVersion(token, song_index, song_id, version_index, version_id,) {
   return function (dispatch) {
-    return fetch(`http://localhost:8080/auth/song/${song_id}/version/${version_id}/delete`, {
+    return fetch(`${endpoint}auth/song/${song_id}/version/${version_id}/delete`, {
       method: "DELETE",
       headers: {
         'Authorization': 'Bearer ' + token
@@ -96,7 +95,6 @@ export function deleteVersion(token, song_index, song_id, version_index, version
         })
       }
       else { 
-        console.log("ERROR! Couldn't delete song!")  
       }
     })
   }

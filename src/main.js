@@ -11,7 +11,6 @@ import {fetchSongs} from './actions/songs.js'
 import './main.scss'
 
 const SongList = ({token, songs}) => {
-  console.log("SongList.songs: ", songs)
   let list_songs
   if (songs != null) {
     list_songs = songs.map((song, index) =>
@@ -26,7 +25,6 @@ const SongList = ({token, songs}) => {
 };
 
 const mapStateToProps = (state) => {
-  console.log("mapstatetoprops", state);
   return { 
     is_authenticating: state.is_authenticating,
     authenticated: state.authenticated,

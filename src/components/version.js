@@ -13,15 +13,10 @@ import './version.scss'
 let Version = ({dispatch, token, version_index, version, song_index, song_id}) => {
   let edited_version = Object.assign({}, version)
   const play_audio = () => {
-    console.log("playing audio!")
   }
   const upload_recording = (file) => {
-    console.log('yay')
-    console.log(file)
     if(file[0].type == "audio/mp3") {
-      console.log("tis an mp3 file mlord")
       if(file[0].size < 12000000 ){
-        console.log('ooh, size is: ', file[0].size)
         dispatch(updateRecording(token, song_index, song_id, version_index, version.ID, file[0]))
       }
     }

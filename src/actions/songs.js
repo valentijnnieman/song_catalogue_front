@@ -23,14 +23,12 @@ export function createSong(token, title) {
         })
       }
       else { 
-        console.log("ERROR! Couldn't create song!")  
       }
     })
   }
 }
 export function deleteSong(token, song_index, song_id) {
   return function (dispatch) {
-    console.log("HEARD", token)
     return fetch(`${endpoint}/auth/song/${song_id}/delete`, {
       method: "DELETE",
       headers: {
@@ -45,7 +43,6 @@ export function deleteSong(token, song_index, song_id) {
         })
       }
       else { 
-        console.log("ERROR! Couldn't delete song!")  
       }
     })
   }
@@ -54,7 +51,6 @@ export function fetchLogin(email, password) {
   return function (dispatch) {
     dispatch(requestLogin())
 
-    console.log(endpoint + 'login')
     return fetch(`${endpoint}login`, {
         method: "POST",
         body: JSON.stringify({
@@ -63,18 +59,14 @@ export function fetchLogin(email, password) {
         })
       })
       .then(response => {
-        console.log("response", response)
         if(response.ok) {
           response.json()
           .then(json => { 
-            console.log("login returns this json: ", json)
-            // eep!
             store.dispatch(recieveLogin(json.token))
             store.dispatch(fetchSongs(json.token))
           })
         }
         else { 
-          console.log("can't log in!")  
           store.dispatch(failedLogin("Incorrect username or password"))
         }
       })
@@ -92,7 +84,6 @@ export function fetchRegister(email, password) {
         })
       })
       .then(response => {
-        console.log("response", response)
         if(response.ok) {
           response.json()
           .then(json => { 
@@ -117,12 +108,9 @@ export function fetchSongs(token) {
         }, 
       })
       .then(response => {
-        console.log("response", response)
         return response.json()
       })
       .then(json => { 
-        console.log("json", json)
-        // eep!
         store.dispatch(recieveSongs(json.songs))
       })
   }
@@ -136,7 +124,6 @@ export const requestLogin= () => {
 }
 
 export const recieveLogin = (token) => {
-  console.log(token)
   return {
     type: 'RECIEVE_LOGIN',
     token: token
@@ -155,7 +142,6 @@ export const requestSongs = () => {
 }
 
 export const recieveSongs = (songs) => {
-  console.log(songs)
   return {
     type: 'RECIEVE_SONGS',
     songs: songs
@@ -176,7 +162,6 @@ export const editSong = (song, song_id) => {
 }
 
 export const removeSong = (song_id) => {
-  console.log("removing song: ", song_id)
   return {
     type: 'REMOVE_SONG',
     song_id: song_id

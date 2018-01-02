@@ -1,5 +1,4 @@
 var mode   = NODE_ENV
-console.log("MODE: " + mode)
 let endpoint
 if(mode == "development") {
     endpoint = "http://localhost:8080/"
