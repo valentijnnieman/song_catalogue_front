@@ -38,25 +38,38 @@ const mapStateToProps = (state) => {
   }
 }
 
-let Topbar = () => {
+let Topbar = ({authenticated, token}) => {
   const logOut = () => {
     localStorage.removeItem('song_catalogue');
     location.reload()
   }
-  return <nav>
-  <div className="nav-wrapper">
-    <ul className="left">
-      <li><a>Song Catalogue</a></li>
-    </ul>
-    <ul className="right">
-      <li><Modal label='Reset password' wide={true}>
-          <h4 className='modal-label'>Reset password</h4>
-          <ResetPassword />
-      </Modal></li>
-      <li><a className='btn ' onClick={logOut}>Log out</a></li>
-    </ul>
-  </div>
-</nav>
+  if(authenticated) {
+    return <nav>
+    <div className="nav-wrapper">
+      <ul className="left">
+        <li><a>Song Catalogue</a></li>
+      </ul>
+      <ul className="right">
+        <li><Modal label='Reset password' wide={true}>
+            <h4 className='modal-label'>Reset password</h4>
+            <ResetPassword token={token} />
+        </Modal></li>
+        <li><a className='' onClick={logOut}>Log out</a></li>
+      </ul>
+    </div>
+  </nav>
+  } else {
+    return <nav>
+    <div className="nav-wrapper">
+      <ul className="left">
+        <li><a>Song Catalogue</a></li>
+      </ul>
+      <ul className="right">
+      </ul>
+    </div>
+  </nav>
+
+  }
 }
 
 
@@ -109,10 +122,14 @@ const AllSongsList = ({token, songs, message, is_authenticating, authenticated, 
 
 const Main = () => {
   return <div>
-    <Topbar />
+    <ConnectedTopbar />
     <App />
   </div>
 }
+
+const ConnectedTopbar = connect(
+  mapStateToProps
+)(Topbar)
 
 const App = connect(
   mapStateToProps

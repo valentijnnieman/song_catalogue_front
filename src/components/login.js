@@ -1,6 +1,6 @@
 import React from 'react';
 import './login.scss';
-import {fetchLogin, fetchRegister} from '../actions/songs.js'
+import {fetchLogin, fetchRegister, fetchPasswordReset} from '../actions/songs.js'
 import store from '../store.js';
 
 class LoginContainer extends React.Component {
@@ -109,7 +109,7 @@ const Register = () => {
   </div>
 }
 
-export const ResetPassword = () => {
+export const ResetPassword = ({token}) => {
   let email, password, newPassword, newPasswordCheck
 
   return <div className='reset-password'>
@@ -119,7 +119,7 @@ export const ResetPassword = () => {
         return
       }
       if (newPassword.value === newPasswordCheck.value) {
-        store.dispatch(fetchResetPassword(email.value, password.value, newPassword.value))
+        store.dispatch(fetchPasswordReset(token, email.value, password.value, newPassword.value))
       }
       else {
       }

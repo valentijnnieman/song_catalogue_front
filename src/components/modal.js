@@ -15,9 +15,9 @@ export class Modal extends React.Component {
   render() {
     if(this.props.wide) {
       return <div className='modal_container'>
-        <button className={this.props.sub ? 'btn btn-wide btn-sub fr' : 'btn btn-wide fr'} onClick={this.reveal_content}>
+        <a className={this.props.sub ? 'fr' : 'fr'} onClick={this.reveal_content}>
           {this.props.label}
-        </button>
+        </a>
         <div className={this.state.revealed ? 'song-modal' : 'song-modal song-modal--hidden'} onClick={this.reveal_content}>
           <div className='song-modal__content' onClick={(e) => e.stopPropagation()}>
             {this.props.children}
