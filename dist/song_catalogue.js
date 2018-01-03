@@ -5074,7 +5074,8 @@ var Modal = exports.Modal = function (_React$Component) {
 
   _createClass(Modal, [{
     key: 'reveal_content',
-    value: function reveal_content() {
+    value: function reveal_content(e) {
+      e.stopPropagation();
       this.setState({
         revealed: !this.state.revealed
       });
@@ -5088,7 +5089,7 @@ var Modal = exports.Modal = function (_React$Component) {
           { className: 'modal_container' },
           _react2.default.createElement(
             'a',
-            { className: this.props.sub ? 'fr' : 'fr', onClick: this.reveal_content },
+            { className: this.props.sub ? 'fr song-modal__close song-modal__close--sub' : 'fr song-modal__close', onClick: this.reveal_content },
             this.props.label
           ),
           _react2.default.createElement(
@@ -5109,7 +5110,7 @@ var Modal = exports.Modal = function (_React$Component) {
         { className: 'modal_container' },
         _react2.default.createElement(
           'button',
-          { className: this.props.sub ? 'btn-floating btn-sub fr' : 'btn-floating fr', onClick: this.reveal_content },
+          { className: this.props.sub ? 'btn-floating btn-sub fr' : 'btn-floating fl', onClick: this.reveal_content },
           this.props.label
         ),
         _react2.default.createElement(
@@ -7640,12 +7641,33 @@ var Accordion = exports.Accordion = function (_React$Component) {
         'div',
         { className: 'accordion' },
         _react2.default.createElement(
-          'div',
+          'nav',
           { className: this.props.sub ? 'accordion__button accordion__button--sub' : 'accordion__button', onClick: this.reveal_content },
           _react2.default.createElement(
-            'span',
-            null,
-            this.props.title
+            'div',
+            { className: 'nav-wrapper' },
+            _react2.default.createElement(
+              'ul',
+              { className: 'left' },
+              _react2.default.createElement(
+                'li',
+                null,
+                _react2.default.createElement(
+                  'span',
+                  null,
+                  this.props.title
+                )
+              )
+            ),
+            _react2.default.createElement(
+              'ul',
+              { className: 'right' },
+              _react2.default.createElement(
+                'li',
+                null,
+                this.props.button
+              )
+            )
           )
         ),
         _react2.default.createElement(
@@ -11891,13 +11913,13 @@ var LoginContainer = function (_React$Component) {
         { className: 'home-container' },
         _react2.default.createElement(
           'h1',
-          { className: 'home__title' },
-          'A song-writer\'s companion'
+          { className: 'home__title teal-text' },
+          'Songpadd'
         ),
         _react2.default.createElement(
           'p',
           { className: 'home__subtitle' },
-          'Catalogue the songs that you are writing and get insights on each iteration of the song you\'re writing'
+          'A song-writer\'s companion'
         ),
         _react2.default.createElement(
           'div',
@@ -12124,31 +12146,32 @@ var Song = function Song(_ref) {
 				song_id: song.ID });
 		});
 	}
+	var closeButton = _react2.default.createElement(
+		_modal2.default,
+		{ label: 'x', wide: true },
+		_react2.default.createElement(
+			'h5',
+			{ className: 'modal-label' },
+			'Really remove this song?'
+		),
+		_react2.default.createElement(
+			'button',
+			{ className: 'btn', onClick: function onClick() {
+					return dispatch((0, _songs.deleteSong)(token, song_index, song.ID));
+				} },
+			'Remove Song'
+		)
+	);
+
 	return _react2.default.createElement(
 		_accordion2.default,
-		{ title: song.title },
+		{ title: song.title, button: closeButton },
 		versions,
-		_react2.default.createElement(
-			_modal2.default,
-			{ label: '-' },
-			_react2.default.createElement(
-				'h4',
-				{ className: 'modal-label' },
-				'Really remove this song?'
-			),
-			_react2.default.createElement(
-				'button',
-				{ className: 'btn btn-large', onClick: function onClick() {
-						return dispatch((0, _songs.deleteSong)(token, song_index, song.ID));
-					} },
-				'Remove Song'
-			)
-		),
 		_react2.default.createElement(
 			_modal2.default,
 			{ label: '+', sub: true },
 			_react2.default.createElement(
-				'h4',
+				'h5',
 				{ className: 'modal-label modal-label--sub' },
 				'Add new version'
 			),
@@ -12166,7 +12189,7 @@ var Song = function Song(_ref) {
 					} }),
 				_react2.default.createElement(
 					'button',
-					{ type: 'submit', className: 'btn btn-large' },
+					{ type: 'submit', className: 'btn' },
 					'Add'
 				)
 			)
@@ -12184,7 +12207,7 @@ var AddSong = function AddSong(_ref2) {
 		_modal2.default,
 		{ label: '+' },
 		_react2.default.createElement(
-			'h4',
+			'h5',
 			{ className: 'modal-label' },
 			'Add new song'
 		),
@@ -12204,7 +12227,7 @@ var AddSong = function AddSong(_ref2) {
 				} }),
 			_react2.default.createElement(
 				'button',
-				{ type: 'submit', className: 'btn btn-large' },
+				{ type: 'submit', className: 'btn' },
 				'add'
 			)
 		)
@@ -12291,9 +12314,26 @@ var Version = function Version(_ref) {
       }
     }
   };
+  var closeButton = _react2.default.createElement(
+    _modal2.default,
+    { label: 'x', sub: true, wide: true },
+    _react2.default.createElement(
+      'h5',
+      { className: 'modal-label' },
+      'Really remove this version?'
+    ),
+    _react2.default.createElement(
+      'button',
+      { className: 'btn',
+        onClick: function onClick() {
+          return dispatch((0, _versions.deleteVersion)(token, song_index, song_id, version_index, version.ID));
+        } },
+      'Remove Version'
+    )
+  );
   return _react2.default.createElement(
     _accordion2.default,
-    { sub: true, title: version.title },
+    { sub: true, title: version.title, button: closeButton },
     _react2.default.createElement(
       'div',
       { className: 'version' },
@@ -12374,23 +12414,6 @@ var Version = function Version(_ref) {
             } })
         ),
         _react2.default.createElement('input', { type: 'submit', className: 'hidden' })
-      ),
-      _react2.default.createElement(
-        _modal2.default,
-        { label: '-', sub: true },
-        _react2.default.createElement(
-          'h4',
-          { className: 'modal-label' },
-          'Really remove this version?'
-        ),
-        _react2.default.createElement(
-          'button',
-          { className: 'btn btn-large',
-            onClick: function onClick() {
-              return dispatch((0, _versions.deleteVersion)(token, song_index, song_id, version_index, version.ID));
-            } },
-          'Remove Version'
-        )
       )
     )
   );
@@ -12528,7 +12551,7 @@ var Topbar = function Topbar(_ref2) {
   if (authenticated) {
     return _react2.default.createElement(
       'nav',
-      null,
+      { className: 'grey darken-2' },
       _react2.default.createElement(
         'div',
         { className: 'nav-wrapper' },
@@ -12541,7 +12564,7 @@ var Topbar = function Topbar(_ref2) {
             _react2.default.createElement(
               'a',
               null,
-              'Song Catalogue'
+              'Songpadd'
             )
           )
         ),
@@ -12577,7 +12600,7 @@ var Topbar = function Topbar(_ref2) {
   } else {
     return _react2.default.createElement(
       'nav',
-      null,
+      { className: 'grey darken-2' },
       _react2.default.createElement(
         'div',
         { className: 'nav-wrapper' },
@@ -12590,7 +12613,7 @@ var Topbar = function Topbar(_ref2) {
             _react2.default.createElement(
               'a',
               null,
-              'Song Catalogue'
+              'Songpadd'
             )
           )
         ),
@@ -12620,7 +12643,7 @@ var AllSongsList = function AllSongsList(_ref3) {
           { className: 'preloader-wrapper big active' },
           _react2.default.createElement(
             'div',
-            { className: 'spinner-layer spinner-blue-only' },
+            { className: 'spinner-layer spinner-teal-only' },
             _react2.default.createElement(
               'div',
               { className: 'circle-clipper left' },
@@ -12660,7 +12683,7 @@ var AllSongsList = function AllSongsList(_ref3) {
         { className: 'preloader-wrapper big active' },
         _react2.default.createElement(
           'div',
-          { className: 'spinner-layer spinner-blue-only' },
+          { className: 'spinner-layer spinner-teal-only' },
           _react2.default.createElement(
             'div',
             { className: 'circle-clipper left' },

@@ -44,10 +44,10 @@ let Topbar = ({authenticated, token}) => {
     location.reload()
   }
   if(authenticated) {
-    return <nav>
+    return <nav className='grey darken-2'>
     <div className="nav-wrapper">
       <ul className="left">
-        <li><a>Song Catalogue</a></li>
+        <li><a>Songpadd</a></li>
       </ul>
       <ul className="right">
         <li><Modal label='Reset password' wide={true}>
@@ -59,10 +59,10 @@ let Topbar = ({authenticated, token}) => {
     </div>
   </nav>
   } else {
-    return <nav>
+    return <nav className='grey darken-2'>
     <div className="nav-wrapper">
       <ul className="left">
-        <li><a>Song Catalogue</a></li>
+        <li><a>Songpadd</a></li>
       </ul>
       <ul className="right">
       </ul>
@@ -81,7 +81,7 @@ const AllSongsList = ({token, songs, message, is_authenticating, authenticated, 
       if(is_fetching)
         return <div className='loading-screen'>
           <div className="preloader-wrapper big active">
-            <div className="spinner-layer spinner-blue-only">
+            <div className="spinner-layer spinner-teal-only">
               <div className="circle-clipper left">
                 <div className="circle"></div>
               </div><div className="gap-patch">
@@ -105,7 +105,7 @@ const AllSongsList = ({token, songs, message, is_authenticating, authenticated, 
     else
       return <div className='loading-screen'>
         <div className="preloader-wrapper big active">
-          <div className="spinner-layer spinner-blue-only">
+          <div className="spinner-layer spinner-teal-only">
             <div className="circle-clipper left">
               <div className="circle"></div>
             </div><div className="gap-patch">

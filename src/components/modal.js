@@ -7,7 +7,8 @@ export class Modal extends React.Component {
     this.state = {revealed: false}
     this.reveal_content = this.reveal_content.bind(this)
   }
-  reveal_content() {
+  reveal_content(e) {
+    e.stopPropagation()
     this.setState({
       revealed: !this.state.revealed
     });
@@ -15,7 +16,7 @@ export class Modal extends React.Component {
   render() {
     if(this.props.wide) {
       return <div className='modal_container'>
-        <a className={this.props.sub ? 'fr' : 'fr'} onClick={this.reveal_content}>
+        <a className={this.props.sub ? 'fr song-modal__close song-modal__close--sub' : 'fr song-modal__close'} onClick={this.reveal_content}>
           {this.props.label}
         </a>
         <div className={this.state.revealed ? 'song-modal' : 'song-modal song-modal--hidden'} onClick={this.reveal_content}>
@@ -26,7 +27,7 @@ export class Modal extends React.Component {
       </div>
     }
     return <div className='modal_container'>
-      <button className={this.props.sub ? 'btn-floating btn-sub fr' : 'btn-floating fr'} onClick={this.reveal_content}>
+      <button className={this.props.sub ? 'btn-floating btn-sub fr' : 'btn-floating fl'} onClick={this.reveal_content}>
         {this.props.label}
       </button>
       <div className={this.state.revealed ? 'song-modal' : 'song-modal song-modal--hidden'} onClick={this.reveal_content}>

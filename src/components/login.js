@@ -23,8 +23,8 @@ class LoginContainer extends React.Component {
         break
     }
       return <div className='home-container'>
-        <h1 className='home__title'>A song-writer's companion</h1>
-        <p className='home__subtitle'>Catalogue the songs that you are writing and get insights on each iteration of the song you're writing</p>
+        <h1 className='home__title teal-text'>Songpadd</h1>
+        <p className='home__subtitle'>A song-writer's companion</p>
         <div className='home'>
           <div>
             <Tab 

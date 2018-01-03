@@ -20,15 +20,16 @@ let Song = ({token, dispatch, song_index, song}) => {
               song_index={song_index} 
               song_id={song.ID} />
     })
-  }
-  return <Accordion title={song.title}>
+	}
+	let closeButton = <Modal label='x' wide={true}>
+											<h5 className='modal-label'>Really remove this song?</h5>
+											<button className='btn' onClick={() => dispatch(deleteSong(token, song_index, song.ID))}>Remove Song</button>
+										</Modal>
+
+  return <Accordion title={song.title} button={closeButton}>
     {versions}
-		<Modal label='-'>
-      <h4 className='modal-label'>Really remove this song?</h4>
-      <button className='btn btn-large' onClick={() => dispatch(deleteSong(token, song_index, song.ID))}>Remove Song</button>
-    </Modal>
 		<Modal label='+' sub={true}>
-      <h4 className='modal-label modal-label--sub'>Add new version</h4>
+      <h5 className='modal-label modal-label--sub'>Add new version</h5>
 			<form onSubmit={e => {
 				e.preventDefault()
 				if (!input.value.trim()) {
@@ -39,7 +40,7 @@ let Song = ({token, dispatch, song_index, song}) => {
       <input className="input input--modal input--sub" placeholder="Enter version title..." ref={node => {
         input = node
       }} />
-			<button type="submit" className="btn btn-large">Add</button>
+			<button type="submit" className="btn">Add</button>
 			</form>
 		</Modal>
   </Accordion>
@@ -50,7 +51,7 @@ let AddSong= ({ token, dispatch }) => {
 
   return (
 		<Modal label='+'>
-			<h4 className='modal-label'>Add new song</h4>
+			<h5 className='modal-label'>Add new song</h5>
 				<form onSubmit={e => {
 					e.preventDefault()
 					if (!input.value.trim()) {
@@ -63,7 +64,7 @@ let AddSong= ({ token, dispatch }) => {
 					<input className="input input--modal" placeholder="Enter song title..." ref={node => {
 						input = node
 					}} />
-					<button type="submit" className="btn btn-large">
+					<button type="submit" className="btn">
 						add
 					</button>
 				</form>

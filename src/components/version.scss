@@ -29,10 +29,11 @@
 .version__section p {
   font-weight: 300;
 }
-.version__input {
+.version__input, .version__input:focus {
   font-family: "Roboto";
   width: 100%;
-  border: none;
+  border: none !important;
+  box-shadow: none !important;
   font-size: 16px;
   color: grey;
 }

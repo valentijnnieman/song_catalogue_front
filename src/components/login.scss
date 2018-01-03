@@ -3,7 +3,6 @@ form {
 }
 .form--login {
   margin-top: 16px;
-  width: 300px;
 }
 .form--reset {
   height: 340px;
@@ -12,7 +11,7 @@ form {
   color: red;
 }
 .home {
-  width: 340px;
+  width: 79%;
   padding: 20px 20px 60px;
   margin: 0 auto;
   &__tab {
@@ -34,10 +33,12 @@ form {
   }
   &__title {
     text-align: center;
+    font-family: "Lobster";
   }
   &__subtitle {
     text-align: center;
-    margin-bottom: 128px;
+    font-family: "Lobster";
+    font-size: 18px;
   }
 }
 .notice-box {

@@ -20,9 +20,16 @@ export class Accordion extends React.Component {
   }
   render() {
     return <div className='accordion'>
-      <div className={this.props.sub ? 'accordion__button accordion__button--sub' : 'accordion__button'} onClick={this.reveal_content}>
-        <span>{this.props.title}</span>
-      </div>
+      <nav className={this.props.sub ? 'accordion__button accordion__button--sub' : 'accordion__button'} onClick={this.reveal_content}>
+        <div className="nav-wrapper">
+          <ul className='left'>
+            <li><span>{this.props.title}</span></li>
+          </ul>
+          <ul className='right'>
+            <li>{this.props.button}</li>
+          </ul>
+        </div>
+      </nav>
       <div className={this.content_classes()}>
         {this.props.children}
       </div>

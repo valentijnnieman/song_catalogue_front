@@ -21,7 +21,14 @@ let Version = ({dispatch, token, version_index, version, song_index, song_id}) =
       }
     }
   }
-  return <Accordion sub={true} title={version.title}>
+  let closeButton = <Modal label='x' sub={true} wide={true}>
+                      <h5 className='modal-label'>Really remove this version?</h5>
+                      <button className='btn' 
+                        onClick={() => dispatch(deleteVersion(token, song_index, song_id, version_index, version.ID))}>
+                        Remove Version
+                      </button>
+                    </Modal>
+  return <Accordion sub={true} title={version.title} button={closeButton}>
       <div className='version'>
         <form onBlur={e => {
           e.preventDefault()
@@ -63,13 +70,6 @@ let Version = ({dispatch, token, version_index, version, song_index, song_id}) =
           </div>
           <input type='submit' className='hidden'/>
         </form>
-        <Modal label='-' sub={true}>
-          <h4 className='modal-label'>Really remove this version?</h4>
-          <button className='btn btn-large' 
-            onClick={() => dispatch(deleteVersion(token, song_index, song_id, version_index, version.ID))}>
-            Remove Version
-          </button>
-        </Modal>
       </div>
     </Accordion>
 };

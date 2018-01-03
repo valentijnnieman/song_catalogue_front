@@ -8,9 +8,7 @@
 .accordion__button {
   border-radius: 4px;
   display: block;
-  height: 48px;
   background-color: #26a69a;
-  padding: 8px;
   color: white;
 }
 .accordion__button:hover{
@@ -18,6 +16,8 @@
 }
 .accordion__button span {
   font-size: 20px;
+  margin-left: 15px;
+  display: block;
 }
 .accordion__button--sub {
   color: #19a974;
@@ -28,6 +28,7 @@
   visibility: visible;
   overflow: hidden;
   opacity: 1;
+  padding: 6px;
 }
 .accordion__content--sub {
   background-color: white;

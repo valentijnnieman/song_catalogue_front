@@ -1,4 +1,4 @@
-@import url(https://fonts.googleapis.com/css?family=Roboto:300,400);.accordion {
+@import url(https://fonts.googleapis.com/css?family=Roboto:300,400);@import url(https://fonts.googleapis.com/css?family=Lobster);.accordion {
   margin: 8px 0px;
   border-radius: 4px;
   background-color: #f3f6f7;
@@ -8,16 +8,16 @@
 .accordion__button {
   border-radius: 4px;
   display: block;
-  height: 48px;
   background-color: #26a69a;
-  padding: 8px;
   color: white; }
 
 .accordion__button:hover {
   cursor: pointer; }
 
 .accordion__button span {
-  font-size: 20px; }
+  font-size: 20px;
+  margin-left: 15px;
+  display: block; }
 
 .accordion__button--sub {
   color: #19a974;
@@ -27,7 +27,8 @@
   transition: 0.3s;
   visibility: visible;
   overflow: hidden;
-  opacity: 1; }
+  opacity: 1;
+  padding: 6px; }
 
 .accordion__content--sub {
   background-color: white; }
@@ -39,6 +40,7 @@
 .song-modal {
   width: 100vw;
   height: 100vh;
+  z-index: 11;
   top: 0;
   left: 0;
   position: fixed;
@@ -51,7 +53,8 @@
   border-radius: 4px;
   padding: 8px 16px 16px;
   margin: 25vh auto;
-  min-height: 102px; }
+  min-height: 102px;
+  z-index: 10; }
 
 .song-modal--hidden {
   display: none; }
@@ -61,9 +64,21 @@
   color: #19a974;
   margin: 10px 0px 20px; }
 
+.song-modal__close {
+  min-width: 64px;
+  display: block;
+  text-align: center; }
+
+.song-modal__close--sub {
+  color: #19a974; }
+
+.btn-floating {
+  z-index: 0; }
+
 .btn-sub {
   color: #19a974;
-  background-color: white; }
+  background-color: white;
+  margin-right: 10px; }
 
 .btn-sub:hover {
   background-color: #c4c4c4; }
@@ -101,10 +116,11 @@
 .version__section p {
   font-weight: 300; }
 
-.version__input {
+.version__input, .version__input:focus {
   font-family: "Roboto";
   width: 100%;
-  border: none;
+  border: none !important;
+  box-shadow: none !important;
   font-size: 16px;
   color: grey; }
 
@@ -229,8 +245,7 @@ form {
   margin-bottom: 8px; }
 
 .form--login {
-  margin-top: 16px;
-  width: 300px; }
+  margin-top: 16px; }
 
 .form--reset {
   height: 340px; }
@@ -239,7 +254,7 @@ form {
   color: red; }
 
 .home {
-  width: 340px;
+  width: 79%;
   padding: 20px 20px 60px;
   margin: 0 auto; }
   .home__tab {
@@ -257,10 +272,12 @@ form {
     .home__tab:hover {
       cursor: pointer; }
   .home__title {
-    text-align: center; }
+    text-align: center;
+    font-family: "Lobster"; }
   .home__subtitle {
     text-align: center;
-    margin-bottom: 128px; }
+    font-family: "Lobster";
+    font-size: 18px; }
 
 .notice-box {
   background-color: gold;
