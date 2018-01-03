@@ -47,7 +47,7 @@ let Topbar = ({authenticated, token}) => {
     return <nav className='grey darken-2'>
     <div className="nav-wrapper">
       <ul className="left">
-        <li><a>Songpadd</a></li>
+        <li><a>Songpad</a></li>
       </ul>
       <ul className="right">
         <li><Modal label='Reset password' wide={true}>
@@ -62,7 +62,7 @@ let Topbar = ({authenticated, token}) => {
     return <nav className='grey darken-2'>
     <div className="nav-wrapper">
       <ul className="left">
-        <li><a>Songpadd</a></li>
+        <li><a>Songpad</a></li>
       </ul>
       <ul className="right">
       </ul>

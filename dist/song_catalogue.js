@@ -11914,7 +11914,7 @@ var LoginContainer = function (_React$Component) {
         _react2.default.createElement(
           'h1',
           { className: 'home__title teal-text' },
-          'Songpadd'
+          'Songpad'
         ),
         _react2.default.createElement(
           'p',
@@ -12564,7 +12564,7 @@ var Topbar = function Topbar(_ref2) {
             _react2.default.createElement(
               'a',
               null,
-              'Songpadd'
+              'Songpad'
             )
           )
         ),
@@ -12613,7 +12613,7 @@ var Topbar = function Topbar(_ref2) {
             _react2.default.createElement(
               'a',
               null,
-              'Songpadd'
+              'Songpad'
             )
           )
         ),
