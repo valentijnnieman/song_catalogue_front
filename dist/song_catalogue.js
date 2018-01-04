@@ -3618,7 +3618,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function createSong(token, title) {
   return function (dispatch) {
-    return (0, _isomorphicFetch2.default)(_config.endpoint + 'auth/song/create', {
+    return (0, _isomorphicFetch2.default)(_config.endpoint + 'auth/songs/create', {
       method: "POST",
       body: JSON.stringify({
         title: title,
@@ -3639,7 +3639,7 @@ function createSong(token, title) {
 }
 function deleteSong(token, song_index, song_id) {
   return function (dispatch) {
-    return (0, _isomorphicFetch2.default)(_config.endpoint + 'auth/song/' + song_id + '/delete', {
+    return (0, _isomorphicFetch2.default)(_config.endpoint + 'auth/songs/' + song_id + '/delete', {
       method: "DELETE",
       headers: {
         'Authorization': 'Bearer ' + token
@@ -3697,7 +3697,7 @@ function fetchRegister(email, password) {
 }
 function fetchPasswordReset(token, email, password, newPassword) {
   return function (dispatch) {
-    return (0, _isomorphicFetch2.default)(_config.endpoint + 'auth/user/reset', {
+    return (0, _isomorphicFetch2.default)(_config.endpoint + 'auth/reset-password', {
       headers: {
         'Authorization': 'Bearer ' + token,
         'Content-Type': 'application/json'
@@ -7471,7 +7471,7 @@ var _songs = __webpack_require__(27);
 
 function createVersion(token, song_index, song_id, version_id, version_title) {
   return function (dispatch) {
-    return fetch(_config.endpoint + 'auth/version/create', {
+    return fetch(_config.endpoint + 'auth/versions/create', {
       method: "POST",
       body: JSON.stringify({
         title: version_title,
@@ -7494,7 +7494,7 @@ function createVersion(token, song_index, song_id, version_id, version_title) {
 }
 function updateVersion(token, song_index, song_id, version_index, version) {
   return function (dispatch) {
-    return fetch(_config.endpoint + 'auth/version/' + version.ID + '/update', {
+    return fetch(_config.endpoint + 'auth/versions/' + version.ID + '/update', {
       method: "PATCH",
       body: JSON.stringify({
         title: version.title,
@@ -7521,7 +7521,7 @@ function updateRecording(token, song_index, song_id, version_index, version_id, 
     data.append('song_id', song_id);
     data.append('version_id', version_id);
     data.append('file', file);
-    return fetch(_config.endpoint + 'auth/version/recording', {
+    return fetch(_config.endpoint + 'auth/versions/recording', {
       method: "POST",
       body: data,
       headers: {
@@ -7539,8 +7539,11 @@ function updateRecording(token, song_index, song_id, version_index, version_id, 
 }
 function deleteVersion(token, song_index, song_id, version_index, version_id) {
   return function (dispatch) {
-    return fetch(_config.endpoint + 'auth/song/' + song_id + '/version/' + version_id + '/delete', {
+    var data = new FormData();
+    data.append('song_id', song_id);
+    return fetch(_config.endpoint + 'auth/versions/' + version_id + '/delete', {
       method: "DELETE",
+      body: data,
       headers: {
         'Authorization': 'Bearer ' + token
       }

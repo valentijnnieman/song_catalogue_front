@@ -3,7 +3,7 @@ import {fetchSongs} from './songs.js';
 
 export function createVersion(token, song_index, song_id, version_id, version_title) {
   return function (dispatch) {
-    return fetch(`${endpoint}auth/version/create`, {
+    return fetch(`${endpoint}auth/versions/create`, {
       method: "POST",
       body: JSON.stringify({
         title: version_title,
@@ -30,7 +30,7 @@ export function createVersion(token, song_index, song_id, version_id, version_ti
 }
 export function updateVersion(token, song_index, song_id, version_index, version) {
   return function (dispatch) {
-    return fetch(`${endpoint}auth/version/${version.ID}/update`, {
+    return fetch(`${endpoint}auth/versions/${version.ID}/update`, {
       method: "PATCH",
       body: JSON.stringify({
         title: version.title,
@@ -61,7 +61,7 @@ export function updateRecording(token, song_index, song_id, version_index, versi
     data.append('song_id', song_id)
     data.append('version_id', version_id)
     data.append('file', file)
-    return fetch(`${endpoint}auth/version/recording`, {
+    return fetch(`${endpoint}auth/versions/recording`, {
       method: "POST",
       body: data,
       headers: {
@@ -81,10 +81,13 @@ export function updateRecording(token, song_index, song_id, version_index, versi
     })
   }
 }
-export function deleteVersion(token, song_index, song_id, version_index, version_id,) {
+export function deleteVersion(token, song_index, song_id, version_index, version_id) {
   return function (dispatch) {
-    return fetch(`${endpoint}auth/song/${song_id}/version/${version_id}/delete`, {
+    var data = new FormData()
+    data.append('song_id', song_id)
+    return fetch(`${endpoint}auth/versions/${version_id}/delete`, {
       method: "DELETE",
+      body: data,
       headers: {
         'Authorization': 'Bearer ' + token
       }
